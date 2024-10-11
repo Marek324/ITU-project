@@ -13,7 +13,7 @@ module.exports = {
 		}
 	},
 	  fontFamily: {
-		'Pet_Title': ['Press Start 2P', 'sans-serif'],
+		Pet_Title: ['Press Start 2P', 'sans-serif'],
 	  }
   },
   plugins: [
