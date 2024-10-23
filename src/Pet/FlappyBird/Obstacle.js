@@ -8,7 +8,7 @@ function Obstacle ({ topPos, topHeight, bottomPos, bottomHeight, left })
 			<div
 				style={{
 					position: "absolute",
-					top: '${topPos}px',
+					top: `${topPos}px`,
 					left: `${left}px`,
 					width: "5vw",
 					height: `${topHeight}px`,
@@ -21,7 +21,7 @@ function Obstacle ({ topPos, topHeight, bottomPos, bottomHeight, left })
 					top: `${bottomPos}px`,
 					left: `${left}px`,
 					width: "5vw",
-					height: `${bottomPos + bottomHeight}px`,
+					height: `${bottomHeight}px`,
 					backgroundColor: "violet",
 				}}
 			/>

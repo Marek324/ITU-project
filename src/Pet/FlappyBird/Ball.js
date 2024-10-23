@@ -1,9 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import ballImg from "./Assets/ball.png";
 
-function Ball({top}) {
+const Ball = forwardRef(({ top }, ref) => {
 	return (
 		<div
+			ref={ref}
 			style={{
 				position: "absolute",
 				top: `${top}px`,
@@ -16,6 +17,6 @@ function Ball({top}) {
 			}}
 		/>
 	);
-}
+});
 
 export default Ball;
