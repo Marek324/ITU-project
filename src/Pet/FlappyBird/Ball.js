@@ -1,4 +1,5 @@
 import React from "react";
+import ballImg from "./Assets/ball.png";
 
 function Ball({top}) {
 	return (
@@ -9,7 +10,7 @@ function Ball({top}) {
 				left: "10%",
 				width: "4vw",
 				height: "4vw",
-				backgroundImage: `url('https://i.postimg.cc/K8yG6KM0/image-2024-10-20-201936398.png')`,
+				backgroundImage: `url(${ballImg})`,
 				backgroundSize: "cover",
 				backgroundPosition: "center",
 			}}
