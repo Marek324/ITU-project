@@ -1,6 +1,6 @@
 import React from "react";
 
-function Obstacle ({ topPos, topHeight, bottomPos, bottomHeight, left })
+function Obstacle ({ topPos, topHeight, bottomPos, bottomHeight, left, widthNum })
 {
 
 	return (
@@ -20,7 +20,7 @@ function Obstacle ({ topPos, topHeight, bottomPos, bottomHeight, left })
 					position: "absolute",
 					top: `${bottomPos}px`,
 					left: `${left}px`,
-					width: "5vw",
+					width: `${widthNum}vw`,
 					height: `${bottomHeight}px`,
 					backgroundColor: "violet",
 				}}

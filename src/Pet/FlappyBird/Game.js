@@ -12,22 +12,19 @@ function Game() {
 	const maxVelocity = 10;
 	const obstacleSpawnInterval = 1800;
 	const gapSize = 350;
+	const obstRelativeWidth = 5;
+	const ballLeftPos = 10;
 
 	const [ballTopPos, setBallTopPos] = useState(window.innerHeight / 2);
 	const [velocity, setVelocity] = useState(0);
 	const [obstacles, setObstacles] = useState([]);
 	const [topPos, setTopPos] = useState(0);
 	const [downBarOffset, setBottomBarOffset] = useState(0);
+	const [collision, setCollision] = useState(false);
 
 	const topBarRef = useRef(null);
 	const downBarRef = useRef(null);
 	const ballRef = useRef(null);
-
-
-	//Skok
-	const jump = () => {
-		setVelocity(-maxVelocity * 2.5);
-	};
 
 
 	//Vypnutí scrollbaru
@@ -47,23 +44,28 @@ function Game() {
 		if (downBarRef.current){
 			setBottomBarOffset(downBarRef.current.clientHeight);
 		}
-	}, [topBarRef]);
+	}, []);
 
 
 	//Fyzika
 	useEffect(() => {
+		if (collision) return;
+
 		if (topBarRef.current && (ballTopPos <= topPos)) {
-			console.log("Kolize s horní částí");
-			return setVelocity(0);
+			setCollision(true);
+			return;
 		}
 		if (downBarRef.current && ballRef.current && (ballTopPos >= (window.innerHeight - downBarOffset - ballRef.current.clientHeight))) {
-			console.log("Kolize s dolní částí");
-			return setVelocity(0);
+			setCollision(true);
+			return;
 		}
 
 		const interval = setInterval(() => {
+
+			//Nastavení rychlosti míčku
 			setVelocity((prevVelocity) => prevVelocity + gravity * timeInterval);
 
+			//Limitace rychlosti míčku
 			if (velocity > maxVelocity) {
 				setVelocity(maxVelocity);
 			}
@@ -85,14 +87,14 @@ function Game() {
 			//Odstranění nepotřebných překážek
 			setObstacles(prevObstacles => {
 				return prevObstacles.filter((obstacle) => {
-					return obstacle.left > -300;
+					return obstacle.left > -obstRelativeWidth * (window.innerWidth * 0.01);
 				});
 			});
 
 		}, timeInterval * 100);
 
 		return () => clearInterval(interval);
-	}, [velocity, obstacles]);
+	}, [velocity, obstacles, ballTopPos, downBarOffset, topPos, collision]);
 
 	//Generování překážek
 	useEffect(() => {
@@ -108,7 +110,56 @@ function Game() {
 		}, obstacleSpawnInterval);
 
 		return () => clearInterval(interval);
-	}, []);
+	}, [downBarOffset, topPos]);
+
+	//Kontrola kolize s překážkou
+	//Možná předělat na kruh boundary
+	useEffect(() => {
+		if (collision) return;
+		const checkCollision = () => {
+			if (!ballRef.current) {
+				return;
+			}
+
+			for (let ob of obstacles) {
+				//Horizontální
+				const obWidth = obstRelativeWidth * (window.innerWidth * 0.01);
+				const obLeft = ob.left - (obWidth * 0.5);
+				const obRight = ob.left + (obWidth * 0.5);
+
+				//Vertikální
+				const obTop = ob.topHeight + topPos;
+				const obBottom = ob.bottomPos;
+
+				//Horizontální
+				const ballLeft = window.innerWidth * 0.01 * ballLeftPos;
+				const ballTopLeft = ballLeft - ballRef.current.clientWidth * 0.5;
+				const ballTopRight = ballLeft + ballRef.current.clientWidth * 0.5;
+
+				//Vertikální
+				const ballTop = ballTopPos;
+				const ballBottom = ballTopPos + ballRef.current.clientHeight;
+
+				const horizontalOverlap = ballTopLeft <= obRight && ballTopRight >= obLeft;
+				const verticalOverlap = ballTop <= obTop || ballBottom >= obBottom;
+
+				if (horizontalOverlap && verticalOverlap) {
+					console.log("kolize")
+					setCollision(true);
+				}
+			}
+		}
+
+		const interval = setInterval(checkCollision, timeInterval * 100);
+		return () => clearInterval(interval);
+
+	}, [obstacles, ballTopPos, topPos, collision]);
+
+
+	//Skok
+	const jump = () => {
+		setVelocity(-maxVelocity * 2.5);
+	};
 
 	//Event na skok
 	useEffect(() => {
@@ -131,9 +182,7 @@ function Game() {
 			style={{ backgroundImage: `url(${bGImage})` }}
 			onClick={jump}
 		>
-			<TopBar ref={topBarRef} title="Flappy Pet" />
-			<DownBar ref={downBarRef} secondIcon={homeB()} />
-			<Ball ref={ballRef} top={ballTopPos} />
+			<Ball ref={ballRef} leftPos={ballLeftPos} top={ballTopPos} />
 			{obstacles.map((obstacle, index) => (
 				<Obstacle
 					key={index}
@@ -142,8 +191,11 @@ function Game() {
 					bottomPos={obstacle.bottomPos}
 					bottomHeight={window.innerHeight - downBarOffset - obstacle.bottomPos}
 					left={obstacle.left}
+					widthNum={obstRelativeWidth}
 				/>
 			))}
+			<TopBar ref={topBarRef} title="Flappy Pet" />
+			<DownBar ref={downBarRef} secondIcon={homeB()} />
 		</div>
 	);
 }
