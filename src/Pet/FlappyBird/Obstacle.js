@@ -10,7 +10,7 @@ function Obstacle ({ topPos, topHeight, bottomPos, bottomHeight, left, widthNum 
 					position: "absolute",
 					top: `${topPos}px`,
 					left: `${left}px`,
-					width: "5vw",
+					width: `${widthNum}vw`,
 					height: `${topHeight}px`,
 					backgroundColor: "violet",
 				}}
