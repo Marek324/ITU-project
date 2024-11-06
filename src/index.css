@@ -131,3 +131,23 @@
 .rc-slider.My-rc-slider .rc-slider-handle:active {
 	border-color: #963FB4;
  }
+
+.text-box {
+	border: 1px solid #000; /* Border color */
+	width: 70vh;
+	height: 40vh;
+	padding: 10px; /* Padding inside the box */
+	background-color: #f9f9f9; /* Background color */
+	border-radius: 2px; /* Rounded corners */
+	margin-top: 10px; /* Space above the box */
+}
+
+.meet-button {
+	border: 2px solid #963FB4; /* Border color */
+	width: 50vh;
+	height: 5vh;
+	background-color: #C6D3FF; /* Background color */
+	border-radius: 5px; /* Rounded corners */
+	margin-top: 10px; /* Space above the box */
+	text-align: center /* Text color */
+}

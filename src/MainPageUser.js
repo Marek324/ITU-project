@@ -3,6 +3,7 @@ import GetAnimals from "./BE/AnimalsAPI";
 import AnimalFilterWindow from "./components/AnimalFilter";
 import {useEffect, useState} from "react";
 import FilterForm from "./components/AnimalFilterForm";
+import AdoptHeader from "./components/AdoptHeader";
 import {Link} from "react-router-dom";
 function MainPageUser() {
 	let animals = GetAnimals();
@@ -36,7 +37,7 @@ function MainPageUser() {
 	return (
 		<div className="bg-Main_BG min-h-screen flex flex-col flex-grow">
 			<header className="">
-				<Rectangle />
+				<AdoptHeader />
 			</header>
 			<div className="flex-grow justify-center m-2 items-center relative">
 				<div className="absolute right-0 m-2 items-start justify-start flex space-x-4">
@@ -74,32 +75,19 @@ function MainPageUser() {
 	);
 }
 
-function Rectangle() {
-	return (
-		<div
-			className="w-full h-48 bg-Main_Header flex items-center justify-center border-2 border-Main_Header_Border relative">
-			<h1 className="text-3xl font-Pet_Title text-border absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-Main_Header">Adopt & Play</h1>
-			<button className="absolute right-24 top-1/2 transform -translate-y-1/2">
-				{shop()}
-			</button>
-			<button className="absolute right-4 top-1/2 transform -translate-y-1/2">
-				{user()}
-			</button>
-		</div>
-	);
-}
-
 function RectangleItem({ animal }) {
 	return (
-		<div
+
+		<Link to={`/animal/${animal.id}`}
 			className="w-11/12 h-auto bg-Animal_Card_BG flex items-start m-3 justify-start relative p-4 min-h-custom-img">
-			<img src={animal.image} alt={animal.name} className="w-custom-img h-custom-img object-cover"/>
+			<img src={animal.image} alt={animal.name} className="w-list-img h-list-img object-cover"/>
 			<div className="ml-4 flex flex-col">
 				<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
 				<span>{animal.text} </span>
-				<Link to={`/animal/${animal.id}`} className="text-blue-500 mt-2">View Details</Link>
+
 			</div>
-		</div>
+		</Link>
+
 	);
 }
 

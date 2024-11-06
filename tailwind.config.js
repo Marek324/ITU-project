@@ -6,13 +6,16 @@ module.exports = {
   theme: {
     extend: {
 		width: {
-			'custom-img': '12rem', // Custom width for images
+			'list-img': '12rem', // Custom width for images
+			'main-img': '25rem'
 		},
 		height: {
-			'custom-img': '12rem', // Custom height for images
+			'list-img': '12rem',
+			'main-img': '25rem'// Custom height for images
 		},
 		minHeight: {
-			'custom-img': '13rem', // Custom minimum height for images
+			'list-img': '13rem',
+			'main-img': '25rem'// Custom minimum height for images
 		},
 		colors: {
 			Pet_Header_BG: '#5994CE',
