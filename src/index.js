@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import './tailwind.config.js';
 import './index.css';
 import App from './App';
+import User from "./components/User";
 import reportWebVitals from './reportWebVitals';
 import MainPageUser from "./MainPageUser";
 import AnimalDetails from "./components/AnimalDetails";
@@ -12,6 +13,7 @@ ReactDOM.render(
 	<Router>
 		<Routes>
 			<Route path="/" element={<MainPageUser />} />
+			<Route path="/user" element={<User /> } />
 			<Route path="/animal/:id" element={<AnimalDetails />} />
 		</Routes>
 	</Router>,
