@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import {Link, useParams} from 'react-router-dom';
-import GetAnimals from '../BE/AnimalsAPI';
+import GetAnimals from '../API/GetAnimalsApiCaller';
 import AdoptHeader from "./AdoptHeader";
 import {gamepad} from "../svg";
 

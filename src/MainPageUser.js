@@ -1,16 +1,33 @@
 ﻿import { shop, user, filter, list, tiles } from "./svg";
-import GetAnimals from "./BE/AnimalsAPI";
+import GetAnimals from "./API/GetAnimalsApiCaller";
 import AnimalFilterWindow from "./components/AnimalFilter";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import FilterForm from "./components/AnimalFilterForm";
 import AdoptHeader from "./components/AdoptHeader";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+
 function MainPageUser() {
-	let animals = GetAnimals();
-	const maxAge = animals.reduce((max, animal) => (animal.age > max ? animal.age : max), animals[0].age);
+	const [animals, setAnimals] = useState([]);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	const [filterCriteria, setFilterCriteria] = useState({ species: '', ageFrom: 0, ageTo: maxAge, neutered: ''});
+	const [filterCriteria, setFilterCriteria] = useState({ species: '', ageFrom: 0, ageTo: 0, neutered: '' });
 	const [filterActive, setFilterActive] = useState(false);
+	const [maxAge, setMaxAge] = useState(0);
+
+	useEffect(() => {
+		async function fetchAnimals() {
+			const fetchedAnimals = await GetAnimals();
+			setAnimals(fetchedAnimals);
+			const calculatedMaxAge = fetchedAnimals.reduce((max, animal) => (animal.age > max ? animal.age : max), 0);
+			setMaxAge(calculatedMaxAge);
+			setFilterCriteria(prev => ({
+				species: prev.species,
+				ageFrom: prev.ageFrom,
+				ageTo: calculatedMaxAge,
+				neutered: prev.neutered
+			}));
+		}
+		fetchAnimals();
+	}, []);
 
 	const filteredAnimals = animals.filter((animal) => {
 		return (
@@ -19,14 +36,6 @@ function MainPageUser() {
 			(filterCriteria.neutered === '' || animal.neutered === (filterCriteria.neutered === 'true'))
 		);
 	});
-
-	useEffect(() => {
-		const filtersApplied = filterCriteria.species.length > 0 ||
-			filterCriteria.ageFrom > 0 ||
-			filterCriteria.ageTo < maxAge ||
-			filterCriteria.neutered !== '';
-		setFilterActive(filtersApplied);
-	}, [filterCriteria, maxAge]);
 
 	const resetFilters = () => {
 		setFilterCriteria({ species: '', ageFrom: 0, ageTo: maxAge, neutered: '' });
@@ -59,7 +68,7 @@ function MainPageUser() {
 
 				</div>
 				<div className="mt-12">
-					<RectangleList animals={filteredAnimals}/>
+					<RectangleList animals={filteredAnimals} />
 				</div>
 			</div>
 			<footer className="bg-pink-50 p-4">
@@ -69,7 +78,7 @@ function MainPageUser() {
 			</footer>
 			<AnimalFilterWindow isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)}>
 				<h2 className="text-2xl font-Pet_Title text-border-smaller">Filter</h2>
-				<FilterForm filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} speciesList={speciesList} maxAge={maxAge}/>
+				<FilterForm filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} speciesList={speciesList} maxAge={maxAge} />
 			</AnimalFilterWindow>
 		</div>
 	);
@@ -77,21 +86,18 @@ function MainPageUser() {
 
 function RectangleItem({ animal }) {
 	return (
-
 		<Link to={`/animal/${animal.id}`}
-			className="w-11/12 h-auto bg-Animal_Card_BG flex items-start m-3 justify-start relative p-4 min-h-custom-img">
-			<img src={animal.image} alt={animal.name} className="w-list-img h-list-img object-cover"/>
+			  className="w-11/12 h-auto bg-Animal_Card_BG flex items-start m-3 justify-start relative p-4 min-h-custom-img">
+			<img src={`data:image/jpeg;base64,${animal.image}`} alt={animal.name} className="w-list-img h-list-img object-cover" />
 			<div className="ml-4 flex flex-col">
 				<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
 				<span>{animal.text} </span>
-
 			</div>
 		</Link>
-
 	);
 }
 
-function RectangleList({animals}) {
+function RectangleList({ animals }) {
 	return (
 		<div className="flex flex-col items-center justify-center m-2">
 			{animals.map((animal, index) => (
