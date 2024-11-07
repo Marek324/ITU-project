@@ -1,7 +1,7 @@
 import React from 'react';
-import { money, yen } from '../../svg.js';
+import { money } from '../../svg.js';
 
-const MarketContent = () => {
+const InventoryContent = () => {
   return (
     <div className="flex flex-1 justify-center items-start text-white">
       <div className="absolute top-20 left-2 flex items-center "> 
@@ -11,6 +11,7 @@ const MarketContent = () => {
         <span className="text-2xl text-outline text-[#B957CE]">1200</span>
        </div>
       </div>
+
       <div
         className="flex justify-center items-center"
         style={{
@@ -21,12 +22,12 @@ const MarketContent = () => {
           marginTop: '240px',
         }}
       >
-        <img 
+         <img 
           src="https://i.postimg.cc/kGxYnpp1/kozachat.png" 
           alt="Character" 
           className="absolute"
           style={{
-            top: '110px',  
+            top: '110px', 
             left: '42%',  
             width: '200px',  
             height: 'auto'
@@ -37,4 +38,4 @@ const MarketContent = () => {
   );
 };
 
-export default MarketContent;
+export default InventoryContent;
