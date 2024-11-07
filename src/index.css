@@ -1,3 +1,153 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-border {
+	text-shadow:
+		-2px -2px 0 #963FB4,
+		2px -2px 0 #963FB4,
+		-2px 2px 0 #963FB4,
+		2px 2px 0 #963FB4;
+}
+.text-border-smaller {
+	text-shadow:
+		-1px -1px 0 #963FB4,
+		1px -1px 0 #963FB4,
+		-1px 1px 0 #963FB4,
+		1px 1px 0 #963FB4;
+}
+
+/* Custom checkbox styles */
+.custom-checkbox {
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	position: relative;
+	cursor: pointer;
+}
+
+.custom-checkbox:checked {
+	background-color: #963FB4;
+	border-color: #963FB4;
+}
+
+.custom-checkbox:checked::after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 6px;
+	width: 6px;
+	height: 12px;
+	border: solid white;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+
+.custom-checkbox-threeway {
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	position: relative;
+	cursor: pointer;
+	background-color: darkred;
+}
+
+.custom-checkbox-threeway::after {
+	content: 'X';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 16px;
+	color: white;
+}
+
+.custom-checkbox-threeway:checked {
+	background-color: #963FB4;
+	border-color: #963FB4;
+}
+
+.custom-checkbox-threeway:checked::after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 6px;
+	width: 6px;
+	height: 12px;
+	border: solid white;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+
+.custom-checkbox-threeway:indeterminate {
+	background-color: grey;
+	border-color: #963FB4;
+}
+
+.custom-checkbox-threeway:indeterminate::after {
+	content: '-';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 16px;
+	color: white;
+}
+
+.rc-slider.My-rc-slider {
+	margin: 20px 0;
+	max-width: 300px;
+}
+
+.rc-slider.My-rc-slider .rc-slider-rail {
+	height: 8px;
+	background-color: #ddd;
+}
+
+.rc-slider.My-rc-slider .rc-slider-track {
+	height: 8px;
+	background-color: #963FB4;
+}
+
+.rc-slider.My-rc-slider .rc-slider-handle {
+	width: 20px;
+	height: 20px;
+	border: 2px solid #963FB4;
+	background-color: #fff;
+	margin-top: -6px;
+	cursor: pointer;
+}
+
+.rc-slider.My-rc-slider .rc-slider-handle:focus,
+.rc-slider.My-rc-slider .rc-slider-handle:hover {
+	border-color: #963FB4;
+	box-shadow: 0 0 5px #963FB4;
+}
+
+.rc-slider.My-rc-slider .rc-slider-handle:active {
+	border-color: #963FB4;
+ }
+
+.text-box {
+	border: 1px solid #000; /* Border color */
+	width: 70vh;
+	height: 40vh;
+	padding: 10px; /* Padding inside the box */
+	background-color: #f9f9f9; /* Background color */
+	border-radius: 2px; /* Rounded corners */
+	margin-top: 10px; /* Space above the box */
+}
+
+.meet-button {
+	border: 2px solid #963FB4; /* Border color */
+	width: 50vh;
+	height: 5vh;
+	background-color: #C6D3FF; /* Background color */
+	border-radius: 5px; /* Rounded corners */
+	margin-top: 10px; /* Space above the box */
+	text-align: center /* Text color */
+}
