@@ -24,13 +24,20 @@
 }
 .App-bottom-bar {
   background-color: #B957CE;
-  height: 50px; 
-  width: 100%; 
+  height: 50px;
+  width: 100%;
 }
 .text-pet {
-  font-family: 'Press Start 2P', cursive; 
-  text-shadow: 1px 1px 0px #B9E9E9, -1px -1px 0px #B9E9E9, 1px -1px 0px #B9E9E9, -1px 1px 0px #B9E9E9; 
+  font-family: 'Press Start 2P', cursive;
+  text-shadow: 1px 1px 0px #B9E9E9, -1px -1px 0px #B9E9E9, 1px -1px 0px #B9E9E9, -1px 1px 0px #B9E9E9;
 }
-.text-outline {
-  text-shadow: 1px 1px 0px #B9E9E9, -1px -1px 0px #B9E9E9, 1px -1px 0px #B9E9E9, -1px 1px 0px #B9E9E9; 
+
+.text-subtext {
+	font-family: 'Press Start 2P', cursive;
+	color: #B957CE;
+	text-shadow: 1px 1px 0px #B9E9E9, -1px -1px 0px #B9E9E9, 1px -1px 0px #B9E9E9, -1px 1px 0px #B9E9E9;
+}
+
+	.text-outline {
+  text-shadow: 1px 1px 0px #B9E9E9, -1px -1px 0px #B9E9E9, 1px -1px 0px #B9E9E9, -1px 1px 0px #B9E9E9;
 }
