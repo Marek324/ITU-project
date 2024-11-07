@@ -1,11 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
-import Game from "./Pet/FlappyBird/Game";
-
+import MainPageUser from "./MainPageUser";
+ let userMode = true;
 function App() {
-  return (
-	  <Game />
-  );
+	if(userMode)
+	{
+		return (
+			< MainPageUser />
+		);
+	}
 }
 
 export default App;
