@@ -1,13 +1,24 @@
-﻿import React from 'react';
-import {Link, useParams} from 'react-router-dom';
-import GetAnimals from '../API/GetAnimalsApiCaller';
-import AdoptHeader from "./AdoptHeader";
-import {gamepad} from "../svg";
+﻿import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { GetAnimal } from '../API/GetAnimalsApiCaller';
+import AdoptHeader from './AdoptHeader';
+import { gamepad } from '../svg';
 
 function AnimalDetails() {
 	const { id } = useParams();
-	const animals = GetAnimals();
-	const animal = animals.find(animal => animal.id === parseInt(id));
+	const [animal, setAnimal] = useState(null);
+
+	useEffect(() => {
+		async function fetchAnimal() {
+			try {
+				const fetchedAnimal = await GetAnimal(id);
+				setAnimal(fetchedAnimal);
+			} catch (error) {
+				console.error('Error fetching animal:', error);
+			}
+		}
+		fetchAnimal();
+	}, [id]);
 
 	if (!animal) {
 		return <div>Animal not found</div>;
@@ -16,11 +27,10 @@ function AnimalDetails() {
 	return (
 		<div className="bg-white min-h-screen flex flex-col flex-grow">
 			<header>
-				<AdoptHeader/>
+				<AdoptHeader />
 			</header>
-			<div className="flex-grow  flex items-start m-3 justify-center align-middle relative p-4 min-h-custom-img">
-				<img src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover mt-10"/>
-
+			<div className="flex-grow flex items-start m-3 justify-center align-middle relative p-4 min-h-custom-img">
+				<img src={`data:image/jpeg;base64,${animal.image}`} alt={animal.name} className="h-main-img w-main-img object-cover mt-10" />
 				<div className="ml-16 flex flex-col">
 					<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
 					<p className="mt-2 text-black">Age: {animal.age}</p>
@@ -30,16 +40,15 @@ function AnimalDetails() {
 						<p>{animal.text}</p>
 					</div>
 					<div className="justify-center relative flex align-middle mt-10">
-					<button className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller">
-						 Meet
-					</button>
+						<button className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller">
+							Meet
+						</button>
 					</div>
 				</div>
 				<button className="-ml-12">
 					{gamepad()}
 				</button>
 			</div>
-
 			<footer className="bg-pink-50 p-4 y-">
 				<div className="flex justify-center items-center">
 					<p>Footer Content</p>

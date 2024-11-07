@@ -1,5 +1,5 @@
 ﻿import { shop, user, filter, list, tiles } from "./svg";
-import GetAnimals from "./API/GetAnimalsApiCaller";
+import { GetAnimals } from "./API/GetAnimalsApiCaller";
 import AnimalFilterWindow from "./components/AnimalFilter";
 import { useEffect, useState } from "react";
 import FilterForm from "./components/AnimalFilterForm";
