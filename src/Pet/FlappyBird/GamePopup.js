@@ -3,46 +3,17 @@ import React from 'react';
 function GamePopup({ onStart, topBarSize, bottomPos, title, subtitle }) {
 	return (
 		<div
-			style={{
-				position: 'absolute',
-				top: topBarSize,
-				bottom: bottomPos,
-				left: '0',
-				right: '0',
-				backgroundColor: 'rgba(0, 0, 0, 0.5)',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				zIndex: '1000',
-			}}
-			>
-			<div
-				style={{
-					backgroundColor: 'white',
-					padding: '20px',
-					borderRadius: '10px',
-					textAlign: 'center',
-				}}
-			>
-				<h1
-					style={{
-						fontSize: '2.5rem',
-						fontWeight: 'bold',
-						color: '#333',
-						marginBottom: '20px',
-					}}
-				>{title}</h1>
-
+			className="absolute left-0 right-0 flex items-center justify-center z-1000"
+			style={{ top: topBarSize, bottom: bottomPos, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+		>
+			<div className="bg-Pet_Header_BG p-5 rounded-lg text-center">
+				<h1 className="text-Pet_Text text-pet font-Pet_Title text-2xl">{title}</h1>
 				<button
-					style={{
-						padding: '10px 20px',
-						backgroundColor: 'green',
-						color: 'white',
-						border: 'none',
-						borderRadius: '5px',
-						cursor: 'pointer',
-					}}
-					onClick={onStart}>{subtitle}</button>
+					className="px-4 py-2 bg-green-500 rounded cursor-pointer text-subtext"
+					onClick={onStart}
+				>
+					{subtitle}
+				</button>
 			</div>
 		</div>
 	);

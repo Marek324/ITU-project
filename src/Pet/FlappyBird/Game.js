@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import DownBar from '../components/DownBar.js';
 import TopBar from '../components/TopBar.js';
-import { homeB } from "../../svg";
+import { homeB, shop, leaderboard } from "../../svg";
 import bGImage from "./Assets/bg.jpg";
 import Ball from "./Ball.js";
 import Obstacle from "./Obstacle";
 import GamePopup from "./GamePopup";
+import HighScores from "./HighScores";
 
 function Game() {
 	const timeInterval = 10;
@@ -25,6 +26,8 @@ function Game() {
 	const [gameStarted, setGameStarted] = useState(false);
 	const [title, setTitle] = useState('Flappy Pet');
 	const [subtitle, setSubtitle] = useState('Start Game');
+	const [showLeaderboard, setShowLeaderboard] = useState(false);
+	const [showPopup, setShowPopup] = useState(true);
 
 	const topBarRef = useRef(null);
 	const downBarRef = useRef(null);
@@ -93,12 +96,14 @@ function Game() {
 			setTitle('Game Over');
 			setSubtitle('Restart Game');
 			setGameStarted(false);
+			setShowPopup(true);
 			return;
 		}
 		if (downBarRef.current && ballRef.current && (ballTopPos >= (window.innerHeight - downBarOffset - ballRef.current.clientHeight))) {
 			setTitle('Game Over');
 			setSubtitle('Restart Game');
 			setGameStarted(false);
+			setShowPopup(true);
 			return;
 		}
 
@@ -191,6 +196,7 @@ function Game() {
 					setTitle('Game Over');
 					setSubtitle('Restart Game');
 					setGameStarted(false);
+					setShowPopup(true);
 				}
 			}
 		}
@@ -200,8 +206,19 @@ function Game() {
 
 	}, [obstacles, ballTopPos, topPos, gameStarted]);
 
+	const toggleLeaderboard = () => {
+		setShowLeaderboard(prevState => !prevState);
+		if (showLeaderboard) {
+			setShowPopup(true);
+		}
+		else {
+			setShowPopup(false);
+		}
+	}
+
 	function startGame() {
 		setGameStarted(true);
+		setShowPopup(false);
 		setObstacles([]);
 		setBallTopPos(window.innerHeight / 2);
 		setVelocity(0);
@@ -214,8 +231,8 @@ function Game() {
 			onClick={jump}
 		>
 			<TopBar ref={topBarRef} title="Flappy Pet" />
-			<DownBar ref={downBarRef} secondIcon={homeB()} />
-			{!gameStarted && <GamePopup title={title} subtitle={subtitle} onStart={startGame} topBarSize={topPos} bottomPos={downBarOffset} />} {/* Render StartScreen if game hasn't started */}
+			<DownBar ref={downBarRef} firstIcon={shop()} secondIcon={homeB()} thirdIcon={leaderboard()} onThirdClick={toggleLeaderboard}/>
+			{showPopup && <GamePopup title={title} subtitle={subtitle} onStart={startGame} topBarSize={topPos} bottomPos={downBarOffset} />} {}
 			{gameStarted && (
 				<>
 					<Ball ref={ballRef} leftPos={ballLeftPos} top={ballTopPos} />
@@ -232,6 +249,7 @@ function Game() {
 					))}
 				</>
 			)}
+			{showLeaderboard && <HighScores scores={[{ name: 'Player 1', points: 10 }, { name: 'Player 2', points: 20 }]} topBar={topPos} downBar={downBarOffset} />}
 		</div>
 	);
 }
