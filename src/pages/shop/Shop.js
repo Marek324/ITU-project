@@ -1,5 +1,5 @@
 import React from 'react';
-import AdoptHeader from "../../components/AdoptHeader";
+import AdoptHeader from "components/AdoptHeader";
 
 function Shop() {
   return (

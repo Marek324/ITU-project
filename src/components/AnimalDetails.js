@@ -1,8 +1,8 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { GetAnimal } from '../services/GetAnimalsApiCaller';
-import AdoptHeader from './AdoptHeader';
-import { gamepad } from '../svg';
+import { GetAnimal } from 'services/GetAnimalsApiCaller';
+import AdoptHeader from 'components/AdoptHeader';
+import { gamepad } from 'svg';
 
 function AnimalDetails() {
 	const { id } = useParams();
