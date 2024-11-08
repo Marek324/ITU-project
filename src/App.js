@@ -1,12 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
-import MainPageUser from "./MainPageUser";
+import MainPageController from "./Controller/MainPageController";
  let userMode = true;
 function App() {
 	if(userMode)
 	{
 		return (
-			< MainPageUser />
+			< MainPageController />
 		);
 	}
 }
