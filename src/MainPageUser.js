@@ -1,5 +1,5 @@
 ﻿import { shop, user, filter, list, tiles } from "./svg";
-import { GetAnimals } from "./API/GetAnimalsApiCaller";
+import { GetAnimals } from "./services/GetAnimalsApiCaller";
 import AnimalFilterWindow from "./components/AnimalFilter";
 import { useEffect, useState } from "react";
 import FilterForm from "./components/AnimalFilterForm";
@@ -46,7 +46,7 @@ function MainPageUser() {
 	return (
 		<div className="bg-Main_BG min-h-screen flex flex-col flex-grow">
 			<header className="">
-				<AdoptHeader />
+				<AdoptHeader isHome={true}/>
 			</header>
 			<div className="flex-grow justify-center m-2 items-center relative">
 				<div className="absolute right-0 m-2 items-start justify-start flex space-x-4">

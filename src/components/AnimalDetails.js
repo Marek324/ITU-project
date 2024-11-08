@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { GetAnimal } from '../API/GetAnimalsApiCaller';
+import { GetAnimal } from '../services/GetAnimalsApiCaller';
 import AdoptHeader from './AdoptHeader';
 import { gamepad } from '../svg';
 

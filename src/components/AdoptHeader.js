@@ -1,26 +1,24 @@
-﻿import { Link, Route, Routes} from "react-router-dom";
-import {shop as shop_icon, user as user_icon} from "../svg";
+﻿import { Link } from "react-router-dom";
+import {shopping_cart as shop_icon, account as account_icon, arrow_back as home_icon} from "../svg";
 
-function AdoptHeader() {
+function AdoptHeader({isHome}) {
     return (
         <header
-            // className="w-full h-48 bg-Main_Header flex items-center justify-center border-2 border-Main_Header_Border relative">
-			className="
+            className="
 			w-full h-36
 			relative z-10
 			bg-Main_Header border-2 border-Main_Header_Border
-			grid grid-cols-12 items-center
+			flex items-center justify-between
 			">
-            {/* <h1 className="text-3xl font-Pet_Title text-border absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-Main_Header">Adopt & Play</h1> */}
-			<h1 className="text-3xl font-Pet_Title text-border col-span-7 col-start-5">Adopt & Play</h1>
-            {/* <button className="absolute right-24 top-1/2 transform -translate-y-1/2">
-                {shop_icon()}
-            </button>
-            <button className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                {user_icon()}
-            </button> */}
-			<Link to="/user" className="">{user_icon()}</Link>
 
+			<div className="w-10">
+				{!isHome &&	<Link to="/" className="col-start-1 content-center">{home_icon()}</Link>}
+			</div>
+            <h1 className="text-3xl text-center font-Pet_Title text-border col-span-6 col-start-3">Adopt & Play</h1>
+			<div className="flex space-x-4">
+				<Link to="/shop" className="col-start-9 content-center">{shop_icon()}</Link>
+				<Link to="/user" className="col-start-10 content-center">{account_icon()}</Link>
+			</div>
 
         </header>
     );
