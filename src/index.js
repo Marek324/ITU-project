@@ -8,13 +8,14 @@ import Shop from "./pages/shop/Shop";
 import UserProfile from "./pages/user/UserProfile";
 import reportWebVitals from './reportWebVitals';
 import AnimalDetails from "./components/AnimalDetails";
+import UserProfileController from 'pages/user/UserController';
 import Game from "./Pet/FlappyBird/Game";
 
 ReactDOM.render(
 	<Router>
 		<Routes>
 			<Route path="/" element={<App />} />
-			<Route path="/user" element={<UserProfile /> } />
+			<Route path="/user/:id" element={<UserProfileController /> } />
 			<Route path="/shop" element={<Shop />} />
 			<Route path="/animal/:id" element={<AnimalDetails />} />
 			<Route path="/animal/:id/flappypet" element={<Game />} />

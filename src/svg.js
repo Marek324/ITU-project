@@ -254,15 +254,15 @@ export const user = () => {
 			<path
 				fill="#b9e9e9"
 				d="M12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25Z"
-				stroke="#B957CE" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+				stroke="#B957CE" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/>
 			<path
 				fill="#7183C0"
 				d="M12.1303 13C13.8203 13 15.1903 11.63 15.1903 9.94C15.1903 8.25001 13.8203 6.88 12.1303 6.88C10.4403 6.88 9.07031 8.25001 9.07031 9.94C9.07031 11.63 10.4403 13 12.1303 13Z"
-				stroke="#B957CE" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+				stroke="#B957CE" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/>
 			<path
 				fill="#7183C0"
 				d="M6.5 19.11C6.80719 17.8839 7.51529 16.7956 8.51178 16.0179C9.50827 15.2403 10.736 14.818 12 14.818C13.264 14.818 14.4917 15.2403 15.4882 16.0179C16.4847 16.7956 17.1928 17.8839 17.5 19.11"
-				stroke="#B957CE" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+				stroke="#B957CE" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/>
 		</svg>
 	);
 }
@@ -271,22 +271,22 @@ export const filter = () => {
 		<svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
 				d="M3 4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L14.4686 13.5314C14.2957 13.7043 14.2092 13.7908 14.1474 13.8917C14.0925 13.9812 14.0521 14.0787 14.0276 14.1808C14 14.2959 14 14.4182 14 14.6627V17L10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6Z"
-				stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
 		</svg>
 	);
 }
 export const list = () => {
 	return (
 		<svg viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" height="30px" width="30px">
-			<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+			<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+			<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
 			<g id="SVGRepo_iconCarrier">
-				<path d="M2 12.32H22" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
-					  stroke-linejoin="round"></path>
-				<path d="M2 18.32H22" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
-					  stroke-linejoin="round"></path>
-				<path d="M2 6.32001H22" stroke="#000000" stroke-width="1.5" stroke-linecap="round"
-					  stroke-linejoin="round"></path>
+				<path d="M2 12.32H22" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"
+					  strokeLinejoin="round"></path>
+				<path d="M2 18.32H22" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"
+					  strokeLinejoin="round"></path>
+				<path d="M2 6.32001H22" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"
+					  strokeLinejoin="round"></path>
 			</g>
 		</svg>
 	);
@@ -295,7 +295,7 @@ export const list = () => {
 export const tiles = () => {
 	return (
 		<svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path fill-rule="evenodd" clip-rule="evenodd" strokeWidth="2"
+			<path fillRule="evenodd" clipRule="evenodd" strokeWidth="2"
 				  d="M13 6C13 4.89543 13.8954 4 15 4H18C19.1046 4 20 4.89543 20 6V9C20 10.1046 19.1046 11 18 11H15C13.8954 11 13 10.1046 13 9V6ZM18 6H15V9H18V6ZM6 13C4.89543 13 4 13.8954 4 15V18C4 19.1046 4.89543 20 6 20H9C10.1046 20 11 19.1046 11 18V15C11 13.8954 10.1046 13 9 13H6ZM6 15H9V18H6V15ZM15 13C13.8954 13 13 13.8954 13 15V18C13 19.1046 13.8954 20 15 20H18C19.1046 20 20 19.1046 20 18V15C20 13.8954 19.1046 13 18 13H15ZM15 15H18V18H15V15ZM6 4C4.89543 4 4 4.89543 4 6V9C4 10.1046 4.89543 11 6 11H9C10.1046 11 11 10.1046 11 9V6C11 4.89543 10.1046 4 9 4H6ZM6 6H9V9H6V6Z"
 				  fill="#000000"/>
 		</svg>
@@ -305,13 +305,13 @@ export const tiles = () => {
 export const gamepad = () => {
 	return (
 		<svg viewBox="0 0 24 24" width="40px" heigh="40px" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+			<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+			<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
 			<g id="SVGRepo_iconCarrier">
 				<path
 					d="M21.2206 8C20.5311 5.81603 19.4281 4.63486 18.0908 4.16059C17.7099 4.02549 17.3016 4 16.8974 4H16.2849C15.4074 4 14.5514 4.27225 13.8351 4.77922L13.3332 5.13441C12.9434 5.41029 12.4776 5.55844 12 5.55844C11.5225 5.55844 11.0567 5.41029 10.6669 5.13443L10.165 4.77922C9.44862 4.27225 8.59264 4 7.71504 4H7.10257C6.69838 4 6.29009 4.02549 5.90915 4.16059C3.52645 5.00566 1.88749 8.09504 2.00604 15.1026C2.02992 16.5145 2.3603 18.075 3.63423 18.6842C4.03121 18.8741 4.49667 19 5.02671 19C5.66273 19 6.1678 18.8187 6.55763 18.5632C7.47153 17.9642 8.14122 16.9639 9.11125 16.4609C9.69519 16.1581 10.3434 16 11.0011 16H12.9989C13.6566 16 14.3048 16.1581 14.8888 16.4609C15.8588 16.9639 16.5285 17.9642 17.4424 18.5632C17.8322 18.8187 18.3373 19 18.9733 19C19.5033 19 19.9688 18.8741 20.3658 18.6842C21.6397 18.075 21.9701 16.5145 21.994 15.1026C22.0132 13.9681 21.9863 12.9362 21.9176 12"
-					stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path>
-				<path d="M7.5 9V12M6 10.5L9 10.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path>
+					stroke="#000000" strokeWidth="1.5" strokeLinecap="round"></path>
+				<path d="M7.5 9V12M6 10.5L9 10.5" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"></path>
 				<path
 					d="M19 10.25C19 10.6642 18.6642 11 18.25 11C17.8358 11 17.5 10.6642 17.5 10.25C17.5 9.83579 17.8358 9.5 18.25 9.5C18.6642 9.5 19 9.83579 19 10.25Z"
 					fill="#000000"></path>
