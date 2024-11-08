@@ -25,7 +25,7 @@ module.exports = {
 			Main_Header: '#7183C0',
 			Main_Header_Border: '#963FB4',
 			Animal_Card_BG: '#34495E',
-			Main_BG: '#FFFFFF'
+			Main_BG: '#FBF7FF'
 		}
 	},
 	  fontFamily: {

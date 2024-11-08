@@ -37,6 +37,21 @@ app.get('/api/animals/:id', (req, res) => {
 	});
 });
 
+app.get('/api/users/:id', (req, res) => {
+	db.get("SELECT * FROM users WHERE id = ?", [req.params.id], (err, row) => {
+		if (err) {
+			res.status(500).send(err.message);
+			return;
+		}
+		if (!row) {
+			res.status(404).send('User not found');
+			return;
+		}
+		row.image = row.image.toString('base64');
+		res.json(row);
+	});
+});
+
 app.listen(port, () => {
 	console.log(`Server running on http://localhost:${port}`);
 });
