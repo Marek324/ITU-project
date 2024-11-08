@@ -9,6 +9,7 @@ function AdoptHeader({isHome}) {
 			relative z-10
 			bg-Main_Header border-2 border-Main_Header_Border
 			flex items-center justify-between
+			px-4
 			">
 
 			<div className="w-10">
