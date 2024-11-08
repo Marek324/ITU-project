@@ -1,37 +1,43 @@
-import React from 'react';
-import { money } from '../../svg.js'; 
+import React, { useState } from 'react';
+import { money } from '../../svg.js';
+import Quiz from './quiz.js';
 
-const GameContent = ({ setShowGame }) => { 
+const GameContent = ({ setShowGame }) => {
+  const [currentGame, setCurrentGame] = useState(null); 
+
   const handleTicTacToeClick = () => {
-    console.log('Tic Tac Toe clicked!');
+    setCurrentGame('TicTacToe');
   };
 
   const handleQuizClick = () => {
-    console.log('Quiz clicked!');
+    setCurrentGame('Quiz');
   };
 
   const handleFlappyPetClick = () => {
-    console.log('Flappy Pet clicked!');
+    setCurrentGame('FlappyPet');
   };
 
   const handleCrossClick = () => {
-    setShowGame(false); 
+    if (currentGame) {
+      setCurrentGame(null); 
+    } else {
+      setShowGame(false); 
+    }
   };
 
   return (
     <div className="flex flex-1 justify-center items-center text-white">
-      <div className="absolute top-20 left-2 flex items-center "> 
-      <div className="flex top-20 left-2 items-center flex space-x-1"> 
-        
-        {money()} 
-        <span className="text-2xl text-outline text-[#B957CE]">1200</span> 
-       </div>
+      <div className="absolute top-20 left-2 flex items-center">
+        <div className="flex top-20 left-2 items-center space-x-1">
+          {money()}
+          <span className="text-2xl text-outline text-[#B957CE]">1200</span>
+        </div>
       </div>
       <div
         className="relative flex flex-col justify-center items-center"
         style={{
           backgroundColor: '#3A4E93',
-          width: '800px', 
+          width: '800px',
           height: '600px',
           border: '1px solid #B957CE',
         }}
@@ -42,7 +48,7 @@ const GameContent = ({ setShowGame }) => {
             width: '60px',
             height: '60px',
           }}
-          onClick={handleCrossClick} 
+          onClick={handleCrossClick}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -60,39 +66,46 @@ const GameContent = ({ setShowGame }) => {
             />
           </svg>
         </div>
-        
+
         <div
           className="absolute top-16"
           style={{
-            width: '100%', 
+            width: '100%',
             height: '1px',
-            backgroundColor: '#B957CE', 
+            backgroundColor: '#B957CE',
           }}
         />
 
-        <div className="flex space-x-20 mt-4">
-          <h1
-            className="text-4xl cursor-pointer hover:text-[#B957CE]"
-            style={{ fontFamily: 'Pixelify Sans' }}
-            onClick={handleTicTacToeClick}
-          >
-            Tic Tac Toe
-          </h1>
-          <h1
-            className="text-4xl cursor-pointer hover:text-[#B957CE]"
-            style={{ fontFamily: 'Pixelify Sans' }}
-            onClick={handleQuizClick}
-          >
-            Quiz
-          </h1>
-          <h1
-            className="text-4xl cursor-pointer hover:text-[#B957CE]"
-            style={{ fontFamily: 'Pixelify Sans' }}
-            onClick={handleFlappyPetClick}
-          >
-            Flappy Pet
-          </h1>
-        </div>
+        {currentGame === null ? (
+          <div className="flex space-x-20 mt-4">
+            <h1
+              className="text-4xl cursor-pointer hover:text-[#B957CE]"
+              style={{ fontFamily: 'Pixelify Sans' }}
+              onClick={handleTicTacToeClick}
+            >
+              Tic Tac Toe
+            </h1>
+            <h1
+              className="text-4xl cursor-pointer hover:text-[#B957CE]"
+              style={{ fontFamily: 'Pixelify Sans' }}
+              onClick={handleQuizClick}
+            >
+              Quiz
+            </h1>
+            <h1
+              className="text-4xl cursor-pointer hover:text-[#B957CE]"
+              style={{ fontFamily: 'Pixelify Sans' }}
+              onClick={handleFlappyPetClick}
+            >
+              Flappy Pet
+            </h1>
+          </div>
+          
+        ) : currentGame === 'Quiz' ? (
+          <Quiz setShowGame={setShowGame} />
+        ) : (
+          <div className="text-white">Game not implemented yet!</div>
+        )}
       </div>
     </div>
   );
