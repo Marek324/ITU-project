@@ -1,0 +1,16 @@
+﻿import {Link} from "react-router-dom";
+
+function RectangleItem({ animal }) {
+	return (
+		<Link to={`/animal/${animal.id}`}
+			  className="w-11/12 h-auto bg-Animal_Card_BG flex items-start m-3 justify-start relative p-4 min-h-custom-img">
+			<img src={`data:image/jpeg;base64,${animal.image}`} alt={animal.name} className="w-list-img h-list-img object-cover" />
+			<div className="ml-4 flex flex-col">
+				<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
+				<span>{animal.text} </span>
+			</div>
+		</Link>
+	);
+}
+
+export default RectangleItem;

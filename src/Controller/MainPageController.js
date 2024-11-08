@@ -1,12 +1,12 @@
-﻿import { shop, user, filter, list, tiles } from "./svg";
-import { GetAnimals } from "./API/GetAnimalsApiCaller";
-import AnimalFilterWindow from "./components/AnimalFilter";
+﻿import { shop, user, filter, list, tiles } from "../svg";
+import { GetAnimals } from "../API/GetAnimalsApiCaller";
+import AnimalFilterWindow from "../components/AnimalFilter";
 import { useEffect, useState } from "react";
-import FilterForm from "./components/AnimalFilterForm";
-import AdoptHeader from "./components/AdoptHeader";
-import { Link } from "react-router-dom";
+import FilterForm from "../components/AnimalFilterForm";
+import AdoptHeader from "../components/AdoptHeader";
+import RectangleList from "../components/RectangleList";
 
-function MainPageUser() {
+function MainPageController() {
 	const [animals, setAnimals] = useState([]);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [filterCriteria, setFilterCriteria] = useState({ species: '', ageFrom: 0, ageTo: 0, neutered: '' });
@@ -84,27 +84,4 @@ function MainPageUser() {
 	);
 }
 
-function RectangleItem({ animal }) {
-	return (
-		<Link to={`/animal/${animal.id}`}
-			  className="w-11/12 h-auto bg-Animal_Card_BG flex items-start m-3 justify-start relative p-4 min-h-custom-img">
-			<img src={`data:image/jpeg;base64,${animal.image}`} alt={animal.name} className="w-list-img h-list-img object-cover" />
-			<div className="ml-4 flex flex-col">
-				<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
-				<span>{animal.text} </span>
-			</div>
-		</Link>
-	);
-}
-
-function RectangleList({ animals }) {
-	return (
-		<div className="flex flex-col items-center justify-center m-2">
-			{animals.map((animal, index) => (
-				<RectangleItem key={index} animal={animal} />
-			))}
-		</div>
-	);
-}
-
-export default MainPageUser;
+export default MainPageController;
