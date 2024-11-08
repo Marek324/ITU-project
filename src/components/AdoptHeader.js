@@ -1,17 +1,26 @@
-﻿import {shop, user} from "../svg";
+﻿import { Link } from "react-router-dom";
+import {shopping_cart as shop_icon, account as account_icon, arrow_back as home_icon} from "../svg";
 
-function AdoptHeader() {
+function AdoptHeader({isHome}) {
     return (
-        <div
-            className="w-full h-48 bg-Main_Header flex items-center justify-center border-2 border-Main_Header_Border relative">
-            <h1 className="text-3xl font-Pet_Title text-border absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-Main_Header">Adopt & Play</h1>
-            <button className="absolute right-24 top-1/2 transform -translate-y-1/2">
-                {shop()}
-            </button>
-            <button className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                {user()}
-            </button>
-        </div>
+        <header
+            className="
+			w-full h-36
+			relative z-10
+			bg-Main_Header border-2 border-Main_Header_Border
+			flex items-center justify-between
+			">
+
+			<div className="w-10">
+				{!isHome &&	<Link to="/" className="col-start-1 content-center">{home_icon()}</Link>}
+			</div>
+            <h1 className="text-3xl text-center font-Pet_Title text-border col-span-6 col-start-3">Adopt & Play</h1>
+			<div className="flex space-x-4">
+				<Link to="/shop" className="col-start-9 content-center">{shop_icon()}</Link>
+				<Link to="/user" className="col-start-10 content-center">{account_icon()}</Link>
+			</div>
+
+        </header>
     );
 }
 
