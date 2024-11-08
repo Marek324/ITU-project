@@ -1,12 +1,13 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { GetAnimal } from '../services/GetAnimalsApiCaller';
+import {useNavigate, useParams} from 'react-router-dom';
+import { GetAnimal } from '../services/AnimalsService';
 import AdoptHeader from './AdoptHeader';
 import { gamepad } from '../svg';
 
 function AnimalDetails() {
 	const { id } = useParams();
 	const [animal, setAnimal] = useState(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function fetchAnimal() {
@@ -23,6 +24,10 @@ function AnimalDetails() {
 	if (!animal) {
 		return <div>Animal not found</div>;
 	}
+
+	const handleGameClicked = () => {
+		navigate(`/animal/${id}/flappypet`);
+	};
 
 	return (
 		<div className="bg-white min-h-screen flex flex-col flex-grow">
@@ -45,7 +50,7 @@ function AnimalDetails() {
 						</button>
 					</div>
 				</div>
-				<button className="-ml-12">
+				<button className="-ml-12" onClick={handleGameClicked}>
 					{gamepad()}
 				</button>
 			</div>

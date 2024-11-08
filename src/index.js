@@ -8,6 +8,7 @@ import Shop from "./pages/shop/Shop";
 import UserProfile from "./pages/user/UserProfile";
 import reportWebVitals from './reportWebVitals';
 import AnimalDetails from "./components/AnimalDetails";
+import Game from "./Pet/FlappyBird/Game";
 
 ReactDOM.render(
 	<Router>
@@ -16,6 +17,7 @@ ReactDOM.render(
 			<Route path="/user" element={<UserProfile /> } />
 			<Route path="/shop" element={<Shop />} />
 			<Route path="/animal/:id" element={<AnimalDetails />} />
+			<Route path="/animal/:id/flappypet" element={<Game />} />
 		</Routes>
 	</Router>,
 	document.getElementById('root')
