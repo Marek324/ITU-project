@@ -1,15 +1,27 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import './tailwind.config.js';
 import './index.css';
 import App from './App';
+import Shop from "./pages/shop/Shop";
+import UserProfile from "./pages/user/UserProfile";
 import reportWebVitals from './reportWebVitals';
+import AnimalDetails from "./components/AnimalDetails";
+import UserProfileController from 'pages/user/UserController';
+import Game from "./Pet/FlappyBird/Game";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+ReactDOM.render(
+	<Router>
+		<Routes>
+			<Route path="/" element={<App />} />
+			<Route path="/user/:id" element={<UserProfileController /> } />
+			<Route path="/shop" element={<Shop />} />
+			<Route path="/animal/:id" element={<AnimalDetails />} />
+			<Route path="/animal/:id/flappypet" element={<Game />} />
+		</Routes>
+	</Router>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
