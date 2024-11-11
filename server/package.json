@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "dev": "nodemon serverm.js"
+    "dev": "nodemon server.mjs",
+		"devs": "nodemon server.mjs seed"
   },
   "author": "",
   "license": "ISC",

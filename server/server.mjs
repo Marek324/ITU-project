@@ -6,10 +6,14 @@ import fastifyStatic from '@fastify/static';
 import path from 'path';
 import { v4 as genId } from 'uuid';
 
+const seed = process.argv[2] === 'seed';
+
+console.log(seed);
+
 const app = fastify({ logger: true });
 const port = 5000;
 
-app.register(cors,  {
+app.register(cors, {
 	origin: '*',
 	methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
@@ -22,7 +26,12 @@ app.register(fastifyStatic, {
 let db;
 (async () => {
 	try {
-		db = await JSONFilePreset('db_seed.json', db_model);
+		if (seed) {
+			db = await JSONFilePreset('db_seed.json', db_model);
+		} else {
+			db = await JSONFilePreset('db.json', db_model);
+		}
+		console.log(db.data);
 		await app.listen({port: port});
 	} catch (err) {
 		app.log.error(err);
@@ -91,7 +100,6 @@ app.post('/api/questions', async (req, res) => {
 
 	await db.read();
 
-
 	let new_question = {
 		id: genId(),
 		question: question,
@@ -106,8 +114,8 @@ app.post('/api/questions', async (req, res) => {
 
 	db.data.questions.push(new_question);
 
-	await db.write();
 	res.status(200).send({ message: 'Question added successfully' });
+	await db.write();
 });
 
 app.delete('/api/questions/:id', async (req, res) => {
@@ -127,7 +135,3 @@ app.delete('/api/questions/:id', async (req, res) => {
 	await db.write();
 	res.status(200).send({ message: 'Question deleted successfully' });
 });
-
-//Games
-
-//FP
