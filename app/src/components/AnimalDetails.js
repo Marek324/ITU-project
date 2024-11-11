@@ -1,8 +1,8 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GetAnimal } from '../services/AnimalsService';
-import AdoptHeader from '../components/AdoptHeader';
-import { gamepad } from '../svg';
+import { GetAnimal } from 'services/AnimalsService';
+import AdoptHeader from 'components/AdoptHeader';
+import { gamepad } from 'svg';
 
 function AnimalDetails() {
 	const { id } = useParams();

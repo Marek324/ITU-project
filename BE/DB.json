@@ -1,0 +1,80 @@
+﻿{
+	"animals": [
+		{
+			"id": 1,
+			"image": "/assets/2daa592704cb5a72ba5c3a0d799c4fc7.jpeg",
+			"name": "Věroslav",
+			"text": "Animal 1",
+			"species": "Dog",
+			"age": 6,
+			"sex": "M",
+			"neutered": true
+		},
+		{
+			"id": 2,
+			"image": "/assets/12b572e7b1990d8697e22cdf9249f168.jpeg",
+			"name": "Terka",
+			"text": "Animal 2",
+			"species": "Goat",
+			"age": 7,
+			"sex": "F",
+			"neutered": false
+		},
+		{
+			"id": 3,
+			"image": "/assets/7bd3178464ce91858b54c5ee91b80b21.png",
+			"name": "Kotěšenimír",
+			"text": "Animal 3",
+			"species": "Cat",
+			"age": 5,
+			"sex": "M",
+			"neutered": false
+		},
+		{
+			"id": 4,
+			"image": "/assets/d5cdb7e0559c9a975d7c78e5cc771061.jpeg",
+			"name": "Marek",
+			"text": "Animal 4",
+			"species": "Cat",
+			"age": 3,
+			"sex": "M",
+			"neutered": true
+		}
+	],
+
+		"questions": [
+		  {
+			"id": 1,
+			"question": "What is the average lifespan of a domestic cat?",
+			"answers": [
+			  { "text": "10-15 years", "correct": true },
+			  { "text": "5-10 years", "correct": false },
+			  { "text": "15-20 years", "correct": false },
+			  { "text": "20-25 years", "correct": false }
+			]
+		  },
+		  {
+			"id": 2,
+			"question": "Which food is toxic to dogs?",
+			"answers": [
+			  { "text": "Chocolate", "correct": true },
+			  { "text": "Carrots", "correct": false },
+			  { "text": "Apples", "correct": false },
+			  { "text": "Rice", "correct": false }
+			]
+		  },
+		  {
+			"id": 3,
+			"question": "How often should a dog be taken for a walk?",
+			"answers": [
+			  { "text": "Once week", "correct": false },
+			  { "text": "Once a day", "correct": false },
+			  { "text": "2-3 times a day", "correct": true },
+			  { "text": "Only when they feel like it", "correct": false }
+			]
+		  }
+		]
+
+
+}
+
