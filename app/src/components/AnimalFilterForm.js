@@ -1,7 +1,7 @@
 ﻿import React, {useState, useEffect, useRef} from 'react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import {filter} from "../svg";
+import {filter} from "svg";
 
 function FilterForm({ filterCriteria, setFilterCriteria, speciesList, maxAge }) {
 	const [isSpeciesCollapsed, setIsSpeciesCollapsed] = useState(true);
