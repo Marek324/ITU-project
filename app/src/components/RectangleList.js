@@ -1,10 +1,17 @@
 ﻿import RectangleItem from "components/RectangleItem";
 
-function RectangleList({ animals }) {
+function RectangleList({ animals, adminMode, handleRemoveAnimal }) {
 	return (
 		<div className="flex flex-col items-center justify-center m-2">
 			{animals.map((animal, index) => (
-				<RectangleItem key={index} animal={animal} />
+				<div key={index} className="flex items-center justify-center w-full">
+					{adminMode && (
+						<button onClick={() => handleRemoveAnimal(animal.id)} className="mr-2">
+							Remove
+						</button>
+					)}
+					<RectangleItem animal={animal} />
+				</div>
 			))}
 		</div>
 	);
