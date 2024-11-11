@@ -1,8 +1,9 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GetAnimal } from 'services/AnimalsService';
-import AdoptHeader from 'components/AdoptHeader';
-import { gamepad } from 'svg';
+import { GetAnimal } from '../services/AnimalsService';
+import AdoptHeader from '../components/AdoptHeader';
+import { gamepad } from '../svg';
+import Image from './Image';
 
 function AnimalDetails() {
 	const { id } = useParams();
@@ -35,7 +36,7 @@ function AnimalDetails() {
 				<AdoptHeader />
 			</header>
 			<div className="flex-grow flex items-start m-3 justify-center align-middle relative p-4 min-h-custom-img">
-				<img src={`data:image/jpeg;base64,${animal.image}`} alt={animal.name} className="h-main-img w-main-img object-cover mt-10" />
+				<Image src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover mt-10" />
 				<div className="ml-16 flex flex-col">
 					<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
 					<p className="mt-2 text-black">Age: {animal.age}</p>
