@@ -1,4 +1,4 @@
-﻿import RectangleItem from "./RectangleItem";
+﻿import RectangleItem from "components/RectangleItem";
 
 function RectangleList({ animals, adminMode, handleRemoveAnimal }) {
 	return (
