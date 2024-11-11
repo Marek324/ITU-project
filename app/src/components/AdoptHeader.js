@@ -1,5 +1,5 @@
 ﻿import { Link } from "react-router-dom";
-import {shopping_cart as shop_icon, account as account_icon, arrow_back as home_icon} from "../svg";
+import {shopping_cart as shop_icon, account as account_icon, arrow_back as home_icon} from "svg";
 
 function AdoptHeader({isHome}) {
     return (

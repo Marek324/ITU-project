@@ -20,7 +20,8 @@
     "fastify-static": "^4.7.0",
     "lowdb": "^7.0.1",
     "tmp": "^0.2.3",
-    "tmp-promise": "^3.0.3"
+    "tmp-promise": "^3.0.3",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
