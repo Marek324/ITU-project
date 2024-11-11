@@ -1,5 +1,5 @@
 ﻿import {Link} from "react-router-dom";
-import Image from "components/Image";
+import Image from "./Image";
 
 function RectangleItem({ animal }) {
 	return (
