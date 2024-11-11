@@ -1,5 +1,5 @@
 ﻿import { Link } from "react-router-dom";
-import {shopping_cart as shop_icon, account as account_icon, arrow_back as home_icon} from "svg";
+import {shopping_cart as shop_icon, account as account_icon, arrow_back as home_icon} from "../svg";
 
 function AdoptHeader({isHome}) {
     return (
@@ -17,8 +17,6 @@ function AdoptHeader({isHome}) {
 			</div>
             <h1 className="text-3xl text-center font-Pet_Title text-border col-span-6 col-start-3">Adopt & Play</h1>
 			<div className="flex space-x-4">
-				<Link to="/shop" className="col-start-9 content-center">{shop_icon()}</Link>
-				<Link to="/user/123456" className="col-start-10 content-center">{account_icon()}</Link>
 			</div>
 
         </header>
