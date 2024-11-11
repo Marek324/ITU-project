@@ -42,8 +42,8 @@
 		}
 	],
 
-		"questions": [
-		  {
+	"questions": [
+		{
 			"id": 1,
 			"question": "What is the average lifespan of a domestic cat?",
 			"answers": [
@@ -52,8 +52,8 @@
 			  { "text": "15-20 years", "correct": false },
 			  { "text": "20-25 years", "correct": false }
 			]
-		  },
-		  {
+		},
+		{
 			"id": 2,
 			"question": "Which food is toxic to dogs?",
 			"answers": [
@@ -62,8 +62,8 @@
 			  { "text": "Apples", "correct": false },
 			  { "text": "Rice", "correct": false }
 			]
-		  },
-		  {
+		},
+		{
 			"id": 3,
 			"question": "How often should a dog be taken for a walk?",
 			"answers": [
@@ -72,9 +72,7 @@
 			  { "text": "2-3 times a day", "correct": true },
 			  { "text": "Only when they feel like it", "correct": false }
 			]
-		  }
-		]
-
-
+		}
+	]
 }
 
