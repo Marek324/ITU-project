@@ -1,8 +1,9 @@
 ﻿import axios from 'axios';
+const port = 5000;
 
 export async function GetAnimals() {
 	try {
-		const response = await axios.get('http://localhost:5000/api/animals');
+		const response = await axios.get(`http://localhost:${port}/api/animals`);
 		return response.data.map(animal => ({
 			id: animal.id,
 			image: animal.image,
@@ -21,7 +22,7 @@ export async function GetAnimals() {
 
 export async function GetAnimal(id) {
 	try {
-		const response = await axios.get(`http://localhost:5000/api/animals/${id}`);
+		const response = await axios.get(`http://localhost:${port}/api/animals/${id}`);
 		const animal = response.data;
 		return {
 			id: animal.id,

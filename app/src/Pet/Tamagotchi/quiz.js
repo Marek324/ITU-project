@@ -1,37 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { money } from '../../svg.js'; 
+import MainPage from '../../Pet/components/MainPage.js';
+import NewGameQuiz from './NewGameQuiz.js';
+import QuestionPool from './QuestionPool.js';
 
-const GameContent = ({ setShowGame }) => { 
-  const handleTicTacToeClick = () => {
-    console.log('Tic Tac Toe clicked!');
-  };
-
-  const handleQuizClick = () => {
-    console.log('Quiz clicked!');
-  };
-
-  const handleFlappyPetClick = () => {
-    console.log('Flappy Pet clicked!');
-  };
+const Quiz = ({ setShowGame }) => { 
+  const [mainPage, setMainPage] = useState(false);
+  const [newGame, setNewGame] = useState(false);
+  const [questionPool, setQuestionPool] = useState(false);
 
   const handleCrossClick = () => {
-    setShowGame(false); 
+    if (mainPage || (!newGame && !questionPool)) {
+      setShowGame(false);
+    } else {
+      setNewGame(false);
+      setQuestionPool(false);
+    }
   };
 
-  return (
+  const handleNewGameClick = () => {
+    setNewGame(true); 
+  };
+
+  const handleQuestionPoolClick = () => {
+    setQuestionPool(true);
+  };
+
+  return mainPage ? (
+    <MainPage setShowGame={setShowGame} />
+  ) : newGame ? (
+    <NewGameQuiz setShowGame={setShowGame} />
+  ) : questionPool ? (
+    <QuestionPool setShowGame={setShowGame} />
+  ) : (
     <div className="flex flex-1 justify-center items-center text-white">
-      <div className="absolute top-20 left-2 flex items-center "> 
-      <div className="flex top-20 left-2 items-center flex space-x-1"> 
-        
-        {money()} 
-        <span className="text-2xl text-outline text-[#B957CE]">1200</span> 
-       </div>
+      <div className="absolute top-20 left-2 flex items-center">
+        <div className="flex top-20 left-2 items-center space-x-1">
+          {money()}
+          <span className="text-2xl text-outline text-[#B957CE]">1200</span>
+        </div>
       </div>
       <div
         className="relative flex flex-col justify-center items-center"
         style={{
           backgroundColor: '#3A4E93',
-          width: '800px', 
+          width: '800px',
           height: '600px',
           border: '1px solid #B957CE',
         }}
@@ -60,13 +73,13 @@ const GameContent = ({ setShowGame }) => {
             />
           </svg>
         </div>
-        
+
         <div
           className="absolute top-16"
           style={{
-            width: '100%', 
+            width: '100%',
             height: '1px',
-            backgroundColor: '#B957CE', 
+            backgroundColor: '#B957CE',
           }}
         />
 
@@ -74,23 +87,16 @@ const GameContent = ({ setShowGame }) => {
           <h1
             className="text-4xl cursor-pointer hover:text-[#B957CE]"
             style={{ fontFamily: 'Pixelify Sans' }}
-            onClick={handleTicTacToeClick}
+            onClick={handleNewGameClick}
           >
-            Tic Tac Toe
+            New Game
           </h1>
           <h1
             className="text-4xl cursor-pointer hover:text-[#B957CE]"
             style={{ fontFamily: 'Pixelify Sans' }}
-            onClick={handleQuizClick}
+            onClick={handleQuestionPoolClick}
           >
-            Quiz
-          </h1>
-          <h1
-            className="text-4xl cursor-pointer hover:text-[#B957CE]"
-            style={{ fontFamily: 'Pixelify Sans' }}
-            onClick={handleFlappyPetClick}
-          >
-            Flappy Pet
+            Question Pool
           </h1>
         </div>
       </div>
@@ -98,4 +104,4 @@ const GameContent = ({ setShowGame }) => {
   );
 };
 
-export default GameContent;
+export default Quiz;

@@ -9,6 +9,7 @@ function AdoptHeader({isHome}) {
 			relative z-10
 			bg-Main_Header border-2 border-Main_Header_Border
 			flex items-center justify-between
+			px-4
 			">
 
 			<div className="w-10">
@@ -16,8 +17,6 @@ function AdoptHeader({isHome}) {
 			</div>
             <h1 className="text-3xl text-center font-Pet_Title text-border col-span-6 col-start-3">Adopt & Play</h1>
 			<div className="flex space-x-4">
-				<Link to="/shop" className="col-start-9 content-center">{shop_icon()}</Link>
-				<Link to="/user" className="col-start-10 content-center">{account_icon()}</Link>
 			</div>
 
         </header>
