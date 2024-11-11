@@ -4,7 +4,7 @@ import Image from "./Image";
 function RectangleItem({ animal }) {
 	return (
 		<Link to={`/animal/${animal.id}`}
-			  className="w-11/12 h-auto bg-Animal_Card_BG flex items-start m-3 justify-start relative p-4 min-h-custom-img">
+			  className="w-5/6 h-auto bg-Animal_Card_BG flex items-start m-3 justify-start relative p-4 min-h-custom-img">
 			<Image src={animal.image} alt={animal.name} className="w-list-img h-list-img object-cover" />
 			<div className="ml-4 flex flex-col">
 				<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>

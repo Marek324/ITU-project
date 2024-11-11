@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GetAnimal } from '../services/AnimalsService';
 import AdoptHeader from '../components/AdoptHeader';
 import { gamepad } from '../svg';
-import Image from './Image';
+import Image from '../components/Image';
 
-function AnimalDetails() {
+function AnimalDetailsController() {
 	const { id } = useParams();
 	const [animal, setAnimal] = useState(null);
 	const navigate = useNavigate();
@@ -64,4 +64,4 @@ function AnimalDetails() {
 	);
 }
 
-export default AnimalDetails;
+export default AnimalDetailsController;
