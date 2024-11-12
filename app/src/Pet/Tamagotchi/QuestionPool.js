@@ -3,6 +3,8 @@ import axios from 'axios';
 import { money, user } from '../../svg.js';
 import Quiz from './quiz.js';
 
+const port = 5000;
+
 const QuestionPool = ({ setShowGame }) => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [questions, setQuestions] = useState([]);
@@ -17,11 +19,19 @@ const QuestionPool = ({ setShowGame }) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/questions');
-        const questionsWithCorrectAnswers = response.data.questions.map((question) => {
-          const correctAnswer = question.answers?.find(ans => ans.correct) || null;
-          return { ...question, correctAnswer };
-        });
+        const response = await axios.get(`http://localhost:${port}/api/questions`);
+        // const questionsWithCorrectAnswers = response.data.questions.map((question) => {
+        //   const correctAnswer = question.answers?.find(ans => ans.correct) || null;
+        //   return { ...question, correctAnswer };
+        // });
+		const questionsWithCorrectAnswers = response.data.filter(q =>
+			q.answers.some(a => a.correct === true)
+		).map(q => ({
+			id: q.id,
+			question: q.question,
+			answers: q.answers,
+			user_created: q.user_created,
+		}));
         setQuestions(questionsWithCorrectAnswers);
         console.log('Fetched Questions:', questionsWithCorrectAnswers);
       } catch (error) {
@@ -39,20 +49,31 @@ const QuestionPool = ({ setShowGame }) => {
   const handleSaveNewQuestion = async () => {
     if (newQuestion && newAnswer) {
       try {
-        const response = await axios.post('http://localhost:5001/api/questions', {
-          question: newQuestion,
-          answer: newAnswer,
-          correct: true, 
-          user_created: true, 
+		const q = {
+			question: newQuestion,
+			answers: [
+				{
+					text: newAnswer,
+					correct: true,
+				},
+			],
+		};
+        const response = await axios.post(`http://localhost:${port}/api/questions`, {
+          question: q,
         });
-        const updatedQuestions = await axios.get('http://localhost:5001/api/questions');
-        const questionsWithCorrectAnswers = updatedQuestions.data.questions.map((question) => {
-          const correctAnswer = question.answers?.find(ans => ans.correct) || null;
-          return { ...question, correctAnswer };
-        });
-  
+
+		const updatedQuestions = await axios.get(`http://localhost:${port}/api/questions`);
+        const questionsWithCorrectAnswers = updatedQuestions.data.filter(q =>
+			q.answers.some(a => a.correct === true)
+		).map(q => ({
+			id: q.id,
+			question: q.question,
+			answers: q.answers,
+			user_created: q.user_created,
+		}));
+
         setQuestions(questionsWithCorrectAnswers);
-  
+
         setNewQuestion('');
         setNewAnswer('');
         setShowNewQuestionInput(false);
@@ -61,30 +82,31 @@ const QuestionPool = ({ setShowGame }) => {
       }
     }
   };
+
   const handleDeleteQuestion = async (questionId) => {
-    console.log("Deleting question with ID:", questionId); 
+    console.log("Deleting question with ID:", questionId);
     const updatedQuestions = questions.filter(q => q.id !== questionId);
     const updatedQuestionsWithCorrectAnswers = updatedQuestions.map((question) => {
       const correctAnswer = question.answers?.find(ans => ans.correct) || null;
       return { ...question, correctAnswer };
     });
-  
+
     setQuestions(updatedQuestionsWithCorrectAnswers);
-  
+
     try {
-      await axios.delete(`http://localhost:5001/api/questions/${questionId}`);
+      await axios.delete(`http://localhost:${port}/api/questions/${questionId}`);
     } catch (error) {
       console.error('Error deleting question:', error);
-  
-      const updatedQuestionsFromServer = await axios.get('http://localhost:5001/api/questions');
+
+      const updatedQuestionsFromServer = await axios.get(`http://localhost:${port}/api/questions`);
       setQuestions(updatedQuestionsFromServer.data.questions);
     }
   };
-  
-  
-  
-  
-  
+
+
+
+
+
   return showQuiz ? (
     <Quiz setShowGame={setShowGame} />
   ) : (
@@ -144,10 +166,10 @@ const QuestionPool = ({ setShowGame }) => {
   {questions.map((item, questionIndex) => (
     <div key={questionIndex} className="flex flex-col space-y-2">
       <div className="flex items-center space-x-4">
-        {item.user_created ? (  
+        {(item.user_created === true) ? (
           <button
             className="text-red-500"
-            onClick={() => handleDeleteQuestion(item.id)} 
+            onClick={() => handleDeleteQuestion(item.id)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -173,7 +195,7 @@ const QuestionPool = ({ setShowGame }) => {
       </div>
 
       <div className="flex flex-col">
-        {item.correctAnswer ? (
+        {/* {item.correctAnswer ? (
           <div className="text-2xl mt-2 text-green-500" style={{ fontFamily: 'Pixelify Sans' }}>
             {item.correctAnswer.text}
           </div>
@@ -181,7 +203,19 @@ const QuestionPool = ({ setShowGame }) => {
           <div className="text-2xl mt-2 text-red-500" style={{ fontFamily: 'Pixelify Sans' }}>
             No correct answer available
           </div>
-        )}
+        )} */
+
+		  item.answers.some(a => a.correct === true) ? (
+			<div className="text-2xl mt-2 text-green-500" style={{ fontFamily: 'Pixelify Sans' }}>
+			  {item.answers.find(a => a.correct === true).text}
+			</div>
+		  ) : (
+			<div className="text-2xl mt-2 text-red-500" style={{ fontFamily: 'Pixelify Sans' }}>
+			  No correct answer available
+			</div>
+		  )
+
+		}
       </div>
     </div>
   ))}

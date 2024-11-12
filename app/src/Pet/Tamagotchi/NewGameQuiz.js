@@ -3,22 +3,29 @@ import { money } from '../../svg.js';
 import Quiz from './quiz';
 import axios from 'axios';
 
+const port = 5000;
+
 const NewGameQuiz = ({ setShowGame }) => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null); 
-  const [correctAnswersCount, setCorrectAnswersCount] = useState(0); 
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
   const [noMoreQuestions, setNoMoreQuestions] = useState(false);
-  const [userAnswers, setUserAnswers] = useState([]); 
+  const [userAnswers, setUserAnswers] = useState([]);
   const [userAnswer, setUserAnswer] = useState('');
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/questions');
+        const response = await axios.get(`http://localhost:${port}/api/questions`);
         console.log('Fetched Questions:', response.data.questions);
-        setQuestions(response.data.questions);
+        setQuestions(response.data.map(q => ({
+			id: q.id,
+			question: q.question,
+			answers: q.answers,
+			correctAnswer: q.correctAnswer,
+		})));
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
@@ -29,9 +36,9 @@ const NewGameQuiz = ({ setShowGame }) => {
   useEffect(() => {
     console.log('Current user answer:', userAnswer);
   }, [userAnswer]);
-  
+
   if (questions.length === 0) {
-    return <div>Loading questions...</div>; 
+    return <div>Loading questions...</div>;
   }
 
   const handleQuizClick = (index) => {
@@ -43,30 +50,30 @@ const NewGameQuiz = ({ setShowGame }) => {
   };
   const handleNextClick = () => {
     const currentQuestion = questions[currentQuestionIndex];
-    
+
     console.log('User Input (before handling next question):', userAnswer);
-    
+
     if (currentQuestion.user_created) {
       if (userAnswer.trim() !== "") {
         const correctAnswerText = currentQuestion.correctAnswer?.text?.trim().toLowerCase() || '';
         const userAnswerTrimmed = userAnswer.trim().toLowerCase();
-        
+
         const isCorrect = userAnswerTrimmed === correctAnswerText;
-        
+
         setUserAnswers((prevAnswers) => [
           ...prevAnswers,
           {
             question: currentQuestion.question,
-            selectedAnswer: userAnswer,  
+            selectedAnswer: userAnswer,
             isCorrect,
-            user_created: true, 
+            user_created: true,
           }
         ]);
-    
+
         if (isCorrect) {
           setCorrectAnswersCount((prev) => prev + 1);
         }
-    
+
         setUserAnswer('');
       } else {
         console.log('Input is empty for user-created question');
@@ -76,34 +83,34 @@ const NewGameQuiz = ({ setShowGame }) => {
       if (correctAnswer && selectedAnswerIndex !== null) {
         const selectedAnswer = currentQuestion.answers[selectedAnswerIndex];
         const isCorrect = selectedAnswer.text === correctAnswer.text;
-    
+
         setUserAnswers((prevAnswers) => [
           ...prevAnswers,
           {
             question: currentQuestion.question,
-            selectedAnswer: selectedAnswer.text, 
+            selectedAnswer: selectedAnswer.text,
             isCorrect,
-            user_created: false,  
+            user_created: false,
           }
         ]);
-    
+
         if (isCorrect) {
           setCorrectAnswersCount((prev) => prev + 1);
         }
       }
     }
-    
+
     setSelectedAnswerIndex(null);
-    
+
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setNoMoreQuestions(true);  
+      setNoMoreQuestions(true);
     }
   };
-  
-  
-  
+
+
+
   const handlePreviousClick = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
@@ -113,7 +120,7 @@ const NewGameQuiz = ({ setShowGame }) => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return showQuiz ? (
-    
+
     <Quiz setShowGame={setShowGame} />
   ) : (
     <div className="flex flex-1 text-white">
@@ -132,7 +139,7 @@ const NewGameQuiz = ({ setShowGame }) => {
           height: '600px',
           border: '1px solid #B957CE',
           padding: '20px',
-          overflowY: 'auto', 
+          overflowY: 'auto',
         }}
       >
         <div
@@ -209,18 +216,18 @@ const NewGameQuiz = ({ setShowGame }) => {
              <input
   type="text"
   placeholder="Type your answer"
-  value={userAnswer}  
+  value={userAnswer}
   onChange={(e) => {
     const newValue = e.target.value;
-    setUserAnswer(newValue);  
-    console.log('User Input (while typing):', newValue); 
-  }}  
-  className="p-2 rounded text-black bg-white"  
+    setUserAnswer(newValue);
+    console.log('User Input (while typing):', newValue);
+  }}
+  className="p-2 rounded text-black bg-white"
   style={{
     width: '100%',
     padding: '10px',
     fontSize: '16px',
-    border: '2px solid #B957CE', 
+    border: '2px solid #B957CE',
     borderRadius: '5px',
   }}
 />
@@ -233,16 +240,16 @@ const NewGameQuiz = ({ setShowGame }) => {
                   key={index}
                   className={`text-3xl cursor-pointer hover:text-[#B957CE] ${
                     selectedAnswerIndex === index
-                      ? 'border-2 border-[#B957CE] rounded-full inline-block px-2 py-0.5' 
+                      ? 'border-2 border-[#B957CE] rounded-full inline-block px-2 py-0.5'
                       : ''
                   }`}
                   onClick={() => handleQuizClick(index)}
                   style={{
-                    display: 'inline-block', 
-                    borderRadius: '50%', 
-                    padding: '0.2rem 0.5rem', 
+                    display: 'inline-block',
+                    borderRadius: '50%',
+                    padding: '0.2rem 0.5rem',
                     lineHeight: '1.5',
-                    whiteSpace: 'nowrap', 
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {answer.text}
