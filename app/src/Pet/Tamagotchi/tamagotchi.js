@@ -45,7 +45,7 @@ function App_t() {
 
   const backgroundStyle = (showGame || showMarket || showInventory)
     ? { backgroundColor: '#2A2356' }
-    : { backgroundImage: `url('https://i.postimg.cc/JznxpgQY/itukoza.jpg')` };
+    : { backgroundImage: `url('https://i.postimg.cc/sXdFD24k/pes3.png')` };
 
   const icons = showGame
     ? { firstIcon: game(), secondIcon: homeB(), thirdIcon: shop() }

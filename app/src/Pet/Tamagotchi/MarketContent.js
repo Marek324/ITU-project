@@ -23,13 +23,13 @@ const MarketContent = () => {
         }}
       >
         <img 
-          src="https://i.postimg.cc/kGxYnpp1/kozachat.png" 
+          src="https://i.postimg.cc/rmjLnk57/peshat.png" 
           alt="Character" 
           className="absolute"
           style={{
-            top: '110px',  
-            left: '42%',  
-            width: '200px',  
+            top: '90px',  
+            left: '40%',  
+            width: '270px',  
             height: 'auto'
           }}
         />
