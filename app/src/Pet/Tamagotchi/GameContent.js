@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { money } from '../../svg.js';
 import Quiz from './quiz.js';
 import Game from '../FlappyBird/Game.js'; 
+import GameHop from '../Hop/Game.js'; 
 
 const GameContent = ({ setShowGame }) => {
   const [currentGame, setCurrentGame] = useState(null);
 
-  const handleKozaHopClick = () => setCurrentGame('koza');
+  const handleKozaHopClick = () => setCurrentGame('GameHop');  
   const handleQuizClick = () => setCurrentGame('Quiz');
   const handleFlappyPetClick = () => setCurrentGame('FlappyPet');
 
@@ -82,6 +83,8 @@ const GameContent = ({ setShowGame }) => {
         <Quiz setShowGame={setShowGame} />
       ) : currentGame === 'FlappyPet' ? (
         <Game setShowGame={setShowGame} />
+      ) : currentGame === 'GameHop' ? ( 
+        <GameHop setShowGame={setShowGame} />
       ) : (
         <div className="text-white">Game not implemented yet!</div>
       )}
