@@ -208,7 +208,74 @@
 			"fpId": 3
 		}
 	],
+  
+    "shop": [
+      {
+        "id": 1,
+        "name": "Pet Food",
+        "price": 5,
+        "count": 100,
+        "icon": "food_02"
+      },
+      {
+        "id": 2,
+        "name": "Pet Food 2",
+        "price": 20,
+        "count": 50,
+        "icon": "food_01"
 
+      },
+      {
+        "id": 3,
+        "name": "Pet Food 3",
+        "price": 10,
+        "count": 70,
+        "icon": "food_02"
+
+      },
+      {
+        "id": 4,
+        "name": "Hat",
+        "price": 7,
+        "count": 150,
+        "icon": "hatS"
+      },
+      {
+        "id": 5,
+        "name": "Collar",
+        "price": 8,
+        "count": 60,
+        "icon": "pallete"
+      },
+      {
+        "id": 6,
+        "name": "Ball",
+        "price": 15,
+        "count": 80,
+        "icon": "hatS"
+      },
+      {
+        "id": 7,
+        "name": "Background",
+        "price": 25,
+        "count": 30,
+        "icon": "background"
+      },
+      {
+        "id": 8,
+        "name": "Pallete",
+        "price": 12,
+        "count": 40,
+        "icon": "pallete"
+      },
+      {
+        "id": 9,
+        "name": "Toy",
+        "price": 50,
+        "count": 20,
+        "icon": "hatS"
+      }
+    ],
 	"hop": [
 		{
 			"id": 0,

@@ -107,7 +107,63 @@ app.delete("/api/articles/:id", async (req, res) => {
 	await db.write();
 	res.code(200).send({ message: 'Article deleted successfully' });
 });
+// ================================================
+// ===================== SHOP =====================
+// ================================================
 
+app.get('/api/shop', async (req, res) => {
+	await db.read();
+	res.send(db.data.shop);
+  });
+  
+  app.get('/api/shop/:id', async (req, res) => {
+	await db.read();
+	const item = db.data.shop.find(item => item.id === req.params.id);
+	if (!item) {
+	  res.status(404).send({ message: 'Item not found' });
+	  return;
+	}
+	res.send(item);
+  });
+  
+  app.post('/api/shop', async (req, res) => {
+	await db.read();
+	const newItem = {
+	  id: genId(),
+	  name: req.body.name,
+	  price: req.body.price,
+	  count: req.body.count,
+	  icon: req.body.icon,
+	};
+	db.data.shop.push(newItem);
+	await db.write();
+	res.status(201).send({ message: 'Item added successfully', item: newItem });
+  });
+  
+  app.put('/api/shop/:id', async (req, res) => {
+	await db.read();
+	const index = db.data.shop.findIndex(item => item.id === req.params.id);
+	if (index === -1) {
+	  res.status(404).send({ message: 'Item not found' });
+	  return;
+	}
+	db.data.shop[index] = { ...db.data.shop[index], ...req.body };
+	await db.write();
+	res.status(200).send({ message: 'Item updated successfully', item: db.data.shop[index] });
+  });
+  
+  app.delete('/api/shop/:id', async (req, res) => {
+	await db.read();
+	const index = db.data.shop.findIndex(item => item.id === req.params.id);
+	if (index === -1) {
+	  res.status(404).send({ message: 'Item not found' });
+	  return;
+	}
+	db.data.shop.splice(index, 1);
+	await db.write();
+	res.status(200).send({ message: 'Item deleted successfully' });
+  });
+  
 // ================================================
 // ===================== Animals ==================
 // ================================================
