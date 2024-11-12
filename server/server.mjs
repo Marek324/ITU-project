@@ -272,10 +272,29 @@ app.delete('/api/games/:id', async (req, res) => {
 
 	await db.write();
 	res.status(200).send({ message: 'Game deleted successfully' });
-
-
 });
 
+app.get('/api/games', async (req, res) => {
+	await db.read();
+
+	const games = db.data.games;
+
+	res.send(games);
+});
+
+app.get('/api/games/:id', async (req, res) => {
+	await db.read();
+
+	const { id } = req.params;
+	const game = db.data.games.find(g => g.id === id);
+
+	if (!game) {
+		res.status(404).send('Game not found');
+		return;
+	}
+
+	res.status(200).send(game);
+});
 
 //FP API
 app.delete('/api/fp/:id', async (req, res) => {
@@ -294,4 +313,26 @@ app.delete('/api/fp/:id', async (req, res) => {
 
 	await db.write();
 	res.status(200).send({ message: 'FP deleted successfully' });
+});
+
+app.get('/api/fp/:id', async (req, res) => {
+	await db.read();
+
+	const { id } = req.params;
+	const game = db.data.fp.find(g => g.id === id);
+
+	if (!game) {
+		res.status(404).send('FP not found');
+		return;
+	}
+
+	res.status(200).send(game);
+});
+
+app.get('/api/fp', async (req, res) => {
+	await db.read();
+
+	const games = db.data.fp;
+
+	res.send(games);
 });

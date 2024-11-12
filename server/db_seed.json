@@ -193,31 +193,28 @@
 	],
 	"games": [
 		{
-			"_comment": "MAKOVICE, PŘIDEJ SI TADY DO TĚCH TABULEK TABULKY TEN KOZAHOP"
-		},
-		{
 			"id": 0,
 			"animalId": 1,
 			"money": 0,
-			"FPID": 0
+			"fpId": 0
 		},
 		{
 			"id": 1,
 			"animalId": 2,
 			"money": 20,
-			"FPID": 1
+			"fpId": 1
 		},
 		{
 			"id": 2,
 			"animalId": 3,
 			"money": 30,
-			"FPID": 2
+			"fpId": 2
 		},
 		{
 			"id": 3,
 			"animalId": 4,
 			"money": 40,
-			"FPID": 3
+			"fpId": 3
 		}
 	],
 
