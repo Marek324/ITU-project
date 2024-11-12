@@ -9,7 +9,7 @@ import MarketContent from 'Pet/Tamagotchi/MarketContent.js';
 import InventoryContent from 'Pet/Tamagotchi/InventoryContent.js';
 import { game, food, shop, hat, home, check, homeB, shopping_cart } from 'svg.js';
 
-function App_t() {
+function Tamagotchi() {
   const [showGame, setShowGame] = useState(false);
   const [showMarket, setShowMarket] = useState(false);
   const [showHome, setShowHome] = useState(false);
@@ -90,4 +90,4 @@ function App_t() {
   );
 }
 
-export default App_t;
+export default Tamagotchi;

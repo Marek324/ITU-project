@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
-import { CreateMessage, GetMessages, DeleteMessage } from "services/ChatService";
-import Chat from 'components/chat/Chat';
+import { CreateMessage, GetChat, DeleteMessage } from "services/ChatService";
+import Chat from 'components/chat/ChatView';
 
-const ChatController = ({adminMode}) => {
-	const articleId = { id } = useParams();
+const ChatController = ({ articleId, adminMode} ) => {
 
 
-	const [messages, setMessages] = useState([]);
+	const [messages, setMessages] = useState({ messages: [] });
 
 	const fetchMessages= async () => {
 		try {
-			const fetchedMessages = await GetMessages(articleId);
+			const fetchedMessages = await GetChat(articleId);
 			setMessages(fetchedMessages);
 		} catch (error) {
 			console.error('Error fetching chat:', error);
@@ -28,18 +27,20 @@ const ChatController = ({adminMode}) => {
 	};
 
 	useEffect(() => {
+		fetchMessages();
+	}, []);
+
+	useEffect(() => {
 		const timer = setTimeout(() => {
 		  fetchMessages();
 		}, 2000);
 
-		return () => {
-		  clearTimeout(timer);
-		};
+		return () => clearTimeout(timer);
 	  }, []);
 
 	return (
 		<Chat
-			messages={messages}
+			messages={messages.messages}
 			adminMode={adminMode}
 			onDeleteClick={handleDeleteClick}
 			onSave={handleSave}

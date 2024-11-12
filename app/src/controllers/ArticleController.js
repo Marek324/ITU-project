@@ -1,4 +1,5 @@
-import { useState, useEffect, useParams } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import ArticleView from 'pages/ArticleView';
 import { GetArticle, DeleteArticle, UpdateArticle } from 'services/BlogService';
 
@@ -8,7 +9,7 @@ const ArticleController = () => {
 	const [article, setArticle] = useState({});
 	const [adminMode, setAdminMode] = useState(false);
 
-	const fetchArticle = async () => {
+	const fetch = async () => {
 		try {
 			const fetchedArticle = await GetArticle(id);
 			setArticle(fetchedArticle);
@@ -21,25 +22,27 @@ const ArticleController = () => {
 
 	const handleDeleteClick = async (id) =>  {
 		await DeleteArticle(id);
-		fetchArticle();
+		fetch();
 	};
 
 	const handleUpdate = async (newArticleData) => {
 		await UpdateArticle(id, newArticleData);
-		fetchArticle();
+		fetch();
 	};
 
 	useEffect(() => {
-		fetchArticle();
+		fetch();
 	}, []);
 
-	return <ArticleView
+	return (
+	<ArticleView
 		article={article}
 		adminMode={adminMode}
 		onAdminModeClick={toggleAdminMode}
 		onDeleteClick={handleDeleteClick}
 		onUpdateClick={handleUpdate}
-	/>;
+	/>
+);
 }
 
 export default ArticleController;

@@ -1,13 +1,11 @@
 import axios from 'axios';
 const port = 5000;
 
-export async function GetMessages(articleId) {
+export async function GetChat(articleId) {
 	try {
 		const response = await axios.get(`http://localhost:${port}/api/articles/${articleId}/chat`);
-		return response.data.map(m => ({
-			author: m.author,
-			message: m.message
-		}));
+
+		return response.data;
 	} catch (error) {
 		console.error('Error fetching articles:', error);
 		return [];

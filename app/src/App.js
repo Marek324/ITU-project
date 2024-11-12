@@ -7,7 +7,7 @@ import AnimalDetailsController from "controllers/AnimalDetailsController";
 import Game from "Pet/FlappyBird/Game";
 import BlogController from 'controllers/BlogController';
 import ArticleController from 'controllers/ArticleController';
-import App_t from "Pet/Tamagotchi/tamagotchi";
+import Tamagotchi from "Pet/Tamagotchi/tamagotchi";
 
 function App() {
 	return (
@@ -15,10 +15,10 @@ function App() {
 			<Routes>
 				<Route index element={<MainPageController />} />
 				<Route path="/blog" element={<BlogController />} />
-				<Route path="/blog:id" element={<ArticleController />} />
+				<Route path="/blog/:id" element={<ArticleController />} />
 				<Route path="/animal/:id" element={<AnimalDetailsController />} />
 				<Route path="/animal/:id/flappypet" element={<Game />} />
-				<Route path="/animal/:id/tamagotchi" element={<App_t />} />
+				<Route path="/animal/:id/tamagotchi" element={<Tamagotchi />} />
 			</Routes>
 		</BrowserRouter>
 	);

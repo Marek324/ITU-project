@@ -27,9 +27,10 @@ const BlogView = ({articles, adminMode, onAdminModeClick, onDeleteClick, onSave}
 	return (
 		<div className='App bg-Main_BG'>
 			<AdoptHeader onAdminModeClick={onAdminModeClick} />
-			{articles.map((article, index) => (
-				<ArticleTile key={index} article={article} adminMode={adminMode} onDeleteClick={onDeleteClick} />
-			))}
+			{articles
+				.map((article, index) => (
+					<ArticleTile key={index} article={article} adminMode={adminMode} onDeleteClick={onDeleteClick} />
+				))}
 			{adminMode && <button onClick={() => setAdd(true)} className="bg-green-500 text-white p-2 rounded-lg">{add_icon()}</button>}
 
 			{add &&
