@@ -18,7 +18,7 @@ function Game() {
 		ballLeftPos: 10
 	};
 
-	const [score, setScore] = useState(2);
+	const [score, setScore] = useState(0);
 	const [ballTopPos, setBallTopPos] = useState(window.innerHeight / 2);
 	const [velocity, setVelocity] = useState(0);
 	const [obstacles, setObstacles] = useState([]);
@@ -216,9 +216,9 @@ function Game() {
 		setShowPopup(false);
 		setObstacles([]);
 		setBallTopPos(window.innerHeight / 2);
-		setVelocity(0);
-		setScore(2); // Reset score
-		setPassedObstacles([]); // Reset passed obstacles
+		setVelocity(-maxVelocity);
+		setScore(0);
+		setPassedObstacles([]);
 	}
 
 	return (
