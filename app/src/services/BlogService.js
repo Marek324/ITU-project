@@ -10,7 +10,6 @@ export async function GetArticles() {
 			author: article.author,
 			date: article.date,
 			content: article.content,
-			description: article.content.substring(0, 50),
 			image: article.image
 		}));
 	} catch (error) {
@@ -29,11 +28,35 @@ export async function GetArticle(id) {
 			author: article.author,
 			date: article.date,
 			content: article.content,
-			description: article.content.substring(0, 50),
 			image: article.image
 		}
 		} catch (error) {
 			console.error('Error fetching articles:', error);
 			return null;
 		}
+}
+
+export async function CreateArticle(article) {
+	try {
+		await axios.post(`http://localhost:${port}/api/articles`, article);
+	} catch (error) {
+		console.error('Error creating article:', error);
+	}
+}
+
+export async function UpdateArticle(id, article) {
+	try {
+		await axios.put(`http://localhost:${port}/api/articles/${id}`, article);
+	} catch (error) {
+		console.error('Error updating article:', error);
+	}
+}
+
+
+export async function DeleteArticle(id) {
+	try {
+		await axios.delete(`http://localhost:${port}/api/articles/${id}`);
+	} catch (error) {
+		console.error('Error deleting article:', error);
+	}
 }

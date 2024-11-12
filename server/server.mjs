@@ -56,6 +56,10 @@ app.get('/api/animals/:id', async (req, res) => {
 	res.send(data);
 });
 
+// ================================================
+// ===================== Blog =====================
+// ================================================
+
 app.get('/api/articles', async (req, res) => {
 	await db.read();
 
@@ -76,18 +80,19 @@ app.get('/api/articles/:id', async (req, res) => {
 app.post('/api/articles', async (req, res) => {
 	await db.read();
 
-	const { title, author, date, content, image } = req.body;
 
-	const articleId = genId();
 
-	db.data.articles[articleId] = {
-		id: articleId,
-		author: author,
-		title: title,
-		datetime: date,
-		contemt: content,
-		image: image
+	const newArticle = {
+		id: genId(),
+		title: req.body.title,
+		author: req.body.author,
+		datetime: new Date(),
+		content: req.body.content,
+		image: req.body.image,
 	};
+	console.log(newArticle);
+
+	db.data.articles.push(newArticle);
 
 	await db.write();
 	res.status(200).send({ id: articleId ,message: 'Article added successfully' });
@@ -99,6 +104,10 @@ app.put('/api/articles/:id', async (req, res) => {
 
 	const { id } = req.params;
 
+	const updatedArticle = req.body;
+
+	db.data.articles[id] = updatedArticle;
+
 	await db.write();
 	res.status(200).send({ message: 'Article updated successfully' });
 });
@@ -106,13 +115,12 @@ app.put('/api/articles/:id', async (req, res) => {
 //delete
 app.delete("/api/articles/:id", async (req, res) => {
 	await db.read();
-
 	const { id } = req.params;
 
-	delete db.data.articles[id];
+	db.data.articles = db.data.articles.filter(a => String(a.id) !== id);
 
 	await db.write();
-	res.status(200).send({ message: 'Article deleted successfully' });
+	res.code(200).send({ message: 'Article deleted successfully' });
 });
 
 app.post('/api/animals', async (req, res) => {
