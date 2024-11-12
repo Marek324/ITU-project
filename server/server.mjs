@@ -8,8 +8,6 @@ import { v4 as genId } from 'uuid';
 
 const seed = process.argv[2] === 'seed';
 
-console.log(seed);
-
 const app = fastify({ logger: true });
 const port = 5000;
 
@@ -31,7 +29,6 @@ let db;
 		} else {
 			db = await JSONFilePreset('db.json', db_model);
 		}
-		console.log(db.data);
 		await app.listen({port: port});
 	} catch (err) {
 		app.log.error(err);
@@ -143,64 +140,84 @@ app.delete('/api/animals/:id', async (req, res) => {
 app.get('/api/questions', async (req, res) => {
 	await db.read();
 
-	const questions = [];
-	let currentQuestion = null;
+	// const questions = [];
+	// let currentQuestion = null;
 
-	db.data.questions.forEach(row => {
-	  if (currentQuestion && currentQuestion.id !== row.question_id) {
-		questions.push(currentQuestion);
-		currentQuestion = null;
-	  }
+	// db.data.questions.forEach(row => {
+	//   if (currentQuestion && currentQuestion.id !== row.question_id) {
+	// 	questions.push(currentQuestion);
+	// 	currentQuestion = null;
+	//   }
 
-	  if (!currentQuestion) {
-		currentQuestion = {
-		  id: row.question_id,
-		  question: row.question,
-		  user_created: row.user_created,
-		  answers: [],
-		};
-	  }
+	//   if (!currentQuestion) {
+	// 	currentQuestion = {
+	// 	  id: row.question_id,
+	// 	  question: row.question,
+	// 	  user_created: row.user_created,
+	// 	  answers: [],
+	// 	};
+	//   }
 
-	  currentQuestion.answers.push({
-		id: row.answer_id,
-		text: row.text,
-		correct: row.correct,
-	  });
-	});
+	//   currentQuestion.answers.push({
+	// 	id: row.answer_id,
+	// 	text: row.text,
+	// 	correct: row.correct,
+	//   });
+	// });
 
-	if (currentQuestion) {
-	  questions.push(currentQuestion);
-	}
+	// if (currentQuestion) {
+	//   questions.push(currentQuestion);
+	// }
 
-	res.send({ questions });
+	res.send( db.data.questions );
 });
 
 app.post('/api/questions', async (req, res) => {
-	const { question, answers, correct } = req.body;
-
-	if (!question || !answers || !correct) {
-		res.status(400).send('Missing required fields');
-		return;
-	}
-
 	await db.read();
+
+	// const new_question = {
+	// 	id: genId(),
+	// 	question: req.body.question,
+	// 	answers: [{
+	// 		id: genId(),
+	// 		text: req.body.answers.text,
+	// 		correct: true,
+	// 	}],
+	// 	user_created: true,
+	// }
 
 	let new_question = {
 		id: genId(),
-		question: question,
+		question: '',
+		answers: [],
 		user_created: true,
-	}
+	};
 
-	new_question.answers = answers.map((answer, idx) => ({
-		id: genId(),
-		text: answer,
-		correct: idx === correct,
-	}));
+	Object.assign(new_question, req.body.question);
+
+	// console.log(new_question);
+
+	// const { question, answers, correct } = req.body;
+
+	// let new_question = {
+	// 	id: genId(),
+	// 	question: question,
+	// 	user_created: true,
+	// }
+
+	// console.log(new_question);
+
+	// new_question.answers =  answers.map((answer, idx) => ({
+	// 	id: genId(),
+	// 	text: answer,
+	// 	correct: idx === correct,
+	// }));
+
 
 	db.data.questions.push(new_question);
 
-	res.status(200).send({ message: 'Question added successfully' });
 	await db.write();
+	res.status(200).send({ message: 'Question added successfully' });
 });
 
 app.delete('/api/questions/:id', async (req, res) => {

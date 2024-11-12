@@ -20,10 +20,18 @@ const QuestionPool = ({ setShowGame }) => {
     const fetchQuestions = async () => {
       try {
         const response = await axios.get(`http://localhost:${port}/api/questions`);
-        const questionsWithCorrectAnswers = response.data.questions.map((question) => {
-          const correctAnswer = question.answers?.find(ans => ans.correct) || null;
-          return { ...question, correctAnswer };
-        });
+        // const questionsWithCorrectAnswers = response.data.questions.map((question) => {
+        //   const correctAnswer = question.answers?.find(ans => ans.correct) || null;
+        //   return { ...question, correctAnswer };
+        // });
+		const questionsWithCorrectAnswers = response.data.filter(q =>
+			q.answers.some(a => a.correct === true)
+		).map(q => ({
+			id: q.id,
+			question: q.question,
+			answers: q.answers,
+			user_created: q.user_created,
+		}));
         setQuestions(questionsWithCorrectAnswers);
         console.log('Fetched Questions:', questionsWithCorrectAnswers);
       } catch (error) {
@@ -41,17 +49,28 @@ const QuestionPool = ({ setShowGame }) => {
   const handleSaveNewQuestion = async () => {
     if (newQuestion && newAnswer) {
       try {
+		const q = {
+			question: newQuestion,
+			answers: [
+				{
+					text: newAnswer,
+					correct: true,
+				},
+			],
+		};
         const response = await axios.post(`http://localhost:${port}/api/questions`, {
-          question: newQuestion,
-          answer: newAnswer,
-          correct: true,
-          user_created: true,
+          question: q,
         });
-        const updatedQuestions = await axios.get(`http://localhost:${port}/api/questions`);
-        const questionsWithCorrectAnswers = updatedQuestions.data.questions.map((question) => {
-          const correctAnswer = question.answers?.find(ans => ans.correct) || null;
-          return { ...question, correctAnswer };
-        });
+
+		const updatedQuestions = await axios.get(`http://localhost:${port}/api/questions`);
+        const questionsWithCorrectAnswers = updatedQuestions.data.filter(q =>
+			q.answers.some(a => a.correct === true)
+		).map(q => ({
+			id: q.id,
+			question: q.question,
+			answers: q.answers,
+			user_created: q.user_created,
+		}));
 
         setQuestions(questionsWithCorrectAnswers);
 
@@ -63,6 +82,7 @@ const QuestionPool = ({ setShowGame }) => {
       }
     }
   };
+
   const handleDeleteQuestion = async (questionId) => {
     console.log("Deleting question with ID:", questionId);
     const updatedQuestions = questions.filter(q => q.id !== questionId);
@@ -146,7 +166,7 @@ const QuestionPool = ({ setShowGame }) => {
   {questions.map((item, questionIndex) => (
     <div key={questionIndex} className="flex flex-col space-y-2">
       <div className="flex items-center space-x-4">
-        {item.user_created ? (
+        {(item.user_created === true) ? (
           <button
             className="text-red-500"
             onClick={() => handleDeleteQuestion(item.id)}
@@ -175,7 +195,7 @@ const QuestionPool = ({ setShowGame }) => {
       </div>
 
       <div className="flex flex-col">
-        {item.correctAnswer ? (
+        {/* {item.correctAnswer ? (
           <div className="text-2xl mt-2 text-green-500" style={{ fontFamily: 'Pixelify Sans' }}>
             {item.correctAnswer.text}
           </div>
@@ -183,7 +203,19 @@ const QuestionPool = ({ setShowGame }) => {
           <div className="text-2xl mt-2 text-red-500" style={{ fontFamily: 'Pixelify Sans' }}>
             No correct answer available
           </div>
-        )}
+        )} */
+
+		  item.answers.some(a => a.correct === true) ? (
+			<div className="text-2xl mt-2 text-green-500" style={{ fontFamily: 'Pixelify Sans' }}>
+			  {item.answers.find(a => a.correct === true).text}
+			</div>
+		  ) : (
+			<div className="text-2xl mt-2 text-red-500" style={{ fontFamily: 'Pixelify Sans' }}>
+			  No correct answer available
+			</div>
+		  )
+
+		}
       </div>
     </div>
   ))}

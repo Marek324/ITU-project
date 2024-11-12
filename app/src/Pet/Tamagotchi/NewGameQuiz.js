@@ -20,7 +20,12 @@ const NewGameQuiz = ({ setShowGame }) => {
       try {
         const response = await axios.get(`http://localhost:${port}/api/questions`);
         console.log('Fetched Questions:', response.data.questions);
-        setQuestions(response.data.questions);
+        setQuestions(response.data.map(q => ({
+			id: q.id,
+			question: q.question,
+			answers: q.answers,
+			correctAnswer: q.correctAnswer,
+		})));
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
