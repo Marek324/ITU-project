@@ -22,15 +22,15 @@ function AdoptHeader({ onAdminModeClick }) {
 				px-4"
 			>
 			<div className="flex">
-				{!isHome && <Link to="/" className="col-start-1 content-center">{home_icon()}</Link>}
+				{!isHome && <Link to={link_back} className="col-start-1 content-center">{home_icon()}</Link>}
 				<button className="mr-4" style={{ width: '48px', height: '48px' }} onClick={onAdminModeClick}>
 					{adminMode()}
 				</button>
 			</div>
 			<h1 className="text-3xl text-center font-Pet_Title text-border">Adopt & Play</h1>
 			<div className="flex">
-				<Link to={link_back} className="content-center">{adopt_icon()}</Link>
-				<Link to={link_back} className="content-center">{blog_icon()}</Link>
+				<Link to="/" className="content-center">{adopt_icon()}</Link>
+				<Link to="/blog" className="content-center">{blog_icon()}</Link>
 			</div>
 		</header>
 	);
