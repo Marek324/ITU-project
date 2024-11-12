@@ -107,7 +107,63 @@ app.delete("/api/articles/:id", async (req, res) => {
 	await db.write();
 	res.code(200).send({ message: 'Article deleted successfully' });
 });
+// ================================================
+// ===================== SHOP =====================
+// ================================================
 
+app.get('/api/shop', async (req, res) => {
+	await db.read();
+	res.send(db.data.shop);
+  });
+  
+  app.get('/api/shop/:id', async (req, res) => {
+	await db.read();
+	const item = db.data.shop.find(item => item.id === req.params.id);
+	if (!item) {
+	  res.status(404).send({ message: 'Item not found' });
+	  return;
+	}
+	res.send(item);
+  });
+  
+  app.post('/api/shop', async (req, res) => {
+	await db.read();
+	const newItem = {
+	  id: genId(),
+	  name: req.body.name,
+	  price: req.body.price,
+	  count: req.body.count,
+	  icon: req.body.icon,
+	};
+	db.data.shop.push(newItem);
+	await db.write();
+	res.status(201).send({ message: 'Item added successfully', item: newItem });
+  });
+  
+  app.put('/api/shop/:id', async (req, res) => {
+	await db.read();
+	const index = db.data.shop.findIndex(item => item.id === req.params.id);
+	if (index === -1) {
+	  res.status(404).send({ message: 'Item not found' });
+	  return;
+	}
+	db.data.shop[index] = { ...db.data.shop[index], ...req.body };
+	await db.write();
+	res.status(200).send({ message: 'Item updated successfully', item: db.data.shop[index] });
+  });
+  
+  app.delete('/api/shop/:id', async (req, res) => {
+	await db.read();
+	const index = db.data.shop.findIndex(item => item.id === req.params.id);
+	if (index === -1) {
+	  res.status(404).send({ message: 'Item not found' });
+	  return;
+	}
+	db.data.shop.splice(index, 1);
+	await db.write();
+	res.status(200).send({ message: 'Item deleted successfully' });
+  });
+  
 // ================================================
 // ===================== Animals ==================
 // ================================================
@@ -365,6 +421,41 @@ app.get('/api/fp', async (req, res) => {
 	const games = db.data.fp;
 
 	res.send(games);
+});
+
+
+
+app.post('/api/hop', async (req, res) => {
+	await db.read();
+
+	const { maxHeight } = req.body;
+
+	if (typeof maxHeight !== 'number') {
+		return res.status(400).send({ error: 'Invalid maxHeight' });
+	}
+
+	const newGame = {
+		id: genId(),
+		height: maxHeight,
+		date: new Date().toISOString(),
+	};
+
+	db.data.hop.push(newGame);
+
+	await db.write();
+	res.status(200).send({ message: 'Game saved successfully', id: newGame.id });
+});
+
+app.get('/api/hop/highest', async (req, res) => {
+	await db.read();
+	const highestGame = db.data.hop.reduce((max, game) => game.height > max.height ? game : max, { height: 0 });
+	res.status(200).send(highestGame);
+});
+
+app.get('/api/hop/scores', async (req, res) => {
+	await db.read();
+	const scores = db.data.hop.map(game => game.height);
+	res.status(200).send(scores);
 });
 
 app.put('/api/fp/:id', async (req, res) => {

@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
+import { getHighestScore, saveScore } from '../../services/HopService';
 import Platform from "./Platform";
+import bgImage from './Assets/bg.jpg'; // Import the background image
+import playerImage from './Assets/pes.png'; // Import the player image
 
 function GameHop() {
 	const [platforms, setPlatforms] = useState([]);
 	const [screenOffset, setScreenOffset] = useState(0);
 	const [playerPosition, setPlayerPosition] = useState({
-		top: window.innerHeight - 60,
-		left: window.innerWidth / 2,
+		top: 607, // Adjusted for the game container height
+		left: 187.5, // Adjusted for the game container width
 	});
 	const [maxHeight, setMaxHeight] = useState(0);
 	const [isJumping, setIsJumping] = useState(false);
@@ -14,11 +17,13 @@ function GameHop() {
 	const [moveLeft, setMoveLeft] = useState(false);
 	const [moveRight, setMoveRight] = useState(false);
 	const [gameOver, setGameOver] = useState(false);
+	const [highestMaxHeight, setHighestMaxHeight] = useState(0);
+	const [gameStarted, setGameStarted] = useState(false);
 	const playerRef = useRef(null);
 
 	const gravity = 0.5;
 	const jumpStrength = 10;
-	const screenScrollThreshold = window.innerHeight / 2;
+	const screenScrollThreshold = 333.5; // Adjusted for the game container height
 	const moveSpeed = 15;
 
 	const generatePlatform = (top, left) => {
@@ -30,9 +35,10 @@ function GameHop() {
 	};
 
 	useEffect(() => {
+		const numberOfPlatforms = Math.floor(375 / 70); // Adjusted for the game container width
 		const initialPlatforms = [
-			generatePlatform(window.innerHeight - 20, window.innerWidth / 2 - 50),
-			...Array.from({ length: 9 }, () => generatePlatform(Math.random() * window.innerHeight, Math.random() * window.innerWidth)),
+			generatePlatform(647, 137.5), // Adjusted for the game container dimensions
+			...Array.from({ length: numberOfPlatforms - 1 }, () => generatePlatform(Math.random() * 667, Math.random() * 375)), // Adjusted for the game container dimensions
 		];
 		setPlatforms(initialPlatforms);
 
@@ -71,10 +77,11 @@ function GameHop() {
 	}, []);
 
 	useEffect(() => {
+		if (!gameStarted || gameOver) return;
+
 		const gameLoop = setInterval(() => {
 			setPlayerPosition((prevPosition) => {
 				let newTop = prevPosition.top + velocity;
-				let newVelocity = velocity + gravity;
 				let newLeft = prevPosition.left;
 
 				if (moveLeft) {
@@ -84,25 +91,27 @@ function GameHop() {
 					newLeft += moveSpeed;
 				}
 
-				if (newTop > window.innerHeight - 20) {
-					newTop = window.innerHeight - 20;
-					newVelocity = 0;
-					setIsJumping(false);
+				if (newTop >= 647 && !isJumping) { // Adjusted for the game container height
 					setGameOver(true); // End the game
+					return prevPosition;
 				}
 
 				if (newTop < screenScrollThreshold) {
 					setScreenOffset((prevOffset) => prevOffset + (screenScrollThreshold - newTop));
-					setMaxHeight((prevMaxHeight) =>
-						Math.max(prevMaxHeight, window.innerHeight - newTop + screenOffset)
-					);
 					newTop = screenScrollThreshold;
 				}
 
 				return { ...prevPosition, top: newTop, left: newLeft };
 			});
 
-			setVelocity((prevVelocity) => prevVelocity + gravity);
+			setVelocity((prevVelocity) => {
+				if (prevVelocity < 0) {
+					setIsJumping(true);
+				} else if (prevVelocity > 0 && isJumping) {
+					setIsJumping(false);
+				}
+				return prevVelocity + gravity;
+			});
 
 			if (velocity < 0) { // Only move platforms when player is moving up
 				setPlatforms((prevPlatforms) => {
@@ -111,10 +120,10 @@ function GameHop() {
 							...platform,
 							top: platform.top + 20,
 						}))
-						.filter((platform) => platform.top < window.innerHeight);
+						.filter((platform) => platform.top < 667); // Adjusted for the game container height
 
-					if (newPlatforms.length < 10) {
-						const newPlatform = generatePlatform(0, Math.random() * window.innerWidth);
+					if (newPlatforms.length < Math.floor(667 / 100)) { // Adjusted for the game container height
+						const newPlatform = generatePlatform(0, Math.random() * 375); // Adjusted for the game container width
 						return [...newPlatforms, newPlatform];
 					}
 
@@ -126,90 +135,166 @@ function GameHop() {
 		}, 30);
 
 		return () => clearInterval(gameLoop);
-	}, [velocity, screenOffset, moveLeft, moveRight]);
+	}, [velocity, screenOffset, moveLeft, moveRight, isJumping, gameStarted, gameOver]);
+
+	useEffect(() => {
+		if (gameOver) {
+			postMaxHeight(maxHeight);
+			fetchHighestMaxHeight();
+		}
+	}, [gameOver]);
+
+	useEffect(() => {
+		fetchHighestMaxHeight();
+	}, []);
 
 	const checkCollision = () => {
 		if (!playerRef.current) return;
 
 		for (let platform of platforms) {
-			const playerBottom = playerPosition.top + 20;
-			const playerRight = playerPosition.left + 20;
+			const playerBottom = playerPosition.top + 80; // Adjusted for the new player size
+			const playerRight = playerPosition.left + 80; // Adjusted for the new player size
+			const platformTop = platform.top;
 			const platformBottom = platform.top + platform.height;
 			const platformRight = platform.left + platform.width;
 
 			if (
+				playerBottom >= platformTop &&
 				playerPosition.top < platformBottom &&
-				playerBottom > platform.top &&
 				playerPosition.left < platformRight &&
 				playerRight > platform.left &&
 				velocity > 0
 			) {
 				setVelocity(-jumpStrength);
 				setIsJumping(true);
+				setMaxHeight((prevMaxHeight) => Math.max(prevMaxHeight, 667 - playerPosition.top + screenOffset)); // Adjusted for the game container height
 			}
 		}
 	};
 
+	const fetchHighestMaxHeight = async () => {
+		const highestScore = await getHighestScore();
+		setHighestMaxHeight(highestScore.height);
+	};
+
+	const postMaxHeight = async (maxHeight) => {
+		const response = await saveScore(maxHeight);
+		if (response) {
+			console.log('Max height saved successfully:', response);
+		}
+	};
+
+	const startGame = () => {
+		setGameStarted(true);
+		setGameOver(false);
+		setMaxHeight(0);
+		setVelocity(0);
+		setScreenOffset(0);
+		setPlayerPosition({
+			top: 607,
+			left: 187.5,
+		});
+	};
+
 	return (
 		<div
-			className="game-screen"
+			className="outer-container"
 			style={{
 				position: "relative",
 				width: "100vw",
 				height: "100vh",
-				backgroundColor: "lightblue",
-				overflow: "hidden",
+				backgroundColor: "#2A2356",
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
 			}}
 		>
-			{platforms.map((platform, index) => (
-				<Platform
-					key={index}
-					top={platform.top - screenOffset}
-					left={platform.left}
-					width={platform.width}
-					height={platform.height}
-				/>
-			))}
 			<div
-				ref={playerRef}
+				className="game-container"
 				style={{
-					position: "absolute",
-					top: `${playerPosition.top - screenOffset}px`,
-					left: `${playerPosition.left}px`,
-					width: "20px",
-					height: "20px",
-					backgroundColor: "red",
-				}}
-			/>
-			<div
-				style={{
-					position: "absolute",
-					top: "10px",
-					right: "10px",
-					fontSize: "20px",
-					color: "black",
+					position: "relative",
+					width: "375px",
+					height: "667px",
+					backgroundImage: `url(${bgImage})`,
+					backgroundSize: "cover",
+					overflow: "hidden",
 				}}
 			>
-				Height: {maxHeight}
+				{gameStarted ? (
+					<>
+						{platforms.map((platform, index) => (
+							<Platform
+								key={index}
+								top={platform.top - screenOffset}
+								left={platform.left}
+								width={platform.width}
+								height={platform.height}
+							/>
+						))}
+						<div
+							ref={playerRef}
+							style={{
+								position: "absolute",
+								top: `${playerPosition.top - screenOffset}px`,
+								left: `${playerPosition.left}px`,
+								width: "80px", // Adjusted for the new player size
+								height: "80px", // Adjusted for the new player size
+								backgroundImage: `url(${playerImage})`,
+								backgroundSize: "cover",
+							}}
+						/>
+						<div
+							style={{
+								position: "absolute",
+								top: "10px",
+								right: "10px",
+								fontSize: "20px",
+								color: "black",
+							}}
+						>
+							Height: {maxHeight + screenOffset} {/* Updated to include screenOffset */}
+						</div>
+						{gameOver && (
+							<div
+								style={{
+									position: "absolute",
+									top: "50%",
+									left: "50%",
+									transform: "translate(-50%, -50%)",
+									backgroundColor: "white",
+									padding: "20px",
+									border: "2px solid black",
+									textAlign: "center",
+									color: "black",
+								}}
+							>
+								<h1>Game Over</h1>
+								<p>Height Reached: {maxHeight + screenOffset} {/* Updated to include screenOffset */}</p>
+								<p>Highest Max Height: {highestMaxHeight}</p>
+								<button onClick={() => window.location.reload()}>Restart</button>
+							</div>
+						)}
+					</>
+				) : (
+					<div
+						style={{
+							position: "absolute",
+							top: "50%",
+							left: "50%",
+							transform: "translate(-50%, -50%)",
+							backgroundColor: "white",
+							padding: "20px",
+							border: "2px solid black",
+							textAlign: "center",
+							color: "black",
+						}}
+					>
+						<h1>Welcome to GameHop</h1>
+						<p>Highest Max Height: {highestMaxHeight}</p>
+						<button onClick={startGame}>Start Game</button>
+					</div>
+				)}
 			</div>
-			{gameOver && (
-				<div
-					style={{
-						position: "absolute",
-						top: "50%",
-						left: "50%",
-						transform: "translate(-50%, -50%)",
-						backgroundColor: "white",
-						padding: "20px",
-						border: "2px solid black",
-						textAlign: "center",
-					}}
-				>
-					<h1>Game Over</h1>
-					<p>Height Reached: {maxHeight}</p>
-					<button onClick={() => window.location.reload()}>Restart</button>
-				</div>
-			)}
 		</div>
 	);
 }

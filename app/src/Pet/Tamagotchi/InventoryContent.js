@@ -1,11 +1,13 @@
 import React from 'react';
-import { money } from '../../svg.js';
+import { money, yen, hatS, food_01, food_02,  background, pallete } from '../../svg.js';
 
 const InventoryContent = () => {
+  const icons = [hatS, food_01, food_02, food_02, background, pallete, yen, yen, yen];
+
   return (
     <div className="flex flex-1 justify-center items-start text-white">
       <div className="absolute top-20 left-2 flex items-center">
-        <div className="flex top-20 left-2 items-center flex space-x-1">
+        <div className="flex top-20 left-2 items-center space-x-1">
           {money()}
           <span className="text-2xl text-outline text-[#B957CE]">1200</span>
         </div>
@@ -22,27 +24,25 @@ const InventoryContent = () => {
         }}
       >
         <img
-          src="https://i.postimg.cc/kGxYnpp1/kozachat.png"
+          src="https://i.postimg.cc/rmjLnk57/peshat.png"
           alt="Character"
           className="absolute"
           style={{
-            top: '110px',
-            left: '42%',
-            width: '200px',
+            top: '100px',
+            left: '40%',
+            width: '250px',
             height: 'auto',
           }}
         />
 
         <div className="grid grid-cols-3 gap-x-36 gap-y-12 mt-30">
-          {Array.from({ length: 9 }).map((_, index) => (
+          {icons.map((Icon, index) => (
             <div
               key={index}
               className="relative w-16 h-16 rounded-full border-2 border-[#B957CE] flex justify-center items-center"
             >
-              {/* Main circle content */}
-              <span className="text-white">🔘</span>
+              <Icon />
 
-              {/* Small circle in the top-right corner */}
               <div
                 className="absolute top-0 right-0 w-6 h-6 rounded-full bg-[#B957CE] flex justify-center items-center"
                 style={{
