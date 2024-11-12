@@ -112,10 +112,7 @@
           "text": "5-10 years",
           "correct": false
         },
-        {
-          "text": "15-20 years",
-          "correct": false
-        },
+       
         {
           "text": "20-25 years",
           "correct": false
@@ -130,10 +127,7 @@
           "text": "Chocolate",
           "correct": true
         },
-        {
-          "text": "Carrots",
-          "correct": false
-        },
+        
         {
           "text": "Apples",
           "correct": false
@@ -159,11 +153,8 @@
         {
           "text": "2-3 times a day",
           "correct": true
-        },
-        {
-          "text": "Only when they feel like it",
-          "correct": false
         }
+        
       ]
     }
   ],
@@ -222,7 +213,7 @@
 	"fp": [
 		{
 			"id": 0,
-			"highScore": 5,
+			"highscore": 1,
 			"leaderboards": [
 				{ "name": "Pepa1", "score": 10 },
 				{ "name": "Jirka1", "score": 9 },
@@ -246,7 +237,7 @@
 		},
 		{
 			"id": 1,
-			"highScore": 10,
+			"highscore": 10,
 			"leaderboards": [
 				{ "name": "Pepa1", "score": 20 },
 				{ "name": "Jirka1", "score": 19},
@@ -270,7 +261,7 @@
 		},
 		{
 			"id": 2,
-			"highScore": 20,
+			"highscore": 20,
 			"leaderboards": [
 				{ "name": "Pepa1", "score": 30 },
 				{ "name": "Jirka1", "score": 29 },
@@ -294,7 +285,7 @@
 		},
 		{
 			"id": 3,
-			"highScore": 30,
+			"highscore": 30,
 			"leaderboards": [
 				{ "name": "Pepa1", "score": 40 },
 				{ "name": "Jirka1", "score": 39 },

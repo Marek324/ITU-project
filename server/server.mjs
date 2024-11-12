@@ -1,11 +1,11 @@
 import fastify from 'fastify';
 import cors from '@fastify/cors';
-import { Low, Memory } from 'lowdb';
-import { JSONFilePreset } from 'lowdb/node';
-import { db_model } from './data_model.mjs';
+import {Low, Memory} from 'lowdb';
+import {JSONFilePreset} from 'lowdb/node';
+import {db_model} from './data_model.mjs';
 import fastifyStatic from '@fastify/static';
 import path from 'path';
-import { v4 as genId } from 'uuid';
+import {v4 as genId} from 'uuid';
 
 const seed = process.argv[2] === 'seed';
 
@@ -276,7 +276,11 @@ app.delete('/api/questions/:id', async (req, res) => {
 	res.status(200).send({ message: 'Question deleted successfully' });
 });
 
-//Games API
+// ================================================
+// ===================== GAMES ====================
+// ================================================
+//NOT SURE IF WORKING
+
 app.delete('/api/games/:id', async (req, res) => {
 	await db.read();
 
@@ -306,18 +310,22 @@ app.get('/api/games', async (req, res) => {
 app.get('/api/games/:id', async (req, res) => {
 	await db.read();
 
-	const { id } = req.params;
-	const game = db.data.games.find(g => g.id === id);
+	const game = db.data.games.find(id => id.id === Number(req.params.id));
 
 	if (!game) {
-		res.status(404).send('Game not found');
+		res.status(404).send('FP not found');
 		return;
 	}
+
+	res.send(game);
 
 	res.status(200).send(game);
 });
 
-//FP API
+// ================================================
+// ===================== FP =======================
+// ================================================
+
 app.delete('/api/fp/:id', async (req, res) => {
 	await db.read();
 
@@ -339,13 +347,14 @@ app.delete('/api/fp/:id', async (req, res) => {
 app.get('/api/fp/:id', async (req, res) => {
 	await db.read();
 
-	const { id } = req.params;
-	const game = db.data.fp.find(g => g.id === id);
+	const game = db.data.fp.find(id => id.id === Number(req.params.id));
 
 	if (!game) {
 		res.status(404).send('FP not found');
 		return;
 	}
+
+	res.send(game);
 
 	res.status(200).send(game);
 });
@@ -356,4 +365,20 @@ app.get('/api/fp', async (req, res) => {
 	const games = db.data.fp;
 
 	res.send(games);
+});
+
+app.put('/api/fp/:id', async (req, res) => {
+	await db.read();
+
+	const { id } = req.params;
+	const index = db.data.fp.findIndex(fp => fp.id === Number(id));
+
+	if (index === -1) {
+		res.status(404).send({ message: 'FP not found' });
+		return;
+	}
+
+	db.data.fp[index] = { ...db.data.fp[index], ...req.body };
+	await db.write();
+	res.status(200).send({ message: 'FP updated successfully' });
 });

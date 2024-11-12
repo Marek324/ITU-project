@@ -41,3 +41,11 @@ export async function GetFP(id) {
 		return null;
 	}
 }
+
+export async function UpdateFP(id, fp) {
+	try {
+		await axios.put(`http://localhost:${port}/api/fp/${id}`, fp);
+	} catch (error) {
+		console.error('Error updating game:', error);
+	}
+}
