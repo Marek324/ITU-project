@@ -1,11 +1,11 @@
 import fastify from 'fastify';
 import cors from '@fastify/cors';
-import { Low, Memory } from 'lowdb';
-import { JSONFilePreset } from 'lowdb/node';
-import { db_model } from './data_model.mjs';
+import {Low, Memory} from 'lowdb';
+import {JSONFilePreset} from 'lowdb/node';
+import {db_model} from './data_model.mjs';
 import fastifyStatic from '@fastify/static';
 import path from 'path';
-import { v4 as genId } from 'uuid';
+import {v4 as genId} from 'uuid';
 
 const seed = process.argv[2] === 'seed';
 
@@ -318,13 +318,14 @@ app.delete('/api/fp/:id', async (req, res) => {
 app.get('/api/fp/:id', async (req, res) => {
 	await db.read();
 
-	const { id } = req.params;
-	const game = db.data.fp.find(g => g.id === id);
+	const game = db.data.fp.find(id => id.id === Number(req.params.id));
 
 	if (!game) {
 		res.status(404).send('FP not found');
 		return;
 	}
+
+	res.send(game);
 
 	res.status(200).send(game);
 });
@@ -335,4 +336,17 @@ app.get('/api/fp', async (req, res) => {
 	const games = db.data.fp;
 
 	res.send(games);
+});
+
+app.put('/api/fp/:id', async (req, res) => {
+	await db.read();
+
+	const { id } = req.params;
+
+	const updatedFp = req.body;
+
+	db.data.fp[id] = updatedFp;
+
+	await db.write();
+	res.status(200).send({ message: 'Article updated successfully' });
 });

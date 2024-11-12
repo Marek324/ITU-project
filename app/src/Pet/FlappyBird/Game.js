@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import DownBar from '../components/DownBar.js';
 import TopBar from '../components/TopBar.js';
-import {homeB, shop, leaderboard, game} from "../../svg";
+import { homeB, shop, leaderboard, game } from "../../svg";
 import bGImage from "./Assets/bg.jpg";
 import Ball from "./Ball.js";
 import Obstacle from "./Obstacle";
 import GamePopup from "./GamePopup";
 import HighScores from "./HighScores";
+import { GetFP, UpdateFP } from "../../services/FlappyPetService";
+import ScoreCounter from "./ScoreCounter";
 
 function Game() {
 	const consts = {
@@ -14,8 +16,9 @@ function Game() {
 		gravity: 5,
 		obstRelativeWidth: 5,
 		ballLeftPos: 10
-	}
+	};
 
+	const [score, setScore] = useState(0);
 	const [ballTopPos, setBallTopPos] = useState(window.innerHeight / 2);
 	const [velocity, setVelocity] = useState(0);
 	const [obstacles, setObstacles] = useState([]);
@@ -23,41 +26,40 @@ function Game() {
 	const [downBarOffset, setBottomBarOffset] = useState(0);
 	const [spawnInterval, setSpawnInterval] = useState(2000);
 	const [gapSize, setGapSize] = useState(window.innerHeight * 0.28);
-	const [obstSpeed, setObstSpeed] = useState(window.innerWidth * 0.0012);
+	const [obstSpeed, setObstSpeed] = useState(window.innerWidth * 0.0022);
 	const [maxVelocity, setMaxVelocity] = useState(window.innerHeight * 0.0085);
 	const [gameStarted, setGameStarted] = useState(false);
 	const [title, setTitle] = useState('Flappy Pet');
 	const [subtitle, setSubtitle] = useState('Start Game');
 	const [showLeaderboard, setShowLeaderboard] = useState(false);
 	const [showPopup, setShowPopup] = useState(true);
+	const [passedObstacles, setPassedObstacles] = useState([]);
+
+	//BE
+	const [highScore, setHighScore] = useState(0);
+	const [data, setData] = useState(null);
 
 	const topBarRef = useRef(null);
 	const downBarRef = useRef(null);
 	const ballRef = useRef(null);
 
-	/* Eventy pro resize
 	useEffect(() => {
-		const handleResize = () => {
-			setSpawnInterval(window.innerWidth * 0.6);
-			setGapSize(window.innerHeight * 0.28);
-			setObstSpeed(window.innerWidth * 0.0012);
-			setMaxVelocity(window.innerHeight * 0.0085);
-			setObstacles([]);
-		};
+		GetFP(0).then((data) => {
+			setHighScore(data.highscore);
+			setData(data);
+		});
+	}, []);
 
-		window.addEventListener('resize', handleResize);
+	useEffect(() => {
+		if (data) {
+			setHighScore(data.highscore);
+		}
+	}, [data]);
 
-		return () => {
-			window.removeEventListener('resize', handleResize);
-		};
-	}, []);*/
-
-	// Skok
 	const jump = useCallback(() => {
 		setVelocity(-maxVelocity * window.innerHeight * 0.003);
 	}, [maxVelocity]);
 
-	// Event na skok
 	useEffect(() => {
 		const handleKeyDown = (event) => {
 			if ((event.code === 'Space' || event.code === 'ArrowUp')) {
@@ -70,7 +72,6 @@ function Game() {
 		};
 	}, [jump]);
 
-	// Vypnutí scrollbaru
 	useEffect(() => {
 		document.body.style.overflow = 'hidden';
 		return () => {
@@ -78,7 +79,6 @@ function Game() {
 		};
 	}, []);
 
-	// Nastavit topPos překážky
 	useEffect(() => {
 		if (topBarRef.current) {
 			setTopPos(topBarRef.current.clientHeight);
@@ -88,15 +88,11 @@ function Game() {
 		}
 	}, [topBarRef, downBarRef]);
 
-	// Fyzika
 	useEffect(() => {
 		if (!gameStarted) return;
 		const interval = setInterval(() => {
-			console.log(gameStarted);
-			// Nastavení rychlosti míčku
 			setVelocity((prevVelocity) => prevVelocity + consts.gravity * consts.timeInterval * 0.01 * window.innerHeight * 0.001);
 
-			// Limitace rychlosti míčku
 			if (velocity > maxVelocity) {
 				setVelocity(maxVelocity);
 			}
@@ -104,10 +100,8 @@ function Game() {
 				setVelocity(-maxVelocity);
 			}
 
-			// Nastavení pozice míčku
 			setBallTopPos(prevTop => prevTop + velocity + 0.5 * consts.gravity * Math.pow(consts.timeInterval * 0.01, 2));
 
-			// Pohyb překážek
 			setObstacles(prevObstacles => {
 				return prevObstacles.map((obstacle) => {
 					obstacle.left -= obstSpeed;
@@ -115,7 +109,6 @@ function Game() {
 				});
 			});
 
-			// Odstranění nepotřebných překážek
 			setObstacles(prevObstacles => {
 				return prevObstacles.filter((obstacle) => {
 					return obstacle.left > -consts.obstRelativeWidth * (window.innerWidth * 0.01);
@@ -125,9 +118,8 @@ function Game() {
 		}, consts.timeInterval);
 
 		return () => clearInterval(interval);
-	}, [ballTopPos, gameStarted, velocity, obstacles, obstSpeed]);
+	}, [ballTopPos, gameStarted, velocity, obstacles, obstSpeed, passedObstacles]);
 
-	// Generování překážek
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (!gameStarted) return;
@@ -145,7 +137,6 @@ function Game() {
 		return () => clearInterval(interval);
 	}, [spawnInterval, gapSize, gameStarted]);
 
-	// Kontrola kolize s překážkou
 	useEffect(() => {
 		const checkCollision = () => {
 			if (!gameStarted || !ballRef) return;
@@ -159,33 +150,31 @@ function Game() {
 				return;
 			}
 
-			// Lazy ale funguje
 			for (let ob of obstacles) {
-				// Horizontální
 				const obWidth = consts.obstRelativeWidth * (window.innerWidth * 0.01);
 				const obLeft = ob.left - (obWidth * 0.5);
 				const obRight = ob.left + (obWidth * 0.5);
 
-				// Vertikální
 				const obTop = ob.topHeight + topPos;
 				const obBottom = ob.bottomPos;
 
-				// Horizontální
 				const ballLeft = window.innerWidth * 0.01 * consts.ballLeftPos;
 				const ballTopLeft = ballLeft - ballRef.current.clientWidth * 0.5;
 				const ballTopRight = ballLeft + ballRef.current.clientWidth * 0.5;
 
-				// Vertikální
 				const ballTop = ballTopPos;
 				const ballBottom = ballTopPos + ballRef.current.clientHeight;
 
-				// Kontrole kolize
 				const horizontalOverlap = ballTopLeft <= obRight && ballTopRight >= obLeft;
 				const verticalOverlap = ballTop <= obTop || ballBottom >= obBottom;
 
 				if (horizontalOverlap && verticalOverlap) {
 					stopGame();
 					break;
+				}
+				else if (ballLeft > obRight && !passedObstacles.includes(ob)) {
+					setPassedObstacles([...passedObstacles, ob]);
+					setScore(score + 1);
 				}
 			}
 		}
@@ -205,11 +194,21 @@ function Game() {
 		}
 	}
 
+	function UpdateHighScore() {
+		data.highscore = score;
+		UpdateFP(data.id, data).then(() => {
+			setData(data);
+		});
+	}
+
 	function stopGame() {
 		setTitle('Game Over');
 		setSubtitle('Restart Game');
 		setGameStarted(false);
 		setShowPopup(true);
+		if (score > highScore) {
+			UpdateHighScore();
+		}
 	}
 
 	function startGame() {
@@ -218,6 +217,8 @@ function Game() {
 		setObstacles([]);
 		setBallTopPos(window.innerHeight / 2);
 		setVelocity(0);
+		setScore(0); // Reset score
+		setPassedObstacles([]); // Reset passed obstacles
 	}
 
 	return (
@@ -226,10 +227,11 @@ function Game() {
 			style={{ backgroundImage: `url(${bGImage})` }}
 		>
 			<TopBar ref={topBarRef} title="Flappy Pet" />
-			<DownBar ref={downBarRef} firstIcon={shop()} secondIcon={homeB()} thirdIcon={leaderboard()} onThirdClick={toggleLeaderboard}/>
-			{showPopup && <GamePopup title={title} subtitle={subtitle} onStart={startGame} topBarSize={topPos} bottomPos={downBarOffset} />}
+			<DownBar ref={downBarRef} firstIcon={shop()} secondIcon={homeB()} thirdIcon={leaderboard()} onThirdClick={toggleLeaderboard} />
+			{showPopup && <GamePopup title={title} subtitle={subtitle} topScore={highScore} onStart={startGame} topBarSize={topPos} bottomPos={downBarOffset} />}
 			{gameStarted && (
 				<>
+					<ScoreCounter score={score} top={topPos}></ScoreCounter>
 					<Ball ref={ballRef} leftPos={consts.ballLeftPos} top={ballTopPos} />
 					{obstacles.map((obstacle, index) => (
 						<Obstacle
