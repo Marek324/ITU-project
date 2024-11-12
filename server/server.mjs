@@ -367,6 +367,41 @@ app.get('/api/fp', async (req, res) => {
 	res.send(games);
 });
 
+
+
+app.post('/api/hop', async (req, res) => {
+	await db.read();
+
+	const { maxHeight } = req.body;
+
+	if (typeof maxHeight !== 'number') {
+		return res.status(400).send({ error: 'Invalid maxHeight' });
+	}
+
+	const newGame = {
+		id: genId(),
+		height: maxHeight,
+		date: new Date().toISOString(),
+	};
+
+	db.data.hop.push(newGame);
+
+	await db.write();
+	res.status(200).send({ message: 'Game saved successfully', id: newGame.id });
+});
+
+app.get('/api/hop/highest', async (req, res) => {
+	await db.read();
+	const highestGame = db.data.hop.reduce((max, game) => game.height > max.height ? game : max, { height: 0 });
+	res.status(200).send(highestGame);
+});
+
+app.get('/api/hop/scores', async (req, res) => {
+	await db.read();
+	const scores = db.data.hop.map(game => game.height);
+	res.status(200).send(scores);
+});
+
 app.put('/api/fp/:id', async (req, res) => {
 	await db.read();
 
