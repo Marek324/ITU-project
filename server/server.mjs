@@ -112,6 +112,7 @@ app.delete("/api/articles/:id", async (req, res) => {
 
 	await db.write();
 	res.status(200).send({ message: 'Article deleted successfully' });
+});
 
 app.post('/api/animals', async (req, res) => {
 	let new_animal = req.body;
