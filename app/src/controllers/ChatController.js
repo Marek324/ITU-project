@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import { CreateMessage, GetMessages, DeleteMessage } from "services/ChatService";
 import Chat from 'components/chat/Chat';
 
-const ChatController = ({articleId, adminMode}) => {
+const ChatController = ({adminMode}) => {
+	const articleId = { id } = useParams();
+
+
 	const [messages, setMessages] = useState([]);
 
 	const fetchMessages= async () => {
