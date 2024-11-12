@@ -36,6 +36,7 @@ export async function GetGames() {
 
 export async function GetGame(gameId) {
 	try {
+		console.log("sdfsdsdf");
 		const response = await axios.get(`http://localhost:${port}/api/games/${gameId}`);
 		const game = response.data;
 		return {
