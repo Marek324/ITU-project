@@ -83,11 +83,12 @@ function MainPageController() {
 				)}
 				<div className="mt-12">
 					<RectangleList animals={filteredAnimals} adminMode={adminMode} handleRemoveAnimal={handleRemoveAnimal} />
-					{adminMode && (
-						<Link to={`/animal/newAnimal`} className="bg-pink-500 text-white p-2 rounded" >
-							Add Animal
-						</Link>
-					)}
+
+				</div>
+				<div className="flex justify-center w-full mt-4">
+					<Link to={`/animal/newAnimal`} className="bg-pink-500 text-white p-2 rounded">
+						Add Animal
+					</Link>
 				</div>
 			</div>
 			<footer className="bg-pink-50 p-4">

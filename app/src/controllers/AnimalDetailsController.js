@@ -29,7 +29,7 @@ function AnimalDetailsController() {
 	}
 
 	const handleGameClicked = () => {
-		navigate(`/animal/${id}/flappypet`);
+		navigate(`/animal/${id}/tamagotchi`);
 	};
 
 	const toggleAdminMode = () => {
