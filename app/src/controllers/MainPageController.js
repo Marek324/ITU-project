@@ -1,10 +1,11 @@
 ﻿import { shop, user, filter, list, tiles } from "../svg";
 import {GetAnimals, RemoveAnimal} from "../services/AnimalsService";
-import AnimalFilterWindow from "../components/AnimalFilter";
+import AnimalFilterWindow from "../components/animals/AnimalFilter";
 import { useEffect, useState } from "react";
-import FilterForm from "../components/AnimalFilterForm";
-import AdoptHeader from "../components/AdoptHeader";
-import RectangleList from "../components/RectangleList";
+import FilterForm from "../components/animals/AnimalFilterForm";
+import AdoptHeader from "../components/animals/AdoptHeader";
+import RectangleList from "../components/animals/RectangleList";
+import {Link} from "react-router-dom";
 
 function MainPageController() {
 	const [animals, setAnimals] = useState([]);
@@ -82,6 +83,11 @@ function MainPageController() {
 				)}
 				<div className="mt-12">
 					<RectangleList animals={filteredAnimals} adminMode={adminMode} handleRemoveAnimal={handleRemoveAnimal} />
+					{adminMode && (
+						<Link to={`/animal/newAnimal`} className="bg-pink-500 text-white p-2 rounded" >
+							Add Animal
+						</Link>
+					)}
 				</div>
 			</div>
 			<footer className="bg-pink-50 p-4">

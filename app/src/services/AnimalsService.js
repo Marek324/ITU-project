@@ -45,7 +45,7 @@ export async function GetAnimal(id) {
 		}
 }
 
-export async function AddAnimal(new_animal) {
+export async function CreateAnimal(new_animal) {
 	try {
 		const response = await axios.post(`http://localhost:${port}/api/animals`, new_animal);
 		console.log(response.data);
