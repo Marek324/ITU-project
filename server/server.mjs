@@ -55,6 +55,32 @@ app.get('/api/animals/:id', async (req, res) => {
 	res.send(data);
 });
 
+app.post('/api/animals', async (req, res) => {
+	let new_animal = req.body;
+	await db.read();
+	new_animal.id = db.data.animals.length + 1;
+	db.data.animals.push(new_animal);
+	await db.write();
+	let data = db.data.animals;
+	res.send(data);
+
+});
+
+app.delete('/api/animals/:id', async (req, res) => {
+	let id = Number(req.params.id);
+	console.log(id);
+	try {
+		await db.read();
+		db.data.animals = db.data.animals.filter(animal => animal.id !== id);
+		await db.write();
+		let data = db.data.animals;
+		res.code(200).send(data);
+	} catch (err) {
+		console.error(err);
+		res.code(500).send({ error: 'Failed to delete the animal' });
+	}
+});
+
 app.get('/api/questions', async (req, res) => {
 	await db.read();
 

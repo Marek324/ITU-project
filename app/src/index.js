@@ -5,14 +5,14 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import AnimalDetails from "./components/AnimalDetails";
+import AnimalDetailsController from "./controllers/AnimalDetailsController";
 import Game from "./Pet/FlappyBird/Game";
 
 ReactDOM.render(
 	<Router>
 		<Routes>
 			<Route path="/" element={<App />} />
-			<Route path="/animal/:id" element={<AnimalDetails />} />
+			<Route path="/animal/:id" element={<AnimalDetailsController />} />
 			<Route path="/animal/:id/flappypet" element={<Game />} />
 		</Routes>
 	</Router>,
