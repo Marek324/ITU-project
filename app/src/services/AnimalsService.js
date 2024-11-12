@@ -39,3 +39,28 @@ export async function GetAnimal(id) {
 			return null;
 		}
 }
+
+export async function AddAnimal(new_animal) {
+	try {
+		const response = await axios.post(`http://localhost:${port}/api/animals`, new_animal);
+		console.log(response.data);
+	} catch (error) {
+		console.error('Error adding animal:', error);
+	}
+}
+
+export async function RemoveAnimal(id) {
+	const response = await axios.delete(`http://localhost:${port}/api/animals/${id}`);
+	if(response.status === 200) {
+		return response.data.map(animal => ({
+			id: animal.id,
+			image: animal.image,
+			name: animal.name,
+			text: animal.text,
+			species: animal.species,
+			age: animal.age,
+			sex: animal.sex,
+			neutered: animal.neutered
+		}));
+	}
+}

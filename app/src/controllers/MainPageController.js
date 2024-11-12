@@ -1,5 +1,5 @@
 ﻿import { shop, user, filter, list, tiles } from "../svg";
-import { GetAnimals } from "../services/AnimalsService";
+import {GetAnimals, RemoveAnimal} from "../services/AnimalsService";
 import AnimalFilterWindow from "../components/AnimalFilter";
 import { useEffect, useState } from "react";
 import FilterForm from "../components/AnimalFilterForm";
@@ -12,6 +12,16 @@ function MainPageController() {
 	const [filterCriteria, setFilterCriteria] = useState({ species: '', ageFrom: 0, ageTo: 0, neutered: '' });
 	const [filterActive, setFilterActive] = useState(false);
 	const [maxAge, setMaxAge] = useState(0);
+	const [adminMode, setAdminMode] = useState(false);
+
+	const handleAdminModeClick = () => {
+		setAdminMode(prevAdminMode => !prevAdminMode);
+	};
+
+	const handleRemoveAnimal = async  (id) => {
+		const updatedAnimals = await RemoveAnimal(id);
+		setAnimals(updatedAnimals);
+	};
 
 	useEffect(() => {
 		async function fetchAnimals() {
@@ -46,10 +56,12 @@ function MainPageController() {
 	return (
 		<div className="bg-Main_BG min-h-screen flex flex-col flex-grow">
 			<header className="">
-				<AdoptHeader/>
+				<AdoptHeader isHome={true} onAdminModeClick={handleAdminModeClick}/>
 			</header>
-			<div className="flex-grow justify-center m-2 items-center relative">
+			<div className="flex-grow justify-center m-2 items-center relative" >
+				{!adminMode && (
 				<div className="absolute right-0 m-2 items-start justify-start flex space-x-4">
+
 					{filterActive && (
 						<button onClick={resetFilters} className="text-red-500 mr-10">
 							Remove Filters
@@ -67,8 +79,9 @@ function MainPageController() {
 					</button>
 
 				</div>
+				)}
 				<div className="mt-12">
-					<RectangleList animals={filteredAnimals} />
+					<RectangleList animals={filteredAnimals} adminMode={adminMode} handleRemoveAnimal={handleRemoveAnimal} />
 				</div>
 			</div>
 			<footer className="bg-pink-50 p-4">
