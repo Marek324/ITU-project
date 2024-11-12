@@ -166,5 +166,29 @@
         }
       ]
     }
-  ]
+  ],
+	"chat": [
+		{
+			"id": 1,
+			"articleId": 1,
+			"messages": [
+				{
+					"author": "John Doe",
+					"content": "Hello, I have a question about dog care."
+				},
+				{
+					"author": "Jane Smith",
+					"content": "Sure, what would you like to know?"
+				},
+				{
+					"author": "John Doe",
+					"content": "How often should I take my dog for a walk?"
+				},
+				{
+					"author": "Jane Smith",
+					"content": "Dogs should be taken for a walk 2-3 times a day."
+				}
+			]
+		}
+	]
 }
