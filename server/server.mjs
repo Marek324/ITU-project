@@ -1,5 +1,6 @@
 import fastify from 'fastify';
 import cors from '@fastify/cors';
+import { Low, Memory } from 'lowdb';
 import { JSONFilePreset } from 'lowdb/node';
 import { db_model } from './data_model.mjs';
 import fastifyStatic from '@fastify/static';
@@ -25,10 +26,13 @@ let db;
 (async () => {
 	try {
 		if (seed) {
-			db = await JSONFilePreset('db_seed.json', db_model);
+			const seed_db = await JSONFilePreset('db_seed.json', db_model);
+			db = new Low(new Memory(), db_model);
+			db.data = seed_db.data;
 		} else {
 			db = await JSONFilePreset('db.json', db_model);
 		}
+		await db.write();
 		await app.listen({port: port});
 	} catch (err) {
 		app.log.error(err);
