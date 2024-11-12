@@ -1,7 +1,17 @@
-﻿import { Link } from "react-router-dom";
-import {shopping_cart as shop_icon, account as account_icon, arrow_back as home_icon} from "svg";
+﻿import { Link, useLocation } from "react-router-dom";
+import { arrow_back as home_icon, edit as edit_icon, adoption as adopt_icon, blog as blog_icon } from "svg";
 
-function AdoptHeader({isHome}) {
+function AdoptHeader() {
+
+	const location = useLocation();
+	const isHome = location.pathname === '/' || location.pathname === '/blog';
+	let link_back = null;
+	if (location.pathname.startsWith('/animal/')) {
+		link_back = "/";
+	} else if (location.pathname.startsWith('/blog/')) {
+		link_back = "/blog";
+	}
+
     return (
         <header
             className="
@@ -12,11 +22,14 @@ function AdoptHeader({isHome}) {
 			px-4
 			">
 
-			<div className="w-10">
-				{!isHome &&	<Link to="/" className="col-start-1 content-center">{home_icon()}</Link>}
-			</div>
-            <h1 className="text-3xl text-center font-Pet_Title text-border col-span-6 col-start-3">Adopt & Play</h1>
 			<div className="flex space-x-4">
+				{!isHome &&	<Link to={link_back} className="content-center">{home_icon()}</Link>}
+				<button className="content-center">{edit_icon()}</button>
+			</div>
+            <h1 className="text-3xl text-center font-Pet_Title text-border">Adopt & Play</h1>
+			<div className="flex space-x-4">
+				<Link to="/" className="content-center">{adopt_icon()}</Link>
+				<Link to="/blog" className="content-center">{blog_icon()}</Link>
 			</div>
 
         </header>
