@@ -1,12 +1,13 @@
 ﻿import AdoptHeader from "./AdoptHeader";
 import Image from "./Image";
 import React from "react";
+import {adminMode} from "../../svg";
 
-function AnimalEdit({ animal, toggleAdminMode, handleSave, setEditableAnimal }) {
+function AnimalEdit({ animal, toggleAdminMode, handleSave, setEditableAnimal, adminMode }) {
 	return (
 		<div className="bg-white min-h-screen flex flex-col flex-grow">
 			<header>
-				<AdoptHeader onAdminModeClick={toggleAdminMode} />
+				<AdoptHeader onAdminModeClick={toggleAdminMode} adminMode={true}/>
 			</header>
 			<div className="flex-grow flex items-start m-3 justify-center align-middle relative p-4 min-h-custom-img">
 				{animal.image && <Image src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover mt-10" />}

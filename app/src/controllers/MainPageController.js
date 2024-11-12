@@ -5,15 +5,16 @@ import { useEffect, useState } from "react";
 import FilterForm from "../components/animals/AnimalFilterForm";
 import AdoptHeader from "../components/animals/AdoptHeader";
 import RectangleList from "../components/animals/RectangleList";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 function MainPageController() {
+	const location = useLocation();
 	const [animals, setAnimals] = useState([]);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [filterCriteria, setFilterCriteria] = useState({ species: '', ageFrom: 0, ageTo: 0, neutered: '' });
 	const [filterActive, setFilterActive] = useState(false);
 	const [maxAge, setMaxAge] = useState(0);
-	const [adminMode, setAdminMode] = useState(false);
+	const [adminMode, setAdminMode] = useState(location.state?.adminMode || false);
 
 	const handleAdminModeClick = () => {
 		setAdminMode(prevAdminMode => !prevAdminMode);
@@ -57,7 +58,7 @@ function MainPageController() {
 	return (
 		<div className="bg-Main_BG min-h-screen flex flex-col flex-grow">
 			<header className="">
-				<AdoptHeader isHome={true} onAdminModeClick={handleAdminModeClick}/>
+				<AdoptHeader isHome={true} onAdminModeClick={handleAdminModeClick} adminMode={adminMode}/>
 			</header>
 			<div className="flex-grow justify-center m-2 items-center relative" >
 				{!adminMode && (

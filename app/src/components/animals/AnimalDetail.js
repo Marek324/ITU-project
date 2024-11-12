@@ -1,6 +1,6 @@
 ﻿import AdoptHeader from "./AdoptHeader";
 import Image from "./Image";
-import {gamepad} from "../../svg";
+import {adminMode, gamepad} from "../../svg";
 import React from "react";
 
 function AnimalDetail({animal, handleGameClicked, toggleAdminMode}) {
@@ -8,7 +8,7 @@ function AnimalDetail({animal, handleGameClicked, toggleAdminMode}) {
 return (
 	<div className="bg-white min-h-screen flex flex-col flex-grow">
 		<header>
-			<AdoptHeader onAdminModeClick={toggleAdminMode} />
+			<AdoptHeader onAdminModeClick={toggleAdminMode} adminMode={false} />
 		</header>
 		<div className="flex-grow flex items-start m-3 justify-center align-middle relative p-4 min-h-custom-img">
 			<Image src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover mt-10"/>

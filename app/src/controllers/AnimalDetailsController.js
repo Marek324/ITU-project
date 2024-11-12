@@ -1,13 +1,14 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import {CreateAnimal, GetAnimal, UpdateAnimal} from '../services/AnimalsService';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { CreateAnimal, GetAnimal, UpdateAnimal } from '../services/AnimalsService';
 import AnimalDetail from "../components/animals/AnimalDetail";
 import AnimalEdit from "../components/animals/AnimalEdit";
 
 function AnimalDetailsController() {
 	const { id } = useParams();
+	const location = useLocation();
 	const [animal, setAnimal] = useState(null);
-	const [adminMode, setAdminMode] = useState(false);
+	const [adminMode, setAdminMode] = useState(location.state?.adminMode || false);
 	const [editableAnimal, setEditableAnimal] = useState(null);
 	const navigate = useNavigate();
 
@@ -42,24 +43,20 @@ function AnimalDetailsController() {
 		setAdminMode(false);
 	};
 
-	const handleCreate = async () => {
-		await CreateAnimal(editableAnimal);
-		setAnimal(editableAnimal);
-		setAdminMode(false);
-	};
-
 	return (
 		<div>
 			{adminMode ? (
 				<AnimalEdit
 					animal={editableAnimal}
 					toggleAdminMode={toggleAdminMode}
+					adminMode={adminMode}
 					handleSave={handleSave}
 					setEditableAnimal={setEditableAnimal}
 				/>
 			) : (
 				<AnimalDetail
 					animal={animal}
+					adminMode={adminMode}
 					toggleAdminMode={toggleAdminMode}
 					handleGameClicked={handleGameClicked}
 				/>
