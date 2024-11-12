@@ -32,7 +32,7 @@ export async function GetFP(id) {
 		const fp = response.data;
 		return {
 			id: fp.id,
-			highscore: fp.highScore,
+			highscore: fp.highscore,
 			leaderboards: fp.leaderboards,
 			boughtColors: fp.boughtColors
 		}
@@ -44,9 +44,7 @@ export async function GetFP(id) {
 
 export async function UpdateFP(id, fp) {
 	try {
-		const response = await axios.put(`http://localhost:${port}/api/fp/${id}`, fp);
-		console.log(response.data.highscore);
-		return response.data;
+		await axios.put(`http://localhost:${port}/api/fp/${id}`, fp);
 	} catch (error) {
 		console.error('Error updating game:', error);
 	}

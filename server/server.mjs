@@ -363,11 +363,14 @@ app.put('/api/fp/:id', async (req, res) => {
 	await db.read();
 
 	const { id } = req.params;
+	const index = db.data.fp.findIndex(fp => fp.id === Number(id));
 
-	const updatedFp = req.body;
+	if (index === -1) {
+		res.status(404).send({ message: 'FP not found' });
+		return;
+	}
 
-	db.data.fp[id] = updatedFp;
-
+	db.data.fp[index] = { ...db.data.fp[index], ...req.body };
 	await db.write();
-	res.status(200).send({ message: 'Article updated successfully' });
+	res.status(200).send({ message: 'FP updated successfully' });
 });

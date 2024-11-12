@@ -18,7 +18,7 @@ function Game() {
 		ballLeftPos: 10
 	};
 
-	const [score, setScore] = useState(0);
+	const [score, setScore] = useState(2);
 	const [ballTopPos, setBallTopPos] = useState(window.innerHeight / 2);
 	const [velocity, setVelocity] = useState(0);
 	const [obstacles, setObstacles] = useState([]);
@@ -45,8 +45,8 @@ function Game() {
 
 	useEffect(() => {
 		GetFP(0).then((data) => {
-			setHighScore(data.highscore);
 			setData(data);
+			setHighScore(data.highscore);
 		});
 	}, []);
 
@@ -195,9 +195,9 @@ function Game() {
 	}
 
 	function UpdateHighScore() {
-		data.highscore = score;
-		UpdateFP(data.id, data).then(() => {
-			setData(data);
+		const updatedData = { ...data, highscore: score };
+		UpdateFP(data.id, updatedData).then(() => {
+			setData(updatedData);
 		});
 	}
 
@@ -217,7 +217,7 @@ function Game() {
 		setObstacles([]);
 		setBallTopPos(window.innerHeight / 2);
 		setVelocity(0);
-		setScore(0); // Reset score
+		setScore(2); // Reset score
 		setPassedObstacles([]); // Reset passed obstacles
 	}
 
@@ -231,7 +231,6 @@ function Game() {
 			{showPopup && <GamePopup title={title} subtitle={subtitle} topScore={highScore} onStart={startGame} topBarSize={topPos} bottomPos={downBarOffset} />}
 			{gameStarted && (
 				<>
-					<ScoreCounter score={score} top={topPos}></ScoreCounter>
 					<Ball ref={ballRef} leftPos={consts.ballLeftPos} top={ballTopPos} />
 					{obstacles.map((obstacle, index) => (
 						<Obstacle
@@ -244,6 +243,7 @@ function Game() {
 							widthNum={consts.obstRelativeWidth}
 						/>
 					))}
+					<ScoreCounter score={score} top={topPos}></ScoreCounter>
 				</>
 			)}
 			{showLeaderboard && <HighScores scores={[{ name: 'Player 1', points: 10 }, { name: 'Player 2', points: 20 }]} topBar={topPos} downBar={downBarOffset} />}
