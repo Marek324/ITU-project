@@ -23,15 +23,16 @@ app.register(fastifyStatic, {
 });
 
 let db;
+let db_seed;
 (async () => {
 	try {
 		if (seed) {
-			const seed_db = await JSONFilePreset('db_seed.json', db_model);
-			db = new Low(new Memory(), db_model);
-			db.data = seed_db.data;
+			db_seed = await JSONFilePreset('db_seed.json', db_model);
 		} else {
-			db = await JSONFilePreset('db.json', db_model);
+			db_seed = await JSONFilePreset('db.json', db_model);
 		}
+		db = new Low(new Memory(), db_model);
+		db.data = db_seed.data;
 		await db.write();
 		await app.listen({port: port});
 	} catch (err) {
