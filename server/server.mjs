@@ -139,6 +139,27 @@ app.post('/api/animals', async (req, res) => {
 
 });
 
+app.put('/api/animals/:id', async (req, res) => {
+	let id = Number(req.params.id);
+	let updated_animal = req.body;
+	updated_animal.id = id;
+	try {
+		await db.read();
+		db.data.animals = db.data.animals.map(animal => {
+			if (animal.id === id) {
+				return updated_animal;
+			}
+			return animal;
+		});
+		await db.write();
+		let data = db.data.animals;
+		res.code(200).send(data);
+	} catch (err) {
+		console.error(err);
+		res.code(500).send({ error: 'Failed to update the animal' });
+	}
+});
+
 app.delete('/api/animals/:id', async (req, res) => {
 	let id = Number(req.params.id);
 	console.log(id);

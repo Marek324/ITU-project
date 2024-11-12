@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GetAnimal } from '../services/AnimalsService';
+import {GetAnimal, UpdateAnimal} from '../services/AnimalsService';
 import AdoptHeader from '../components/AdoptHeader';
 import { gamepad } from '../svg';
 import Image from '../components/Image';
@@ -13,7 +13,7 @@ function AnimalDetailsController() {
 	const [editableName, setEditableName] = useState('');
 	const [editableAge, setEditableAge] = useState('');
 	const [editableSpecies, setEditableSpecies] = useState('');
-	const [editableNeutered, setEditableNeutered] = useState('');
+	const [editableNeutered, setEditableNeutered] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -25,7 +25,7 @@ function AnimalDetailsController() {
 				setEditableName(fetchedAnimal.name);
 				setEditableAge(fetchedAnimal.age);
 				setEditableSpecies(fetchedAnimal.species);
-				setEditableNeutered(fetchedAnimal.neutered);
+				setEditableNeutered(fetchedAnimal.neutered === 'true');
 
 			} catch (error) {
 				console.error('Error fetching animal:', error);
@@ -59,7 +59,7 @@ function AnimalDetailsController() {
 	}
 
 	const handleNeuteredChange = (e) => {
-		setEditableNeutered(e.target.value);
+		setEditableNeutered(e.target.checked);
 	}
 
 	const toggleAdminMode = () => {
@@ -67,7 +67,18 @@ function AnimalDetailsController() {
 	};
 
 	const handleSave = async () => {
+		const updatedAnimal = {
+			...animal,
+			text: editableText,
+			name: editableName,
+			age: editableAge,
+			species: editableSpecies,
+			neutered: editableNeutered,
+		};
 
+		await UpdateAnimal(updatedAnimal);
+		setAnimal(updatedAnimal);
+		setAdminMode(false);
 	}
 
 	return (
@@ -79,53 +90,72 @@ function AnimalDetailsController() {
 				<Image src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover mt-10" />
 				<div className="ml-16 flex flex-col">
 					{adminMode ? (
-						<div className="items-center">
-							<text className="text-black">Name:</text>
-							<textarea className="mt-2 text-black bg-Main_BG" value={editableName} onChange={handleNameChange}/>
+						<div className="items-center flex">
+							<text className="text-black top-1/2">Name:</text>
+							<textarea className="mt-2 ml-2 text-black bg-Main_BG" value={editableName} onChange={handleNameChange}/>
 						</div>
 							) : (
 
 						<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
 						)}
 					{adminMode ? (
-						<div>
-							<text className="text-black">Age:</text>
-							<textarea className="mt-2 text-black bg-Main_BG" value={editableAge} onChange={handleAgeChange}/>
+						<div className="items-center flex">
+							<text className="text-black top-1/2">Age:</text>
+							<input
+								type="number"
+								className="mt-2 ml-2 text-black bg-Main_BG"
+								value={editableAge}
+								onChange={handleAgeChange}
+							/>
 						</div>
-						) : (
+					) : (
 						<p className="mt-2 text-black">Age: {animal.age}</p>
 					)}
 					{adminMode ? (
-						<div>
+						<div className="items-center flex">
 							<text className="text-black">Species:</text>
-							<textarea className="mt-2 text-black bg-Main_BG" value={editableSpecies} onChange={handleSpeciesChange}/>
+							<textarea className="mt-2 ml-2 text-black bg-Main_BG" value={editableSpecies}
+									  onChange={handleSpeciesChange}/>
 						</div>
-							) : (
+					) : (
 						<p className="mt-2 text-black">Species: {animal.species}</p>
 					)}
 
 					{adminMode ? (
-						<div>
+						<div className="items-center flex">
 							<text className="text-black">Neutered:</text>
-							<textarea className="mt-2 text-black bg-Main_BG" value={editableNeutered} onChange={handleNeuteredChange}/>
+							<input
+								type="checkbox"
+								className="mt-2 ml-2 text-black bg-Main_BG"
+								checked={editableNeutered}
+								onChange={handleNeuteredChange}
+							/>
 						</div>
-							) : (
+					) : (
 						<p className="mt-2 text-black">Neutered: {animal.neutered ? 'Yes' : 'No'}</p>
 					)}
 					{adminMode ? (
-						<div>
+						<div className="items-top flex">
 							<text className="text-black">Text:</text>
-							<textarea className="text-box mt-2 text-black" value={editableText} onChange={handleTextChange} />
+							<textarea className="text-box mt-2 ml-2 text-black" value={editableText}
+									  onChange={handleTextChange}/>
 						</div>
-							) : (
+					) : (
 						<div className="text-box mt-2 text-black">
 							<p>{animal.text}</p>
 						</div>
 					)}
 					<div className="justify-center relative flex align-middle mt-10">
+						{adminMode ? (
+							<button  className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller"
+									onClick={handleSave}>
+								Save
+							</button>
+						) : (
 						<button className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller">
 							Meet
 						</button>
+						)}
 					</div>
 				</div>
 				{!adminMode && (

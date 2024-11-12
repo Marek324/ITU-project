@@ -4,20 +4,25 @@ const port = 5000;
 export async function GetAnimals() {
 	try {
 		const response = await axios.get(`http://localhost:${port}/api/animals`);
-		return response.data.map(animal => ({
-			id: animal.id,
-			image: animal.image,
-			name: animal.name,
-			text: animal.text,
-			species: animal.species,
-			age: animal.age,
-			sex: animal.sex,
-			neutered: animal.neutered
-		}));
+		return mapAnimals(response);
 	} catch (error) {
 		console.error('Error fetching animals:', error);
 		return [];
 	}
+}
+
+function mapAnimals(response)
+{
+	return response.data.map(animal => ({
+		id: animal.id,
+		image: animal.image,
+		name: animal.name,
+		text: animal.text,
+		species: animal.species,
+		age: animal.age,
+		sex: animal.sex,
+		neutered: animal.neutered
+	}));
 }
 
 export async function GetAnimal(id) {
@@ -64,3 +69,20 @@ export async function RemoveAnimal(id) {
 		}));
 	}
 }
+
+export async function UpdateAnimal(updated_animal) {
+	const response = await axios.put(`http://localhost:${port}/api/animals/${updated_animal.id}`, updated_animal);
+	if(response.status === 200) {
+		return response.data.map(animal => ({
+			id: animal.id,
+			image: animal.image,
+			name: animal.name,
+			text: animal.text,
+			species: animal.species,
+			age: animal
+		}
+	)
+)
+	}
+}
+
