@@ -12,6 +12,7 @@ const MarketContent = () => {
        </div>
       </div>
       <div
+      // square
         className="flex justify-center items-center"
         style={{
           backgroundColor: '#3A4E93',
@@ -32,8 +33,21 @@ const MarketContent = () => {
             height: 'auto'
           }}
         />
-      </div>
+<div className="grid grid-cols-3 gap-x-36 gap-y-12 mt-30">
+  {Array.from({ length: 9 }).map((_, index) => (
+    <div
+      key={index}
+      className="w-16 h-16 rounded-full border-2 border-[#B957CE] flex justify-center items-center"
+    >
+      {/* Placeholder content in the circles (can replace with icons or text) */}
+      <span className="text-white">🔘</span>
     </div>
+  ))}
+</div>
+</div>
+</div>
+
+
   );
 };
 
