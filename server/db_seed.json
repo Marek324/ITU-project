@@ -112,10 +112,7 @@
           "text": "5-10 years",
           "correct": false
         },
-        {
-          "text": "15-20 years",
-          "correct": false
-        },
+       
         {
           "text": "20-25 years",
           "correct": false
@@ -130,10 +127,7 @@
           "text": "Chocolate",
           "correct": true
         },
-        {
-          "text": "Carrots",
-          "correct": false
-        },
+        
         {
           "text": "Apples",
           "correct": false
@@ -159,11 +153,8 @@
         {
           "text": "2-3 times a day",
           "correct": true
-        },
-        {
-          "text": "Only when they feel like it",
-          "correct": false
         }
+        
       ]
     }
   ],

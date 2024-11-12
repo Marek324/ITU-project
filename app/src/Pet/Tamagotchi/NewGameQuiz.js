@@ -4,8 +4,6 @@ import Quiz from './quiz';
 import axios from 'axios';
 import '../../App.css';
 
-
-
 const port = 5000;
 
 const NewGameQuiz = ({ setShowGame }) => {
@@ -37,7 +35,7 @@ const NewGameQuiz = ({ setShowGame }) => {
 
     fetchQuestions();
   }, []);
-  
+
   const handleQuizClick = (index) => {
     setSelectedAnswerIndex(index);
   };
@@ -110,7 +108,7 @@ const NewGameQuiz = ({ setShowGame }) => {
   return showQuiz ? (
     <Quiz setShowGame={setShowGame} />
   ) : (
-    <div className="flex flex-1 text-white">
+    <div className="flex flex-1 text-white justify-center">
       <div className="absolute top-20 left-2 flex">
         <div className="flex items-center space-x-1">
           {money()}
@@ -126,9 +124,10 @@ const NewGameQuiz = ({ setShowGame }) => {
           height: '600px',
           border: '1px solid #B957CE',
           padding: '20px',
-          overflowY: 'auto',
+          overflowY: 'auto', 
         }}
       >
+        {/* Close Button */}
         <div
           className="absolute top-1 left-1 cursor-pointer"
           style={{
@@ -153,6 +152,7 @@ const NewGameQuiz = ({ setShowGame }) => {
             />
           </svg>
         </div>
+
         <div
           className="absolute top-16"
           style={{
@@ -161,6 +161,7 @@ const NewGameQuiz = ({ setShowGame }) => {
             backgroundColor: '#B957CE',
           }}
         />
+
         <div className="mt-10 text-center">
           {noMoreQuestions ? (
             <div>
@@ -220,8 +221,6 @@ const NewGameQuiz = ({ setShowGame }) => {
                   {answer.text}
                 </h1>
               ))
-              
-                
             )}
           </div>
         )}
