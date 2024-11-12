@@ -190,5 +190,134 @@
 				}
 			]
 		}
+	],
+	"games": [
+		{
+			"_comment": "MAKOVICE, PŘIDEJ SI TADY DO TĚCH TABULEK TABULKY TEN KOZAHOP"
+		},
+		{
+			"id": 0,
+			"animalId": 1,
+			"money": 0,
+			"FPID": 0
+		},
+		{
+			"id": 1,
+			"animalId": 2,
+			"money": 20,
+			"FPID": 1
+		},
+		{
+			"id": 2,
+			"animalId": 3,
+			"money": 30,
+			"FPID": 2
+		},
+		{
+			"id": 3,
+			"animalId": 4,
+			"money": 40,
+			"FPID": 3
+		}
+	],
+
+
+	"fp": [
+		{
+			"id": 0,
+			"highScore": 5,
+			"leaderboards": [
+				{ "name": "Pepa1", "score": 10 },
+				{ "name": "Jirka1", "score": 9 },
+				{ "name": "Honza1", "score": 8 },
+				{ "name": "Honza2", "score": 7 },
+				{ "name": "Honza3", "score": 6 },
+				{ "name": "Honza4", "score": 5 },
+				{ "name": "Honza5", "score": 4 },
+				{ "name": "Honza6", "score": 3 },
+				{ "name": "Honza7", "score": 2 },
+				{ "name": "Honza8", "score": 1 }
+			],
+			"boughtColors": [
+				{ "color": "blue", "bought": true },
+				{ "color": "green", "bought": false },
+				{ "color": "red", "bought": false },
+				{ "color": "yellow", "bought": true },
+				{ "color": "cyan", "bought": true },
+				{ "color": "grey", "bought": false }
+			]
+		},
+		{
+			"id": 1,
+			"highScore": 10,
+			"leaderboards": [
+				{ "name": "Pepa1", "score": 20 },
+				{ "name": "Jirka1", "score": 19},
+				{ "name": "Honza1", "score": 18},
+				{ "name": "Honza2", "score": 17},
+				{ "name": "Honza3", "score": 16},
+				{ "name": "Honza4", "score": 15},
+				{ "name": "Honza5", "score": 14},
+				{ "name": "Honza6", "score": 13},
+				{ "name": "Honza7", "score": 12},
+				{ "name": "Honza8", "score": 11}
+			],
+			"boughtColors": [
+				{ "color": "blue", "bought": false },
+				{ "color": "green", "bought": false },
+				{ "color": "red", "bought": false },
+				{ "color": "yellow", "bought": false },
+				{ "color": "cyan", "bought": false },
+				{ "color": "grey", "bought": false }
+			]
+		},
+		{
+			"id": 2,
+			"highScore": 20,
+			"leaderboards": [
+				{ "name": "Pepa1", "score": 30 },
+				{ "name": "Jirka1", "score": 29 },
+				{ "name": "Honza1", "score": 28 },
+				{ "name": "Honza2", "score": 27 },
+				{ "name": "Honza3", "score": 26 },
+				{ "name": "Honza4", "score": 25 },
+				{ "name": "Honza5", "score": 24 },
+				{ "name": "Honza6", "score": 23 },
+				{ "name": "Honza7", "score": 22 },
+				{ "name": "Honza8", "score": 21 }
+			],
+			"boughtColors": [
+				{ "color": "blue", "bought": true },
+				{ "color": "green", "bought": true },
+				{ "color": "red", "bought": true },
+				{ "color": "yellow", "bought": true },
+				{ "color": "cyan", "bought": true },
+				{ "color": "grey", "bought": true }
+			]
+		},
+		{
+			"id": 3,
+			"highScore": 30,
+			"leaderboards": [
+				{ "name": "Pepa1", "score": 40 },
+				{ "name": "Jirka1", "score": 39 },
+				{ "name": "Honza1", "score": 38 },
+				{ "name": "Honza2", "score": 37 },
+				{ "name": "Honza3", "score": 36 },
+				{ "name": "Honza4", "score": 35 },
+				{ "name": "Honza5", "score": 34 },
+				{ "name": "Honza6", "score": 33 },
+				{ "name": "Honza7", "score": 32 },
+				{ "name": "Honza8", "score": 31 }
+			],
+			"boughtColors": [
+				{ "color": "blue", "bought": false },
+				{ "color": "green", "bought": true },
+				{ "color": "red", "bought": false },
+				{ "color": "yellow", "bought": false},
+				{ "color": "cyan", "bought": true },
+				{ "color": "grey", "bought": false }
+			]
+		}
 	]
 }
