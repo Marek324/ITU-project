@@ -55,6 +55,64 @@ app.get('/api/animals/:id', async (req, res) => {
 	res.send(data);
 });
 
+app.get('/api/articles', async (req, res) => {
+	await db.read();
+
+	let data = db.data.articles;
+
+	res.send(data);
+});
+
+app.get('/api/articles/:id', async (req, res) => {
+	await db.read();
+
+	let data = db.data.articles.find(article => article.id === Number(req.params.id));
+
+	res.send(data);
+});
+
+//new
+app.post('/api/articles', async (req, res) => {
+	await db.read();
+
+	const { title, author, date, content, image } = req.body;
+
+	const articleId = genId();
+
+	db.data.articles[articleId] = {
+		id: articleId,
+		author: author,
+		title: title,
+		datetime: date,
+		contemt: content,
+		image: image
+	};
+
+	await db.write();
+	res.status(200).send({ id: articleId ,message: 'Article added successfully' });
+});
+
+//edit
+app.put('/api/articles/:id', async (req, res) => {
+	await db.read();
+
+	const { id } = req.params;
+
+	await db.write();
+	res.status(200).send({ message: 'Article updated successfully' });
+});
+
+//delete
+app.delete("/api/articles/:id", async (req, res) => {
+	await db.read();
+
+	const { id } = req.params;
+
+	delete db.data.articles[id];
+
+	await db.write();
+	res.status(200).send({ message: 'Article deleted successfully' });
+
 app.post('/api/animals', async (req, res) => {
 	let new_animal = req.body;
 	await db.read();
