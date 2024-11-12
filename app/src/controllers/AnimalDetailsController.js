@@ -8,6 +8,8 @@ import Image from '../components/Image';
 function AnimalDetailsController() {
 	const { id } = useParams();
 	const [animal, setAnimal] = useState(null);
+	const [adminMode, setAdminMode] = useState(false);
+	const [editableText, setEditableText] = useState('');
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -15,6 +17,7 @@ function AnimalDetailsController() {
 			try {
 				const fetchedAnimal = await GetAnimal(id);
 				setAnimal(fetchedAnimal);
+				setEditableText(fetchedAnimal.text);
 			} catch (error) {
 				console.error('Error fetching animal:', error);
 			}
@@ -30,10 +33,18 @@ function AnimalDetailsController() {
 		navigate(`/animal/${id}/flappypet`);
 	};
 
+	const handleTextChange = (e) => {
+		setEditableText(e.target.value);
+	};
+
+	const toggleAdminMode = () => {
+		setAdminMode(prevAdminMode => !prevAdminMode);
+	};
+
 	return (
 		<div className="bg-white min-h-screen flex flex-col flex-grow">
 			<header>
-				<AdoptHeader />
+				<AdoptHeader onAdminModeClick={toggleAdminMode} />
 			</header>
 			<div className="flex-grow flex items-start m-3 justify-center align-middle relative p-4 min-h-custom-img">
 				<Image src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover mt-10" />
@@ -42,9 +53,13 @@ function AnimalDetailsController() {
 					<p className="mt-2 text-black">Age: {animal.age}</p>
 					<p className="mt-2 text-black">Species: {animal.species}</p>
 					<p className="mt-2 text-black">Neutered: {animal.neutered ? 'Yes' : 'No'}</p>
-					<div className="text-box mt-2 text-black">
-						<p>{animal.text}</p>
-					</div>
+					{adminMode ? (
+						<textarea className="text-box mt-2 text-black" value={editableText} onChange={handleTextChange} />
+					) : (
+						<div className="text-box mt-2 text-black">
+							<p>{animal.text}</p>
+						</div>
+					)}
 					<div className="justify-center relative flex align-middle mt-10">
 						<button className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller">
 							Meet

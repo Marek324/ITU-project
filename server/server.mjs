@@ -40,22 +40,6 @@ let db;
 	}
 })();
 
-app.get('/api/animals', async (req, res) => {
-	await db.read();
-
-	let data = db.data.animals;
-
-	res.send(data);
-});
-
-app.get('/api/animals/:id', async (req, res) => {
-	await db.read();
-
-	let data = db.data.animals.find(animal => animal.id === Number(req.params.id));
-
-	res.send(data);
-});
-
 // ================================================
 // ===================== Blog =====================
 // ================================================
@@ -121,6 +105,26 @@ app.delete("/api/articles/:id", async (req, res) => {
 
 	await db.write();
 	res.code(200).send({ message: 'Article deleted successfully' });
+});
+
+// ================================================
+// ===================== Animals ==================
+// ================================================
+
+app.get('/api/animals', async (req, res) => {
+	await db.read();
+
+	let data = db.data.animals;
+
+	res.send(data);
+});
+
+app.get('/api/animals/:id', async (req, res) => {
+	await db.read();
+
+	let data = db.data.animals.find(animal => animal.id === Number(req.params.id));
+
+	res.send(data);
 });
 
 app.post('/api/animals', async (req, res) => {
