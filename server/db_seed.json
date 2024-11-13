@@ -112,10 +112,7 @@
           "text": "5-10 years",
           "correct": false
         },
-        {
-          "text": "15-20 years",
-          "correct": false
-        },
+
         {
           "text": "20-25 years",
           "correct": false
@@ -130,10 +127,7 @@
           "text": "Chocolate",
           "correct": true
         },
-        {
-          "text": "Carrots",
-          "correct": false
-        },
+
         {
           "text": "Apples",
           "correct": false
@@ -159,11 +153,8 @@
         {
           "text": "2-3 times a day",
           "correct": true
-        },
-        {
-          "text": "Only when they feel like it",
-          "correct": false
         }
+
       ]
     }
   ],
@@ -192,6 +183,220 @@
 					"author": "Jane Smith",
 					"content": "Dogs should be taken for a walk 2-3 times a day."
 				}
+			]
+		}
+	],
+	"games": [
+		{
+			"id": 0,
+			"animalId": 1,
+			"money": 0,
+			"fpId": 0
+		},
+		{
+			"id": 1,
+			"animalId": 2,
+			"money": 20,
+			"fpId": 1
+		},
+		{
+			"id": 2,
+			"animalId": 3,
+			"money": 30,
+			"fpId": 2
+		},
+		{
+			"id": 3,
+			"animalId": 4,
+			"money": 40,
+			"fpId": 3
+		}
+	],
+  
+    "shop": [
+      {
+        "id": 1,
+        "name": "Pet Food",
+        "price": 5,
+        "count": 100,
+        "icon": "food_02"
+      },
+      {
+        "id": 2,
+        "name": "Pet Food 2",
+        "price": 20,
+        "count": 50,
+        "icon": "food_01"
+
+      },
+      {
+        "id": 3,
+        "name": "Pet Food 3",
+        "price": 10,
+        "count": 70,
+        "icon": "food_02"
+
+      },
+      {
+        "id": 4,
+        "name": "Hat",
+        "price": 7,
+        "count": 150,
+        "icon": "hatS"
+      },
+      {
+        "id": 5,
+        "name": "Collar",
+        "price": 8,
+        "count": 60,
+        "icon": "pallete"
+      },
+      {
+        "id": 6,
+        "name": "Ball",
+        "price": 15,
+        "count": 80,
+        "icon": "hatS"
+      },
+      {
+        "id": 7,
+        "name": "Background",
+        "price": 25,
+        "count": 30,
+        "icon": "background"
+      },
+      {
+        "id": 8,
+        "name": "Pallete",
+        "price": 12,
+        "count": 40,
+        "icon": "pallete"
+      },
+      {
+        "id": 9,
+        "name": "Toy",
+        "price": 50,
+        "count": 20,
+        "icon": "hatS"
+      }
+    ],
+	"hop": [
+		{
+			"id": 0,
+			"height": 120,
+			"date": "2021-01-01T12:00:00"
+		},
+		{
+			"id": 1,
+			"height": 130,
+			"date": "2021-02-01T12:00:00"
+		},
+		{
+			"id": 2,
+			"height": 140,
+			"date": "2021-03-01T12:00:00"
+		},
+		{
+			"id": 3,
+			"height": 150,
+			"date": "2021-04-01T12:00:00"
+		}
+	],
+	"fp": [
+		{
+			"id": 0,
+			"highscore": 1,
+			"leaderboards": [
+				{ "name": "Pepa1", "score": 10 },
+				{ "name": "Jirka1", "score": 9 },
+				{ "name": "Honza1", "score": 8 },
+				{ "name": "Honza2", "score": 7 },
+				{ "name": "Honza3", "score": 6 },
+				{ "name": "Honza4", "score": 5 },
+				{ "name": "Honza5", "score": 4 },
+				{ "name": "Honza6", "score": 3 },
+				{ "name": "Honza7", "score": 2 },
+				{ "name": "Honza8", "score": 1 }
+			],
+			"boughtColors": [
+				{ "color": "blue", "bought": true },
+				{ "color": "green", "bought": false },
+				{ "color": "red", "bought": false },
+				{ "color": "yellow", "bought": true },
+				{ "color": "cyan", "bought": true },
+				{ "color": "grey", "bought": false }
+			]
+		},
+		{
+			"id": 1,
+			"highscore": 10,
+			"leaderboards": [
+				{ "name": "Pepa1", "score": 20 },
+				{ "name": "Jirka1", "score": 19},
+				{ "name": "Honza1", "score": 18},
+				{ "name": "Honza2", "score": 17},
+				{ "name": "Honza3", "score": 16},
+				{ "name": "Honza4", "score": 15},
+				{ "name": "Honza5", "score": 14},
+				{ "name": "Honza6", "score": 13},
+				{ "name": "Honza7", "score": 12},
+				{ "name": "Honza8", "score": 11}
+			],
+			"boughtColors": [
+				{ "color": "blue", "bought": false },
+				{ "color": "green", "bought": false },
+				{ "color": "red", "bought": false },
+				{ "color": "yellow", "bought": false },
+				{ "color": "cyan", "bought": false },
+				{ "color": "grey", "bought": false }
+			]
+		},
+		{
+			"id": 2,
+			"highscore": 20,
+			"leaderboards": [
+				{ "name": "Pepa1", "score": 30 },
+				{ "name": "Jirka1", "score": 29 },
+				{ "name": "Honza1", "score": 28 },
+				{ "name": "Honza2", "score": 27 },
+				{ "name": "Honza3", "score": 26 },
+				{ "name": "Honza4", "score": 25 },
+				{ "name": "Honza5", "score": 24 },
+				{ "name": "Honza6", "score": 23 },
+				{ "name": "Honza7", "score": 22 },
+				{ "name": "Honza8", "score": 21 }
+			],
+			"boughtColors": [
+				{ "color": "blue", "bought": true },
+				{ "color": "green", "bought": true },
+				{ "color": "red", "bought": true },
+				{ "color": "yellow", "bought": true },
+				{ "color": "cyan", "bought": true },
+				{ "color": "grey", "bought": true }
+			]
+		},
+		{
+			"id": 3,
+			"highscore": 30,
+			"leaderboards": [
+				{ "name": "Pepa1", "score": 40 },
+				{ "name": "Jirka1", "score": 39 },
+				{ "name": "Honza1", "score": 38 },
+				{ "name": "Honza2", "score": 37 },
+				{ "name": "Honza3", "score": 36 },
+				{ "name": "Honza4", "score": 35 },
+				{ "name": "Honza5", "score": 34 },
+				{ "name": "Honza6", "score": 33 },
+				{ "name": "Honza7", "score": 32 },
+				{ "name": "Honza8", "score": 31 }
+			],
+			"boughtColors": [
+				{ "color": "blue", "bought": false },
+				{ "color": "green", "bought": true },
+				{ "color": "red", "bought": false },
+				{ "color": "yellow", "bought": false},
+				{ "color": "cyan", "bought": true },
+				{ "color": "grey", "bought": false }
 			]
 		}
 	]

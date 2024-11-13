@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { money } from '../../svg.js';
 import Quiz from './quiz';
 import axios from 'axios';
+import '../../App.css';
 
 const port = 5000;
 
@@ -21,11 +22,12 @@ const NewGameQuiz = ({ setShowGame }) => {
         const response = await axios.get(`http://localhost:${port}/api/questions`);
         console.log('Fetched Questions:', response.data.questions);
         setQuestions(response.data.map(q => ({
-			id: q.id,
-			question: q.question,
-			answers: q.answers,
-			correctAnswer: q.correctAnswer,
-		})));
+          id: q.id,
+          question: q.question,
+          answers: q.answers,
+          correctAnswer: q.correctAnswer,
+          user_created: q.user_created,
+        })));
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
@@ -33,25 +35,13 @@ const NewGameQuiz = ({ setShowGame }) => {
 
     fetchQuestions();
   }, []);
-  useEffect(() => {
-    console.log('Current user answer:', userAnswer);
-  }, [userAnswer]);
-
-  if (questions.length === 0) {
-    return <div>Loading questions...</div>;
-  }
 
   const handleQuizClick = (index) => {
     setSelectedAnswerIndex(index);
   };
 
-  const handleCrossClick = () => {
-    setShowQuiz(true);
-  };
   const handleNextClick = () => {
     const currentQuestion = questions[currentQuestionIndex];
-
-    console.log('User Input (before handling next question):', userAnswer);
 
     if (currentQuestion.user_created) {
       if (userAnswer.trim() !== "") {
@@ -75,8 +65,6 @@ const NewGameQuiz = ({ setShowGame }) => {
         }
 
         setUserAnswer('');
-      } else {
-        console.log('Input is empty for user-created question');
       }
     } else {
       const correctAnswer = currentQuestion.answers?.find((ans) => ans.correct);
@@ -109,8 +97,6 @@ const NewGameQuiz = ({ setShowGame }) => {
     }
   };
 
-
-
   const handlePreviousClick = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
@@ -120,10 +106,9 @@ const NewGameQuiz = ({ setShowGame }) => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return showQuiz ? (
-
     <Quiz setShowGame={setShowGame} />
   ) : (
-    <div className="flex flex-1 text-white">
+    <div className="flex flex-1 text-white justify-center">
       <div className="absolute top-20 left-2 flex">
         <div className="flex items-center space-x-1">
           {money()}
@@ -139,16 +124,17 @@ const NewGameQuiz = ({ setShowGame }) => {
           height: '600px',
           border: '1px solid #B957CE',
           padding: '20px',
-          overflowY: 'auto',
+          overflowY: 'auto', 
         }}
       >
+        {/* Close Button */}
         <div
           className="absolute top-1 left-1 cursor-pointer"
           style={{
             width: '60px',
             height: '60px',
           }}
-          onClick={handleCrossClick}
+          onClick={() => setShowQuiz(true)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -166,6 +152,7 @@ const NewGameQuiz = ({ setShowGame }) => {
             />
           </svg>
         </div>
+
         <div
           className="absolute top-16"
           style={{
@@ -174,6 +161,7 @@ const NewGameQuiz = ({ setShowGame }) => {
             backgroundColor: '#B957CE',
           }}
         />
+
         <div className="mt-10 text-center">
           {noMoreQuestions ? (
             <div>
@@ -184,20 +172,13 @@ const NewGameQuiz = ({ setShowGame }) => {
                 {userAnswers.map((answer, index) => (
                   <div key={index} className="mb-4">
                     <h2 className="text-xl text-[#B957CE]">{answer.question}</h2>
-
-                    {answer.user_created ? (
-                      <p
-                        className={`text-lg ${answer.isCorrect ? 'text-green-500' : 'text-red-500'}`}
-                      >
-                        You typed: "{answer.selectedAnswer}" - {answer.isCorrect ? 'Correct' : 'Incorrect'}
-                      </p>
-                    ) : (
-                      <p
-                        className={`text-lg ${answer.isCorrect ? 'text-green-500' : 'text-red-500'}`}
-                      >
-                        You selected: {answer.selectedAnswer} - {answer.isCorrect ? 'Correct' : 'Incorrect'}
-                      </p>
-                    )}
+                    <p
+                      className={`text-lg ${
+                        answer.isCorrect ? 'text-green-500' : 'text-red-500'
+                      }`}
+                    >
+                      You {answer.user_created ? 'typed' : 'selected'}: "{answer.selectedAnswer}" - {answer.isCorrect ? 'Correct' : 'Incorrect'}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -213,44 +194,29 @@ const NewGameQuiz = ({ setShowGame }) => {
           <div className="flex flex-col space-y-12 pt-8 text-left">
             {currentQuestion?.user_created ? (
               <div className="flex flex-col space-y-4">
-             <input
-  type="text"
-  placeholder="Type your answer"
-  value={userAnswer}
-  onChange={(e) => {
-    const newValue = e.target.value;
-    setUserAnswer(newValue);
-    console.log('User Input (while typing):', newValue);
-  }}
-  className="p-2 rounded text-black bg-white"
-  style={{
-    width: '100%',
-    padding: '10px',
-    fontSize: '16px',
-    border: '2px solid #B957CE',
-    borderRadius: '5px',
-  }}
-/>
-
-
+                <input
+                  type="text"
+                  placeholder="Type your answer"
+                  value={userAnswer}
+                  onChange={(e) => setUserAnswer(e.target.value)}
+                  className="p-2 rounded text-black bg-white"
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    fontSize: '16px',
+                    border: '2px solid #B957CE',
+                    borderRadius: '5px',
+                  }}
+                />
               </div>
             ) : (
               currentQuestion?.answers?.map((answer, index) => (
                 <h1
                   key={index}
                   className={`text-3xl cursor-pointer hover:text-[#B957CE] ${
-                    selectedAnswerIndex === index
-                      ? 'border-2 border-[#B957CE] rounded-full inline-block px-2 py-0.5'
-                      : ''
+                    selectedAnswerIndex === index ? 'border-2 border-[#B957CE] rounded-full px-4 py-1 inline-block' : ''
                   }`}
                   onClick={() => handleQuizClick(index)}
-                  style={{
-                    display: 'inline-block',
-                    borderRadius: '50%',
-                    padding: '0.2rem 0.5rem',
-                    lineHeight: '1.5',
-                    whiteSpace: 'nowrap',
-                  }}
                 >
                   {answer.text}
                 </h1>
@@ -259,7 +225,7 @@ const NewGameQuiz = ({ setShowGame }) => {
           </div>
         )}
 
-{!noMoreQuestions && (
+        {!noMoreQuestions && (
           <div className="flex items-center justify-center mt-16 space-x-4">
             <button
               className="px-4 py-2 rounded hover:text-[#9c3eb2] text-3xl text-[#B9E9E9]"

@@ -4,5 +4,7 @@ export const db_model = {
 	articles: [],
 	questions: [],
 	chat: [],
-
+	games: [],
+	fp: [],
+	hop: []
 }

@@ -11,7 +11,7 @@ function RectangleList({ animals, adminMode, handleRemoveAnimal }) {
 							Remove
 						</button>
 					)}
-					<RectangleItem animal={animal} />
+					<RectangleItem animal={animal} adminMode={adminMode} />
 				</div>
 			))}
 		</div>

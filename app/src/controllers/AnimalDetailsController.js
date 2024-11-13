@@ -1,13 +1,15 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { GetAnimal } from '../services/AnimalsService';
-import AdoptHeader from '../components/AdoptHeader';
-import { gamepad } from '../svg';
-import Image from '../components/Image';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { CreateAnimal, GetAnimal, UpdateAnimal } from '../services/AnimalsService';
+import AnimalDetail from "../components/animals/AnimalDetail";
+import AnimalEdit from "../components/animals/AnimalEdit";
 
 function AnimalDetailsController() {
 	const { id } = useParams();
+	const location = useLocation();
 	const [animal, setAnimal] = useState(null);
+	const [adminMode, setAdminMode] = useState(location.state?.adminMode || false);
+	const [editableAnimal, setEditableAnimal] = useState(null);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -15,6 +17,7 @@ function AnimalDetailsController() {
 			try {
 				const fetchedAnimal = await GetAnimal(id);
 				setAnimal(fetchedAnimal);
+				setEditableAnimal(fetchedAnimal);
 			} catch (error) {
 				console.error('Error fetching animal:', error);
 			}
@@ -27,39 +30,37 @@ function AnimalDetailsController() {
 	}
 
 	const handleGameClicked = () => {
-		navigate(`/animal/${id}/flappypet`);
+		navigate(`/animal/${id}/tamagotchi`);
+	};
+
+	const toggleAdminMode = () => {
+		setAdminMode(prevAdminMode => !prevAdminMode);
+	};
+
+	const handleSave = async () => {
+		await UpdateAnimal(editableAnimal);
+		setAnimal(editableAnimal);
+		setAdminMode(false);
 	};
 
 	return (
-		<div className="bg-white min-h-screen flex flex-col flex-grow">
-			<header>
-				<AdoptHeader />
-			</header>
-			<div className="flex-grow flex items-start m-3 justify-center align-middle relative p-4 min-h-custom-img">
-				<Image src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover mt-10" />
-				<div className="ml-16 flex flex-col">
-					<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
-					<p className="mt-2 text-black">Age: {animal.age}</p>
-					<p className="mt-2 text-black">Species: {animal.species}</p>
-					<p className="mt-2 text-black">Neutered: {animal.neutered ? 'Yes' : 'No'}</p>
-					<div className="text-box mt-2 text-black">
-						<p>{animal.text}</p>
-					</div>
-					<div className="justify-center relative flex align-middle mt-10">
-						<button className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller">
-							Meet
-						</button>
-					</div>
-				</div>
-				<button className="-ml-12" onClick={handleGameClicked}>
-					{gamepad()}
-				</button>
-			</div>
-			<footer className="bg-pink-50 p-4 y-">
-				<div className="flex justify-center items-center">
-					<p>Footer Content</p>
-				</div>
-			</footer>
+		<div>
+			{adminMode ? (
+				<AnimalEdit
+					animal={editableAnimal}
+					toggleAdminMode={toggleAdminMode}
+					adminMode={adminMode}
+					handleSave={handleSave}
+					setEditableAnimal={setEditableAnimal}
+				/>
+			) : (
+				<AnimalDetail
+					animal={animal}
+					adminMode={adminMode}
+					toggleAdminMode={toggleAdminMode}
+					handleGameClicked={handleGameClicked}
+				/>
+			)}
 		</div>
 	);
 }

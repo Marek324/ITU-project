@@ -20,18 +20,14 @@ const QuestionPool = ({ setShowGame }) => {
     const fetchQuestions = async () => {
       try {
         const response = await axios.get(`http://localhost:${port}/api/questions`);
-        // const questionsWithCorrectAnswers = response.data.questions.map((question) => {
-        //   const correctAnswer = question.answers?.find(ans => ans.correct) || null;
-        //   return { ...question, correctAnswer };
-        // });
-		const questionsWithCorrectAnswers = response.data.filter(q =>
-			q.answers.some(a => a.correct === true)
-		).map(q => ({
-			id: q.id,
-			question: q.question,
-			answers: q.answers,
-			user_created: q.user_created,
-		}));
+        const questionsWithCorrectAnswers = response.data.filter(q =>
+          q.answers.some(a => a.correct === true)
+        ).map(q => ({
+          id: q.id,
+          question: q.question,
+          answers: q.answers,
+          user_created: q.user_created,
+        }));
         setQuestions(questionsWithCorrectAnswers);
         console.log('Fetched Questions:', questionsWithCorrectAnswers);
       } catch (error) {
@@ -49,31 +45,28 @@ const QuestionPool = ({ setShowGame }) => {
   const handleSaveNewQuestion = async () => {
     if (newQuestion && newAnswer) {
       try {
-		const q = {
-			question: newQuestion,
-			answers: [
-				{
-					text: newAnswer,
-					correct: true,
-				},
-			],
-		};
-        const response = await axios.post(`http://localhost:${port}/api/questions`, {
-          question: q,
-        });
+        const q = {
+          question: newQuestion,
+          answers: [
+            {
+              text: newAnswer,
+              correct: true,
+            },
+          ],
+        };
+        await axios.post(`http://localhost:${port}/api/questions`, { question: q });
 
-		const updatedQuestions = await axios.get(`http://localhost:${port}/api/questions`);
+        const updatedQuestions = await axios.get(`http://localhost:${port}/api/questions`);
         const questionsWithCorrectAnswers = updatedQuestions.data.filter(q =>
-			q.answers.some(a => a.correct === true)
-		).map(q => ({
-			id: q.id,
-			question: q.question,
-			answers: q.answers,
-			user_created: q.user_created,
-		}));
+          q.answers.some(a => a.correct === true)
+        ).map(q => ({
+          id: q.id,
+          question: q.question,
+          answers: q.answers,
+          user_created: q.user_created,
+        }));
 
         setQuestions(questionsWithCorrectAnswers);
-
         setNewQuestion('');
         setNewAnswer('');
         setShowNewQuestionInput(false);
@@ -86,12 +79,7 @@ const QuestionPool = ({ setShowGame }) => {
   const handleDeleteQuestion = async (questionId) => {
     console.log("Deleting question with ID:", questionId);
     const updatedQuestions = questions.filter(q => q.id !== questionId);
-    const updatedQuestionsWithCorrectAnswers = updatedQuestions.map((question) => {
-      const correctAnswer = question.answers?.find(ans => ans.correct) || null;
-      return { ...question, correctAnswer };
-    });
-
-    setQuestions(updatedQuestionsWithCorrectAnswers);
+    setQuestions(updatedQuestions);
 
     try {
       await axios.delete(`http://localhost:${port}/api/questions/${questionId}`);
@@ -103,21 +91,10 @@ const QuestionPool = ({ setShowGame }) => {
     }
   };
 
-
-
-
-
   return showQuiz ? (
     <Quiz setShowGame={setShowGame} />
   ) : (
-    <div className="flex flex-1 text-white">
-      <div className="absolute top-20 left-2 flex">
-        <div className="flex items-center space-x-1">
-          {money()}
-          <span className="text-2xl text-outline text-[#B957CE]">1200</span>
-        </div>
-      </div>
-
+    <div className="flex flex-1 text-white justify-center">
       <div
         className="relative flex flex-col justify-start"
         style={{
@@ -126,7 +103,7 @@ const QuestionPool = ({ setShowGame }) => {
           height: '600px',
           border: '1px solid #B957CE',
           padding: '20px',
-          overflowY: 'auto',
+          overflowY: 'auto', 
         }}
       >
         <div
@@ -162,69 +139,58 @@ const QuestionPool = ({ setShowGame }) => {
             backgroundColor: '#B957CE',
           }}
         />
-<div className="flex flex-col space-y-4 pt-16 text-left">
-  {questions.map((item, questionIndex) => (
-    <div key={questionIndex} className="flex flex-col space-y-2">
-      <div className="flex items-center space-x-4">
-        {(item.user_created === true) ? (
-          <button
-            className="text-red-500"
-            onClick={() => handleDeleteQuestion(item.id)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6 text-red-500 hover:text-red-700"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        ) : null}
+        <div className="flex flex-col space-y-4 pt-16 text-left">
+          {questions.map((item, questionIndex) => (
+            <div key={questionIndex} className="flex flex-col space-y-2">
+              <div className="flex items-center space-x-4">
+                {item.user_created === true && (
+                  <button
+                    className="text-red-500"
+                    onClick={() => handleDeleteQuestion(item.id)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="w-6 h-6 text-red-500 hover:text-red-700"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
 
-        {/* Question */}
-        <h1 className="text-3xl" style={{ fontFamily: 'Pixelify Sans' }}>
-          {item.question}
-        </h1>
-      </div>
+                {/* Question */}
+                <h1 className="text-3xl" style={{ fontFamily: 'Pixelify Sans' }}>
+                  {item.question}
+                </h1>
+              </div>
 
-      <div className="flex flex-col">
-        {/* {item.correctAnswer ? (
-          <div className="text-2xl mt-2 text-green-500" style={{ fontFamily: 'Pixelify Sans' }}>
-            {item.correctAnswer.text}
-          </div>
-        ) : (
-          <div className="text-2xl mt-2 text-red-500" style={{ fontFamily: 'Pixelify Sans' }}>
-            No correct answer available
-          </div>
-        )} */
-
-		  item.answers.some(a => a.correct === true) ? (
-			<div className="text-2xl mt-2 text-green-500" style={{ fontFamily: 'Pixelify Sans' }}>
-			  {item.answers.find(a => a.correct === true).text}
-			</div>
-		  ) : (
-			<div className="text-2xl mt-2 text-red-500" style={{ fontFamily: 'Pixelify Sans' }}>
-			  No correct answer available
-			</div>
-		  )
-
-		}
-      </div>
-    </div>
-  ))}
-</div>
-
-
-
-
-
+              <div className="flex flex-col">
+                {item.answers.some(a => a.correct === true) ? (
+                  <div
+                    className="text-2xl mt-2 text-green-500"
+                    style={{ fontFamily: 'Pixelify Sans' }}
+                  >
+                    {item.answers.find(a => a.correct === true).text}
+                  </div>
+                ) : (
+                  <div
+                    className="text-2xl mt-2 text-red-500"
+                    style={{ fontFamily: 'Pixelify Sans' }}
+                  >
+                    No correct answer available
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
 
         {showNewQuestionInput && (
           <div className="flex flex-col space-y-4 mt-4">

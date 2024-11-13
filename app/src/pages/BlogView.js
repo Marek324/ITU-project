@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import AdoptHeader from 'components/AdoptHeader';
+import AdoptHeader from 'components/animals/AdoptHeader';
+
 import ArticleTile from 'components/blog/ArticleTile';
 import { add as add_icon } from 'svg';
 

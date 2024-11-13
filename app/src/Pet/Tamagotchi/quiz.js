@@ -33,13 +33,12 @@ const Quiz = ({ setShowGame }) => {
   ) : questionPool ? (
     <QuestionPool setShowGame={setShowGame} />
   ) : (
-    <div className="flex flex-1 justify-center items-center text-white">
-      <div className="absolute top-20 left-2 flex items-center">
-        <div className="flex top-20 left-2 items-center space-x-1">
-          {money()}
-          <span className="text-2xl text-outline text-[#B957CE]">1200</span>
-        </div>
+    <div className="flex flex-col justify-center items-center text-white">
+      <div className="flex absolute top-20 left-2 items-center space-x-1">
+        {money()}
+        <span className="text-2xl text-outline text-[#B957CE]">1200</span>
       </div>
+
       <div
         className="relative flex flex-col justify-center items-center"
         style={{

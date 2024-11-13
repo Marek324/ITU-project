@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AdoptHeader from 'components/AdoptHeader';
+import AdoptHeader from 'components/animals/AdoptHeader';
 import Image from 'components/Image';
 import ChatController from 'controllers/ChatController';
 
