@@ -27,7 +27,7 @@ const BlogView = ({articles, adminMode, onAdminModeClick, onDeleteClick, onSave}
 
 	return (
 		<div className='App bg-Main_BG'>
-			<AdoptHeader onAdminModeClick={onAdminModeClick} />
+			<AdoptHeader onAdminModeClick={onAdminModeClick} adminMode={adminMode}/>
 			{articles.map((article, index) => (
 				<React.Fragment key={index}>
 					{adminMode && <button onClick={() => onDeleteClick(article.id)} className="bg-red-500 text-white p-2 rounded-lg">Delete</button>}
