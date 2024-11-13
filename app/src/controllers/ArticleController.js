@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ArticleView from 'pages/ArticleView';
 import { GetArticle, DeleteArticle, UpdateArticle } from 'services/BlogService';
+import { useLocation } from 'react-router-dom';
 
 const ArticleController = () => {
 	const { id } = useParams();
-
+	const location = useLocation();	
 	const [article, setArticle] = useState({});
 	const [adminMode, setAdminMode] = useState(location.state?.adminMode || false);
 

@@ -19,7 +19,7 @@ function App() {
 				<Route path="/blog" element={<BlogController />} />
 				<Route path="/blog/:id" element={<ArticleController />} />
 				<Route path="/animal/:id" element={<AnimalDetailsController />} />
-				<Route path="/animal/:id/tamagotchi" element={<App_t />} />
+				<Route path="/animal/:id/tamagotchi" element={<Tamagotchi />} />
 				<Route path="/animal/newAnimal" element={<CreateAnimalController />} />
 			</Routes>
 		</BrowserRouter>
