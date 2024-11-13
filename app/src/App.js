@@ -8,7 +8,7 @@ import Game from "Pet/FlappyBird/Game";
 import GameHop from "Pet/Hop/Game";
 import BlogController from 'controllers/BlogController';
 import ArticleController from 'controllers/ArticleController';
-import App_t from "Pet/Tamagotchi/tamagotchi";
+import Tamagotchi from "Pet/Tamagotchi/tamagotchi";
 import CreateAnimalController from "./controllers/CreateAnimalController";
 
 function App() {
