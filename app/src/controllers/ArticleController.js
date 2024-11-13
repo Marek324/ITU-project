@@ -7,7 +7,7 @@ const ArticleController = () => {
 	const { id } = useParams();
 
 	const [article, setArticle] = useState({});
-	const [adminMode, setAdminMode] = useState(false);
+	const [adminMode, setAdminMode] = useState(location.state?.adminMode || false);
 
 	const fetch = async () => {
 		try {

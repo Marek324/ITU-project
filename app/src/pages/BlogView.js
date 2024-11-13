@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import AdoptHeader from 'components/AdoptHeader';
 import ArticleTile from 'components/blog/ArticleTile';
 import { add as add_icon } from 'svg';
@@ -27,10 +27,12 @@ const BlogView = ({articles, adminMode, onAdminModeClick, onDeleteClick, onSave}
 	return (
 		<div className='App bg-Main_BG'>
 			<AdoptHeader onAdminModeClick={onAdminModeClick} />
-			{articles
-				.map((article, index) => (
-					<ArticleTile key={index} article={article} adminMode={adminMode} onDeleteClick={onDeleteClick} />
-				))}
+			{articles.map((article, index) => (
+				<React.Fragment key={index}>
+					{adminMode && <button onClick={() => onDeleteClick(article.id)} className="bg-red-500 text-white p-2 rounded-lg">Delete</button>}
+					<ArticleTile article={article} adminMode={adminMode} onDeleteClick={onDeleteClick} />
+				</React.Fragment>
+			))}
 			{adminMode && <button onClick={() => setAdd(true)} className="bg-green-500 text-white p-2 rounded-lg">{add_icon()}</button>}
 
 			{add &&
