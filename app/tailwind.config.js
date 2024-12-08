@@ -12,6 +12,14 @@ module.exports = {
 		'translate-y-m1',
 		'translate-y-m2',
 		'translate-y-m3',
+		'-translate-x-m0',
+		'-translate-x-m1',
+		'-translate-x-m2',
+		'-translate-x-m3',
+		'-translate-y-m0',
+		'-translate-y-m1',
+		'-translate-y-m2',
+		'-translate-y-m3',
 		'top-m0',
 		'top-m1',
 		'top-m2',
@@ -45,19 +53,7 @@ module.exports = {
 			  Animal_Card_BG: '#34495E',
 			  Main_BG: '#FBF7FF'
 		  },
-		  translate: {
-			'm0': '0rem',
-			'm1': '8.5rem',
-			'm2': '17rem',
-			'm3': '25.5rem',
-		  },
-		  top: {
-			'm0': '0rem',
-			'm1': '8.5rem',
-			'm2': '17rem',
-			'm3': '25.5rem',
-		  },
-		  left: {
+		  spacing: {
 			'm0': '0rem',
 			'm1': '8.5rem',
 			'm2': '17rem',

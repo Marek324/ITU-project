@@ -21,7 +21,14 @@ export default class MergeModel {
 		if (!moveMade) return;
 		this.addRandomTile();
 		this.checkGameOver();
-		console.log(this.grid);
+		this.grid.forEach(row => {
+			row.forEach(cell => {
+				if (cell !== null) {
+					console.log(cell);
+				}
+			});
+		});
+		console.log("-------------------");
 	}
 
 	createGrid() {
@@ -66,7 +73,6 @@ export default class MergeModel {
 				this.transposeGrid();
 				break;
 		}
-
 		return oldGrid !== JSON.stringify(this.grid.flat(2));
 	}
 
@@ -81,13 +87,13 @@ export default class MergeModel {
 			}
 		}
 
+		newRow.forEach((tile, index) => {
+			tile.setPosition(tile.row, index);
+		});
+
 		while (newRow.length < row.length) {
 			newRow.push(null);
 		}
-
-		newRow.forEach((tile, index) => {
-			if (tile) tile.setPosition(tile.row, index);
-		});
 
 		return newRow;
 	}
@@ -114,8 +120,8 @@ export default class MergeModel {
 				const tmp = transposedGrid[i][j];
 				transposedGrid[i][j] = transposedGrid[j][i];
 				transposedGrid[j][i] = tmp;
-				if (transposedGrid[i][j] !== null) transposedGrid[i][j].setPosition(i, j);
-				if (transposedGrid[j][i] !== null) transposedGrid[j][i].setPosition(j, i);
+				if (transposedGrid[i][j] !== null) transposedGrid[i][j].transposePosition();
+				if (transposedGrid[j][i] !== null) transposedGrid[j][i].transposePosition();
 			}
 		}
 
@@ -138,8 +144,9 @@ class Tile {
 		this.value = value;
 		this.row = row;
 		this.col = col;
-		this.prevRow = null;
-		this.prevCol = null;
+		this.prevRow = row;
+		this.prevCol = col;
+		this.id = Math.random().toString(36).substring(2, 9);
 	}
 
 	setPosition(row, col) {
@@ -147,6 +154,11 @@ class Tile {
 		this.prevCol = this.col;
 		this.row = row;
 		this.col = col;
+	}
+
+	transposePosition() {
+		[this.row, this.col] = [this.col, this.row];
+		[this.prevRow, this.prevCol] = [this.prevCol, this.prevRow];
 	}
 
 	setValue(value) {
@@ -162,16 +174,35 @@ class Tile {
 		tile = null;
 	}
 
-	calculateAnimation() {
-		if (this.prevRow === null || this.prevCol === null) return `top-m${this.row} left-m${this.col}`;
-		const rowOffset = this.row - this.prevRow;
-		const colOffset = this.col - this.prevCol;
-		this.prevRow = this.row;
-		this.prevCol = this.col;
-		if (rowOffset === 0 && colOffset === 0) return "";
+	calculateAnimation() { // https://motion.dev/docs/react-quick-start
+		let animation = [];
+		// animation.push(`left-m${this.prevCol} top-m${this.prevRow}`);
+		// if (this.row !== this.prevRow){
+		// 	const rowOffset = this.row - this.prevRow;
+		// 	animation.push(`${rowOffset < 0 ? "-" : ""}translate-y-m${Math.abs(rowOffset)}`);
+		// 	this.prevRow = this.row;
+		// }
 
-		if (rowOffset < 0) return `-translate-y-m${rowOffset}`;
-		if (colOffset < 0) return `-translate-x-m${colOffset}`;
-		return `translate-${colOffset !== 0 ? 'x' : 'y'}-m${colOffset !== 0 ? colOffset : rowOffset}`;
+		// if (this.col !== this.prevCol){
+		// 	const colOffset = this.col - this.prevCol;
+		// 	animation.push(`${colOffset < 0 ? "-" : ""}translate-x-m${Math.abs(colOffset)}`);
+		// 	this.prevCol = this.col;
+		// }
+
+		if (this.row !== this.prevRow){
+			animation.push(`translate-y-m${this.row}`);
+			this.prevRow = this.row;
+		} else {
+			animation.push(`translate-y-m${this.prevRow}`);
+		}
+
+		if (this.col !== this.prevCol){;
+			animation.push(`translate-x-m${this.col}`);
+			this.prevCol = this.col;
+		} else {
+			animation.push(`translate-x-m${this.prevCol}`);
+		}
+
+		return animation.join(" ");
 	}
 }

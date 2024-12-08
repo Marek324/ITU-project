@@ -10,22 +10,23 @@ const MergeBoard = ({ grid, gameOver}) => {
 				</div>
 			)}
 
-			<div
-				className={`
-					grid grid-rows-4 grid-cols-4 gap-2
-					relative
-				`}
-				>
-				{/* Empty tiles */}
-				{Array.from({length: 16}).map((_, index) => (
-					<div key={`empty-${index}`} className="bg-gray-200 rounded-lg size-32"></div>
-				))}
-
+			<div className="relative">
 				{grid.map((row, rowIndex) => (
 					row.map((cell, colIndex) => (
 						<MergeTile key={`${rowIndex}-${colIndex}`} tile={cell} row={rowIndex} col={colIndex} />
 					))
 				))}
+				<div
+					className={`
+						grid grid-rows-4 grid-cols-4 gap-2
+					`}
+					>
+					{/* Empty tiles */}
+					{Array.from({length: 16}).map((_, index) => (
+						<div key={`empty-${index}`} className="bg-gray-200 rounded-lg size-32"></div>
+					))}
+				</div>
+
 			</div>
 		</div>
 	);

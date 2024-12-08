@@ -7,19 +7,19 @@ const MergeTile = ({ tile }) => {
 		<>
 			{!tile ? <div></div> :
 				<div
+					key={`${tile.id}`}
 					className={`
+						transition-transform ease-in-out transform duration-300
+						${tile.calculateAnimation()}
 						size-32 rounded-lg
 						absolute
-						transition-all duration-100
-						origin-center
 						${getTileColor(tile)}
-						${tile.calculateAnimation()}
 						text-3xl text-white
 						text-center font-bold
 						flex items-center justify-center
-					`}
+						`}
 				>
-					{tile.value}
+					{tile.id}
 				</div>
 			}
 		</>
