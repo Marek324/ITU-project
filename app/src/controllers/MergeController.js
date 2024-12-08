@@ -27,8 +27,6 @@ const GameController = () => {
     };
 
     const restartGame = () => {
-        const newModel = new MergeModel();
-        setModel(newModel);
 		model.startGame();
         updateState();
     };

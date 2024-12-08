@@ -1,7 +1,53 @@
 import React from "react";
 
-const MergeTile = ({ value }) => {
-	return <div className="size-32 text-3xl text-white bg-Animal_Card_BG text-center border border-sky-500 flex items-center justify-center">{value === 0 ? "" : value}</div>;
+
+const MergeTile = ({ tile }) => {
+
+	return(
+		<>
+			{!tile ? <div></div> :
+				<div
+					className={`
+						size-32 rounded-lg
+						absolute
+						transition-all duration-100
+						origin-center
+						${getTileColor(tile)}
+						${tile.calculateAnimation()}
+						text-3xl text-white
+						text-center font-bold
+						flex items-center justify-center
+					`}
+				>
+					{tile.value}
+				</div>
+			}
+		</>
+	);
 }
 
 export default MergeTile;
+
+
+const getTileColor = (tile) => {
+	const colors = {
+		2: 'bg-emerald-200',
+		4: 'bg-emerald-400',
+		8: 'bg-yellow-400',
+		16: 'bg-orange-400',
+		32: 'bg-red-400',
+		64: 'bg-red-600',
+		128: 'bg-purple-400',
+		256: 'bg-purple-600',
+		512: 'bg-blue-400',
+		1024: 'bg-blue-600',
+		2048: 'bg-fuchsia-500',
+		4096: 'bg-pink-500',
+		8192: 'bg-rose-600',
+		16384: 'bg-amber-500',
+		32768: 'bg-lime-500',
+		65536: 'bg-cyan-600',
+		131072: 'bg-indigo-700',
+	};
+    return colors[tile.value] || 'bg-gray-100';
+};

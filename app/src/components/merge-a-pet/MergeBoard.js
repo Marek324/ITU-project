@@ -1,5 +1,5 @@
 import React from "react";
-import MergeRow from "components/merge-a-pet/MergeRow";
+import MergeTile from "./MergeTile";
 
 const MergeBoard = ({ grid, gameOver}) => {
 	return (
@@ -9,9 +9,24 @@ const MergeBoard = ({ grid, gameOver}) => {
 					<h1 className="text-white text-4xl font-bold">Game Over</h1>
 				</div>
 			)}
-			{grid.map((row, rowIndex) => (
-				<MergeRow key={rowIndex} row={row} />
-			))}
+
+			<div
+				className={`
+					grid grid-rows-4 grid-cols-4 gap-2
+					relative
+				`}
+				>
+				{/* Empty tiles */}
+				{Array.from({length: 16}).map((_, index) => (
+					<div key={`empty-${index}`} className="bg-gray-200 rounded-lg size-32"></div>
+				))}
+
+				{grid.map((row, rowIndex) => (
+					row.map((cell, colIndex) => (
+						<MergeTile key={`${rowIndex}-${colIndex}`} tile={cell} row={rowIndex} col={colIndex} />
+					))
+				))}
+			</div>
 		</div>
 	);
 }
