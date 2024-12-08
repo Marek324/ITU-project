@@ -1,5 +1,6 @@
 import React from "react";
 import MergeTile from "./MergeTile";
+import { motion } from "motion/react"
 
 const MergeBoard = ({ grid, gameOver}) => {
 	return (

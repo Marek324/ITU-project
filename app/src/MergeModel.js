@@ -154,6 +154,12 @@ class Tile {
 		this.prevCol = this.col;
 		this.row = row;
 		this.col = col;
+		this.animationProps = {
+			created: true,
+			destroyed: false,
+			moved: false,
+			merged: false
+		}
 	}
 
 	transposePosition() {
@@ -175,7 +181,28 @@ class Tile {
 	}
 
 	calculateAnimation() { // https://motion.dev/docs/react-quick-start
-		let animation = [];
+
+		const initial = {
+			top: this.animationProps.moved ? `${this.prevRow * 8.5}rem` : `${this.row * 8.5}rem`,
+			left: this.animationProps.moved ? `${this.prevCol * 8.5}rem` : `${this.col * 8.5}rem`,
+			opacity: 1,
+			scale: this.animationProps.merged ? 1.2 : this.animationProps.created ? 0 : 1,
+		};
+
+		  const animate = {
+			top: `${this.row * 8.5}rem`,
+			left: `${this.col * 8.5}rem`,
+			opacity: this.animationProps.destroyed ? 1 : 0,
+			scale: 1
+		  };
+
+		  // Update the previous row and column for future calculations
+		  this.prevRow = this.row;
+		  this.prevCol = this.col;
+
+		  return { initial, animate };
+
+		// let animation = [];
 		// animation.push(`left-m${this.prevCol} top-m${this.prevRow}`);
 		// if (this.row !== this.prevRow){
 		// 	const rowOffset = this.row - this.prevRow;
@@ -189,20 +216,20 @@ class Tile {
 		// 	this.prevCol = this.col;
 		// }
 
-		if (this.row !== this.prevRow){
-			animation.push(`translate-y-m${this.row}`);
-			this.prevRow = this.row;
-		} else {
-			animation.push(`translate-y-m${this.prevRow}`);
-		}
+		// if (this.row !== this.prevRow){
+		// 	animation.push(`translate-y-m${this.row}`);
+		// 	this.prevRow = this.row;
+		// } else {
+		// 	animation.push(`translate-y-m${this.prevRow}`);
+		// }
 
-		if (this.col !== this.prevCol){;
-			animation.push(`translate-x-m${this.col}`);
-			this.prevCol = this.col;
-		} else {
-			animation.push(`translate-x-m${this.prevCol}`);
-		}
+		// if (this.col !== this.prevCol){;
+		// 	animation.push(`translate-x-m${this.col}`);
+		// 	this.prevCol = this.col;
+		// } else {
+		// 	animation.push(`translate-x-m${this.prevCol}`);
+		// }
 
-		return animation.join(" ");
+		// return animation.join(" ");
 	}
 }

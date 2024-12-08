@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "motion/react"
 
 
 const MergeTile = ({ tile }) => {
@@ -6,11 +7,11 @@ const MergeTile = ({ tile }) => {
 	return(
 		<>
 			{!tile ? <div></div> :
-				<div
+				<motion.div
+					initial={{ ...tile.calculateAnimation().initial }}
+					animate={{ ...tile.calculateAnimation().animate }}
 					key={`${tile.id}`}
 					className={`
-						transition-transform ease-in-out transform duration-300
-						${tile.calculateAnimation()}
 						size-32 rounded-lg
 						absolute
 						${getTileColor(tile)}
@@ -19,8 +20,8 @@ const MergeTile = ({ tile }) => {
 						flex items-center justify-center
 						`}
 				>
-					{tile.id}
-				</div>
+					{tile.value}
+				</motion.div>
 			}
 		</>
 	);
