@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { money } from '../../svg.js';
+import { moneyS } from '../../svg.js';
 import Quiz from './quiz.js';
 import Game from '../FlappyBird/Game.js'; 
 import GameHop from '../Hop/Game.js'; 
+import { useEffect } from 'react';
 
 const GameContent = ({ setShowGame }) => {
   const [currentGame, setCurrentGame] = useState(null);
+  const [money, setMoney] = useState(0);
 
   const handleKozaHopClick = () => setCurrentGame('GameHop');  
   const handleQuizClick = () => setCurrentGame('Quiz');
@@ -19,13 +21,30 @@ const GameContent = ({ setShowGame }) => {
     }
   };
 
+  useEffect(() => {
+    const fetchShopMoney = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/pet');
+        const data = await response.json();
+        if (data.length > 0) {
+          setMoney(data[0].money); 
+        } else {
+          console.error('No data found');
+        }
+      } catch (error) {
+        console.error('Error fetching money:', error);
+      }
+    };
+  
+    fetchShopMoney();
+  }, []);
   return (
     <div className={`flex flex-1 justify-center items-center text-white ${currentGame === 'FlappyPet' ? 'absolute inset-0' : ''}`}>
       {currentGame !== 'FlappyPet' && (
         <div className="absolute top-20 left-2 flex items-center">
           <div className="flex items-center space-x-1">
-            {money()}
-            <span className="text-2xl text-outline text-[#B957CE]">1200</span>
+            {moneyS()}
+            <span className="text-2xl text-outline text-[#B957CE]">{money}</span>
           </div>
         </div>
       )}

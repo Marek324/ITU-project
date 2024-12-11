@@ -6,5 +6,6 @@ export const db_model = {
 	chat: [],
 	games: [],
 	fp: [],
-	hop: []
+	hop: [],
+	pet: [],
 }

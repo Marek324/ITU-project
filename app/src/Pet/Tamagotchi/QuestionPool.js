@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { money, user } from '../../svg.js';
 import Quiz from './quiz.js';
 
 const port = 5000;

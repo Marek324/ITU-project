@@ -108,6 +108,46 @@ app.delete("/api/articles/:id", async (req, res) => {
 	res.code(200).send({ message: 'Article deleted successfully' });
 });
 // ================================================
+// ===================== PET =====================
+// ================================================
+app.get('/api/pet', async (req, res) => {
+	await db.read();
+	res.send(db.data.pet);
+  });
+  // ================================================
+// ===================== BUY ITEM ==================
+// ================================================
+app.post('/api/buy', async (req, res) => {
+	const { petId, itemId } = req.body;
+	await db.read();
+  
+	const pet = db.data.pet.find((p) => p.id === petId);
+	if (!pet) {
+	  return res.status(404).send({ error: "Pet not found" });
+	}
+  
+	const item = db.data.shop.find((i) => i.id === itemId);
+	if (!item) {
+	  return res.status(404).send({ error: "Item not found" });
+	}
+  
+	const itemPrice = parseInt(item.price.replace('¥', ''));
+	if (pet.money < itemPrice) {
+	  return res.status(400).send({ error: "Not enough money" });
+	}
+	pet.money -= itemPrice;
+  
+	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
+	if (inventoryItem) {
+	  inventoryItem.count += 1; 
+	} else {
+	  pet.inventory.push({ id: item.id, count: 1 }); 
+	}
+	await db.write();
+	res.send(pet);
+  });
+  
+// ================================================
 // ===================== SHOP =====================
 // ================================================
 
