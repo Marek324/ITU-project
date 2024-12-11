@@ -1,24 +1,41 @@
 import React, { useState } from 'react';
 import { money } from '../../svg.js';
 import Quiz from './quiz.js';
-import Game from '../FlappyBird/Game.js'; 
-import GameHop from '../Hop/Game.js'; 
+import FPGame from '../../controllers/FPController.js';
+import GameHop from '../Hop/Game.js';
 
 const GameContent = ({ setShowGame }) => {
   const [currentGame, setCurrentGame] = useState(null);
 
-  const handleKozaHopClick = () => setCurrentGame('GameHop');  
+  const handleKozaHopClick = () => setCurrentGame('GameHop');
   const handleQuizClick = () => setCurrentGame('Quiz');
   const handleFlappyPetClick = () => setCurrentGame('FlappyPet');
 
   const handleCrossClick = () => {
     if (currentGame) {
-      setCurrentGame(null); 
+      setCurrentGame(null);
     } else {
-      setShowGame(false); 
+      setShowGame(false);
     }
   };
 
+  useEffect(() => {
+    const fetchShopMoney = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/pet');
+        const data = await response.json();
+        if (data.length > 0) {
+          setMoney(data[0].money);
+        } else {
+          console.error('No data found');
+        }
+      } catch (error) {
+        console.error('Error fetching money:', error);
+      }
+    };
+
+    fetchShopMoney();
+  }, []);
   return (
     <div className={`flex flex-1 justify-center items-center text-white ${currentGame === 'FlappyPet' ? 'absolute inset-0' : ''}`}>
       {currentGame !== 'FlappyPet' && (
@@ -83,7 +100,7 @@ const GameContent = ({ setShowGame }) => {
         <Quiz setShowGame={setShowGame} />
       ) : currentGame === 'FlappyPet' ? (
         <Game setShowGame={setShowGame} />
-      ) : currentGame === 'GameHop' ? ( 
+      ) : currentGame === 'GameHop' ? (
         <GameHop setShowGame={setShowGame} />
       ) : (
         <div className="text-white">Game not implemented yet!</div>

@@ -1,7 +1,7 @@
 import GameView from "../views/FPView";
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import {GetFP, UpdateFP} from "../services/FlappyPetService";
-
+import { GetFP, UpdateFP } from "../services/FlappyPetService";
+import GameModel from "../FPModel.js";
 
 const FPController = () => {
 	const consts = {
@@ -11,7 +11,9 @@ const FPController = () => {
 		ballLeftPos: 10
 	};
 
-	const [model, setModel] = useState(new GameModel());
+	const modelRef = useRef(new GameModel());
+	const model = modelRef.current;
+
 	const [gameStarted, setGameStarted] = useState(false);
 	const [title, setTitle] = useState('Flappy Pet');
 	const [subtitle, setSubtitle] = useState('Start Game');
@@ -32,7 +34,7 @@ const FPController = () => {
 	useEffect(() => {
 		GetFP(0).then((data) => {
 			setData(data);
-			model.initialize(data);
+			model.setHighScore(data.highscore);
 		});
 	}, [model]);
 
@@ -69,18 +71,17 @@ const FPController = () => {
 	}, [topBarRef, downBarRef]);
 
 	useEffect(() => {
-		if (!gameStarted) return;
+		if (!model.gameStarted) return;
 		const interval = setInterval(() => {
 			model.updatePosition(consts);
 			model.updateObstacles(obstSpeed, consts);
-			if (model.checkCollision(ballRef, topPos, downBarOffset)) {
+			if (model.checkCollision(ballRef, topPos, downBarOffset, consts)) {
 				stopGame();
 			}
-			setModel({ ...model });
 		}, consts.timeInterval);
 
 		return () => clearInterval(interval);
-	}, [gameStarted, model, obstSpeed, topPos, downBarOffset]);
+	}, [gameStarted, model, obstSpeed, topPos, downBarOffset, consts]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -88,7 +89,6 @@ const FPController = () => {
 			const topHeight = Math.floor(Math.random() * (window.innerHeight - downBarOffset - topPos - gapSize - 50));
 			const bottomPos = topHeight + gapSize;
 			model.addObstacle(topPos, topHeight, bottomPos, gapSize);
-			setModel({ ...model });
 		}, spawnInterval);
 
 		return () => clearInterval(interval);
@@ -120,7 +120,6 @@ const FPController = () => {
 		setGameStarted(true);
 		setShowPopup(false);
 		model.startGame();
-		setModel({ ...model });
 	};
 
 	return (
@@ -140,6 +139,8 @@ const FPController = () => {
 			score={model.score}
 			showLeaderboard={showLeaderboard}
 			toggleLeaderboard={toggleLeaderboard}
+			topBarRef={topBarRef}
+			downBarRef={downBarRef}
 		/>
 	);
 };

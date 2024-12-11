@@ -6,16 +6,16 @@ import Ball from '../Pet/FlappyBird/Ball';
 import Obstacle from '../Pet/FlappyBird/Obstacle';
 import ScoreCounter from '../Pet/FlappyBird/ScoreCounter';
 import HighScores from '../Pet/FlappyBird/HighScores';
-import bGImage from './Assets/bg.jpg';
+import bGImage from '../Pet/FlappyBird/Assets/bg.jpg';
 import {homeB, leaderboard, shop} from "../svg";
 
-const GameView = ({ gameStarted, showPopup, title, subtitle, highScore, startGame, topPos, downBarOffset, obstacles, ballTopPos, consts, ballRef, score, showLeaderboard, toggleLeaderboard }) => {
+const GameView = ({ gameStarted, showPopup, title, subtitle, highScore, startGame, topPos, downBarOffset, obstacles, ballTopPos, consts, ballRef, score, showLeaderboard, toggleLeaderboard, topBarRef, downBarRef }) => {
 	return (
 		<div className="game-container min-h-screen flex flex-col bg-cover bg-center" style={{backgroundImage: `url(${bGImage})`}}>
 
-			<TopBar ref={topPos} title="Flappy Pet"/>
+			<TopBar ref={topBarRef} title="Flappy Pet"/>
 
-			<DownBar ref={downBarOffset} firstIcon={shop()} secondIcon={homeB()} thirdIcon={leaderboard()}
+			<DownBar ref={downBarRef} firstIcon={shop()} secondIcon={homeB()} thirdIcon={leaderboard()}
 					 onThirdClick={toggleLeaderboard}/>
 
 			{showPopup && <GamePopup title={title} subtitle={subtitle} topScore={highScore} onStart={startGame}

@@ -9,8 +9,8 @@ class FPModel {
 		this.passedObstacles = [];
 	}
 
-	init(data) {
-		this.highScore = data.highScore();
+	setHighScore(newHighScore) {
+		this.highScore = newHighScore;
 	}
 
 	startGame() {
@@ -29,6 +29,7 @@ class FPModel {
 	jump(maxVelocity) {
 		this.velocity = -maxVelocity * window.innerHeight * 0.003;
 	}
+
 	updatePosition(consts) {
 		this.velocity += consts.gravity * consts.timeInterval * 0.01 * window.innerHeight * 0.001;
 		this.ballTopPos += this.velocity + 0.5 * consts.gravity * Math.pow(consts.timeInterval * 0.01, 2);
@@ -46,7 +47,7 @@ class FPModel {
 		this.obstacles.push({ topPos, topHeight, bottomPos, bottomHeight: window.innerHeight - bottomPos, left });
 	}
 
-	checkCollision(ballRef, topPos, downBarOffset) {
+	checkCollision(ballRef, topPos, downBarOffset, consts) {
 		if (this.ballTopPos <= topPos || this.ballTopPos >= (window.innerHeight - downBarOffset - ballRef.current.clientHeight)) {
 			return true;
 		}
