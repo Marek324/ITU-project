@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { money } from '../../svg.js';
+import { moneyS } from '../../svg.js';
 import Quiz from './quiz.js';
-import FPGame from '../../controllers/FPController.js';
-import GameHop from '../Hop/Game.js';
+import Game from '../FlappyBird/Game.js'; 
+import GameHop from '../Hop/Game.js'; 
+import { useEffect } from 'react';
 
 const GameContent = ({ setShowGame }) => {
   const [currentGame, setCurrentGame] = useState(null);
+  const [money, setMoney] = useState(0);
 
-  const handleKozaHopClick = () => setCurrentGame('GameHop');
+  const handleKozaHopClick = () => setCurrentGame('GameHop');  
   const handleQuizClick = () => setCurrentGame('Quiz');
   const handleFlappyPetClick = () => setCurrentGame('FlappyPet');
 
   const handleCrossClick = () => {
     if (currentGame) {
-      setCurrentGame(null);
+      setCurrentGame(null); 
     } else {
-      setShowGame(false);
+      setShowGame(false); 
     }
   };
 
@@ -25,7 +27,7 @@ const GameContent = ({ setShowGame }) => {
         const response = await fetch('http://localhost:5000/api/pet');
         const data = await response.json();
         if (data.length > 0) {
-          setMoney(data[0].money);
+          setMoney(data[0].money); 
         } else {
           console.error('No data found');
         }
@@ -33,7 +35,7 @@ const GameContent = ({ setShowGame }) => {
         console.error('Error fetching money:', error);
       }
     };
-
+  
     fetchShopMoney();
   }, []);
   return (
@@ -41,8 +43,8 @@ const GameContent = ({ setShowGame }) => {
       {currentGame !== 'FlappyPet' && (
         <div className="absolute top-20 left-2 flex items-center">
           <div className="flex items-center space-x-1">
-            {money()}
-            <span className="text-2xl text-outline text-[#B957CE]">1200</span>
+            {moneyS()}
+            <span className="text-2xl text-outline text-[#B957CE]">{money}</span>
           </div>
         </div>
       )}
@@ -100,7 +102,7 @@ const GameContent = ({ setShowGame }) => {
         <Quiz setShowGame={setShowGame} />
       ) : currentGame === 'FlappyPet' ? (
         <Game setShowGame={setShowGame} />
-      ) : currentGame === 'GameHop' ? (
+      ) : currentGame === 'GameHop' ? ( 
         <GameHop setShowGame={setShowGame} />
       ) : (
         <div className="text-white">Game not implemented yet!</div>

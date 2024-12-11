@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { money } from '../../svg.js';
+import { moneyS } from '../../svg.js';
 import Quiz from './quiz';
 import axios from 'axios';
 import '../../App.css';
@@ -15,6 +15,25 @@ const NewGameQuiz = ({ setShowGame }) => {
   const [noMoreQuestions, setNoMoreQuestions] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
   const [userAnswer, setUserAnswer] = useState('');
+const [money, setMoney] = useState(0);
+
+  useEffect(() => {
+    const fetchShopMoney = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/pet');
+        const data = await response.json();
+        if (data.length > 0) {
+          setMoney(data[0].money); 
+        } else {
+          console.error('No data found');
+        }
+      } catch (error) {
+        console.error('Error fetching money:', error);
+      }
+    };
+  
+    fetchShopMoney();
+  }, []);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -111,8 +130,8 @@ const NewGameQuiz = ({ setShowGame }) => {
     <div className="flex flex-1 text-white justify-center">
       <div className="absolute top-20 left-2 flex">
         <div className="flex items-center space-x-1">
-          {money()}
-          <span className="text-2xl text-outline text-[#B957CE]">1200</span>
+          {moneyS()}
+          <span className="text-2xl text-outline text-[#B957CE]">{money}</span>
         </div>
       </div>
 
