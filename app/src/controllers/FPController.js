@@ -1,59 +1,41 @@
 import GameView from "../views/FPView";
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { GetFP, UpdateFP } from "../services/FlappyPetService";
-import GameModel from "../FPModel.js";
+import React, { useEffect, useRef, useState } from 'react';
+import FPModel from "../FPModel.js";
 
 const FPController = () => {
-	const consts = {
-		timeInterval: 10,
-		gravity: 5,
-		obstRelativeWidth: 5,
-		ballLeftPos: 10
-	};
+	const [model, setModel] = useState(new FPModel());
+	const [showPopup, setShowPopup] = useState(model.showPopup);
+	const [highScore, setHighScore] = useState(model.highScore);
+	const [ballTopPos, setBallTopPos] = useState(model.ballTopPos);
+	const [gameStarted, setGameStarted] = useState(model.gameStarted);
+	const [obstacles, setObstacles] = useState(model.obstacles);
 
-	const modelRef = useRef(new GameModel());
-	const model = modelRef.current;
+	model.ballRef = useRef(null);
+	model.topBarRef = useRef(null);
+	model.downBarRef = useRef(null);
 
-	const [gameStarted, setGameStarted] = useState(false);
-	const [title, setTitle] = useState('Flappy Pet');
-	const [subtitle, setSubtitle] = useState('Start Game');
-	const [showLeaderboard, setShowLeaderboard] = useState(false);
-	const [showPopup, setShowPopup] = useState(true);
-	const [topPos, setTopPos] = useState(0);
-	const [downBarOffset, setBottomBarOffset] = useState(0);
-	const [spawnInterval, setSpawnInterval] = useState(2000);
-	const [gapSize, setGapSize] = useState(window.innerHeight * 0.28);
-	const [obstSpeed, setObstSpeed] = useState(window.innerWidth * 0.0022);
-	const [maxVelocity, setMaxVelocity] = useState(window.innerHeight * 0.0085);
-	const [data, setData] = useState(null);
-
-	const ballRef = useRef(null);
-	const topBarRef = useRef(null);
-	const downBarRef = useRef(null);
-
+	//Načtení highscore
 	useEffect(() => {
-		GetFP(0).then((data) => {
-			setData(data);
-			model.setHighScore(data.highscore);
+		model.fetchHighScore().then(() => {
+			setHighScore(model.highScore);
 		});
 	}, [model]);
 
-	const jump = useCallback(() => {
-		model.jump(maxVelocity);
-	}, [maxVelocity, model]);
 
+	//Volání skoku
 	useEffect(() => {
 		const handleKeyDown = (event) => {
 			if ((event.code === 'Space' || event.code === 'ArrowUp')) {
-				jump();
+				model.jump();
 			}
 		};
 		window.addEventListener('keydown', handleKeyDown);
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown);
 		};
-	}, [jump]);
+	}, [model]);
 
+	//Zakázání scrollování
 	useEffect(() => {
 		document.body.style.overflow = 'hidden';
 		return () => {
@@ -61,86 +43,87 @@ const FPController = () => {
 		};
 	}, []);
 
+	//Nastavení pozice topBaru a downBaru
 	useEffect(() => {
-		if (topBarRef.current) {
-			setTopPos(topBarRef.current.clientHeight);
+		if (model.topBarRef.current) {
+			model.setTopPos(model.topBarRef.current.clientHeight);
 		}
-		if (downBarRef.current) {
-			setBottomBarOffset(downBarRef.current.clientHeight);
+		if (model.downBarRef.current) {
+			model.setDownBarOffset(model.downBarRef.current.clientHeight);
 		}
-	}, [topBarRef, downBarRef]);
+	}, [model.topBarRef, model.downBarRef, model]);
 
+	//Pohyb a kolize
 	useEffect(() => {
-		if (!model.gameStarted) return;
+		if (!gameStarted) return;
 		const interval = setInterval(() => {
-			model.updatePosition(consts);
-			model.updateObstacles(obstSpeed, consts);
-			if (model.checkCollision(ballRef, topPos, downBarOffset, consts)) {
+			model.updatePosition();
+			setBallTopPos(model.ballTopPos);
+			model.updateObstacles();
+			if (model.checkCollision()) {
 				stopGame();
 			}
-		}, consts.timeInterval);
+		}, model.consts.timeInterval);
 
 		return () => clearInterval(interval);
-	}, [gameStarted, model, obstSpeed, topPos, downBarOffset, consts]);
+	}, [gameStarted, model]);
 
+	//Spawnování překážek
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (!gameStarted) return;
-			const topHeight = Math.floor(Math.random() * (window.innerHeight - downBarOffset - topPos - gapSize - 50));
-			const bottomPos = topHeight + gapSize;
-			model.addObstacle(topPos, topHeight, bottomPos, gapSize);
-		}, spawnInterval);
+			model.addObstacle(model.topPos);
+			setObstacles([...model.obstacles]);
+		}, model.consts.spawnInterval);
 
 		return () => clearInterval(interval);
-	}, [spawnInterval, gapSize, gameStarted, downBarOffset, topPos, model]);
+	}, [gameStarted, model]);
 
-	const toggleLeaderboard = () => {
-		setShowLeaderboard(prevState => !prevState);
-		setShowPopup(!showLeaderboard);
-	};
-
-	const UpdateHighScore = () => {
-		const updatedData = { ...data, highscore: model.score };
-		UpdateFP(data.id, updatedData).then(() => {
-			setData(updatedData);
-		});
-	};
 
 	const stopGame = () => {
-		setTitle('Game Over');
-		setSubtitle('Restart Game');
-		setGameStarted(false);
-		setShowPopup(true);
+		model.stopGame();
 		if (model.score > model.highScore) {
-			UpdateHighScore();
+			model.updateHighScore().then(() => {
+				setHighScore(model.highScore);
+			});
 		}
+		updateState();
+	};
+
+	const toggleLeaderboard = () => {
+		model.toggleLeaderboard();
 	};
 
 	const startGame = () => {
-		setGameStarted(true);
-		setShowPopup(false);
 		model.startGame();
+		updateState();
+	};
+
+	const updateState = () => {
+		setShowPopup(model.showPopup);
+		setGameStarted(model.gameStarted);
+		setObstacles([...model.obstacles]);
 	};
 
 	return (
 		<GameView
 			gameStarted={gameStarted}
 			showPopup={showPopup}
-			title={title}
-			subtitle={subtitle}
-			highScore={model.highScore}
+			title={model.title}
+			subtitle={model.subtitle}
+			highScore={highScore}
 			startGame={startGame}
-			topPos={topPos}
-			downBarOffset={downBarOffset}
-			obstacles={model.obstacles}
-			ballTopPos={model.ballTopPos}
-			consts={consts}
-			ballRef={ballRef}
+			topPos={model.topPos}
+			downBarOffset={model.downBarOffset}
+			obstacles={obstacles}
+			ballTopPos={ballTopPos}
+			consts={model.consts}
+			ballRef={model.ballRef}
 			score={model.score}
-			showLeaderboard={showLeaderboard}
+			showLeaderboard={model.showLeaderboard}
 			toggleLeaderboard={toggleLeaderboard}
-			topBarRef={topBarRef}
-			downBarRef={downBarRef}
+			topBarRef={model.topBarRef}
+			downBarRef={model.downBarRef}
 		/>
 	);
 };
