@@ -50,14 +50,14 @@ function Tamagotchi() {
   const icons = showGame
     ? { firstIcon: game(), secondIcon: homeB(), thirdIcon: shop() }
     : showMarket || showInventory
-    ? { firstIcon: showInventory ? shopping_cart() : hat(), secondIcon: home(), thirdIcon: check() }
-    : { firstIcon: game(), secondIcon: food(), thirdIcon: shop() };
+    ? { firstIcon: showInventory ? shopping_cart() : hat(), secondIcon: home(), thirdIcon: game() }
+    : { firstIcon: game(),  secondIcon: shop(), thirdIcon: hat() };
 
   const iconsClick = showGame
     ? { onFirstClick: handleGameClick, onSecondClick: handleHomeClick, onThirdClick: handleMarketClick }
     : showMarket || showInventory
-    ? { onFirstClick: showInventory ? handleMarketClick : handleInventoryClick, onSecondClick: handleHomeClick, onThirdClick: handleMarketClick }
-    : { onFirstClick: handleGameClick, onSecondClick: handleHomeClick, onThirdClick: handleMarketClick };
+    ? { onFirstClick: showInventory ? handleMarketClick : handleInventoryClick, onSecondClick: handleHomeClick, onThirdClick: handleGameClick }
+    : { onFirstClick: handleGameClick, onSecondClick: handleMarketClick, onThirdClick: handleInventoryClick };
 
   return (
     <div
