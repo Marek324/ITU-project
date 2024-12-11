@@ -56,7 +56,7 @@ app.get('/api/articles', async (req, res) => {
 app.get('/api/articles/:id', async (req, res) => {
 	await db.read();
 
-	let data = db.data.articles.find(article => article.id === Number(req.params.id));
+	let data = db.data.articles.find(article => String(article.id) === req.params.id);
 
 	res.send(data);
 });
@@ -71,7 +71,7 @@ app.post('/api/articles', async (req, res) => {
 		id: genId(),
 		title: req.body.title,
 		author: req.body.author,
-		datetime: new Date(),
+		date: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString(),
 		content: req.body.content,
 		image: req.body.image,
 	};
@@ -102,7 +102,7 @@ app.delete("/api/articles/:id", async (req, res) => {
 	await db.read();
 	const { id } = req.params;
 
-	db.data.articles = db.data.articles.filter(a => String(a.id) !== id);
+	db.data.articles = db.data.articles.find(a => String(a.id) !== id);
 
 	await db.write();
 	res.code(200).send({ message: 'Article deleted successfully' });
@@ -181,6 +181,13 @@ app.get('/api/animals/:id', async (req, res) => {
 
 	let data = db.data.animals.find(animal => animal.id === Number(req.params.id));
 
+	res.send(data);
+});
+
+app.get('/api/articles/:id/chat', async (req, res) => {
+	await db.read();
+	const { id } = req.params;
+	const data = db.data.chat.find(chat => String(chat.article_id) === id);
 	res.send(data);
 });
 
