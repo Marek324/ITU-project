@@ -2,14 +2,15 @@ import React from "react";
 import { motion } from "motion/react"
 
 
-const MergeTile = ({ tile }) => {
+const Tile = ({ tile }) => {
 
 	return(
 		<>
 			{!tile ? <div></div> :
-				<motion.div
-					initial={{ ...tile.calculateAnimation().initial }}
-					animate={{ ...tile.calculateAnimation().animate }}
+				<motion.button
+					initial={{ ...tile.animationProps.initial }}
+					animate={{ ...tile.animationProps.animate }}
+					transition={{ duration: 0.05 }} // Add this line to control animation speed
 					key={`${tile.id}`}
 					className={`
 						size-32 rounded-lg
@@ -21,16 +22,16 @@ const MergeTile = ({ tile }) => {
 						`}
 				>
 					{tile.value}
-				</motion.div>
+				</motion.button>
 			}
 		</>
 	);
 }
 
-export default MergeTile;
+export default Tile;
 
 
-const getTileColor = (tile) => {
+const getTileColor = (tile) => { // model
 	const colors = {
 		2: 'bg-emerald-200',
 		4: 'bg-emerald-400',
