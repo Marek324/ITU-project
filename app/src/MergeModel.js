@@ -4,6 +4,12 @@ export default class MergeModel {
         this.grid = this.createGrid();
         this.score = 0;
         this.gameOver = false;
+		this.powerups = {
+			undoMove: 2,
+			deleteTile: 1,
+			swapTiles: 0,
+			deleteTilesByNumber: 0
+		}
 		this.startGame();
     }
 
@@ -19,16 +25,9 @@ export default class MergeModel {
 		if (this.gameOver) return;
 		const moveMade = this.slideGrid(direction);
 		if (!moveMade) return;
+		this.updateTiles();
 		this.addRandomTile();
 		this.checkGameOver();
-		this.grid.forEach(row => {
-			row.forEach(cell => {
-				if (cell !== null) {
-					console.log(cell);
-				}
-			});
-		});
-		console.log("-------------------");
 	}
 
 	createGrid() {
@@ -37,6 +36,16 @@ export default class MergeModel {
 				null
 			)
 		);
+	}
+
+	updateTiles() {
+		this.grid.forEach(row => {
+			row.forEach(cell => {
+				if (cell) {
+					if (cell.recalculateAnimation()) cell = null;
+				}
+			});
+		});
 	}
 
 	addRandomTile() {
@@ -53,7 +62,9 @@ export default class MergeModel {
 	}
 
 	slideGrid(direction) {
-		const oldGrid = JSON.stringify(this.grid.flat(2));
+		const oldGrid = JSON.stringify(this.grid.flat(1).map(tile =>
+			tile ? { value: tile.value, row: tile.row, col: tile.col } : null
+		));
 
 		switch (direction) {
 			case "LEFT":
@@ -73,7 +84,10 @@ export default class MergeModel {
 				this.transposeGrid();
 				break;
 		}
-		return oldGrid !== JSON.stringify(this.grid.flat(2));
+		const newGrid = JSON.stringify(this.grid.flat(1).map(tile =>
+			tile ? { value: tile.value, row: tile.row, col: tile.col } : null
+		));
+		return oldGrid !== newGrid;
 	}
 
 	slideRow(row) {
@@ -89,6 +103,7 @@ export default class MergeModel {
 
 		newRow.forEach((tile, index) => {
 			tile.setPosition(tile.row, index);
+			tile.animationFlags.moved = true;
 		});
 
 		while (newRow.length < row.length) {
@@ -97,6 +112,41 @@ export default class MergeModel {
 
 		return newRow;
 	}
+
+	// Powerups
+
+	undoMove() { // treba vyriesit model aby sa vratili mergnute
+		if (this.powerups.undoMove === 0) return;
+		this.powerups.undoMove--;
+		this.grid = this.grid.map(row => row.map(tile => {
+			if (tile) {
+				tile.setPosition(tile.prevRow, tile.prevCol);
+				tile.animationFlags.moved = true;
+			}
+			return tile;
+		}));
+	}
+
+	deleteTile(tile) {
+		if (this.powerups.deleteTile === 0) return;
+		this.powerups.deleteTile--;
+		// this.grid[tile.row][tile.col] = null;
+		tile.animationFlags.destroyed = true;
+	}
+
+	swapTiles(tile1, tile2) {
+		if (this.powerups.swapTiles === 0) return;
+		this.powerups.swapTiles--;
+		[tile1.row, tile2.row] = [tile2.row, tile1.row];
+		[tile1.col, tile2.col] = [tile2.col, tile1.col];
+		tile1.animationFlags.moved = true;
+		tile2.animationFlags.moved = true;
+	}
+
+	deleteTilesByNumber(number) {}
+
+
+	// Helper functions
 
 	checkGameOver() {
 		if (this.grid.flat().includes(null)) return;
@@ -147,6 +197,13 @@ class Tile {
 		this.prevRow = row;
 		this.prevCol = col;
 		this.id = Math.random().toString(36).substring(2, 9);
+		this.animationFlags = {
+			created: true,
+			destroyed: false,
+			moved: false,
+			merged: false
+		}
+		this.animationProps = this.calculateAnimation();
 	}
 
 	setPosition(row, col) {
@@ -154,12 +211,6 @@ class Tile {
 		this.prevCol = this.col;
 		this.row = row;
 		this.col = col;
-		this.animationProps = {
-			created: true,
-			destroyed: false,
-			moved: false,
-			merged: false
-		}
 	}
 
 	transposePosition() {
@@ -180,56 +231,39 @@ class Tile {
 		tile = null;
 	}
 
-	calculateAnimation() { // https://motion.dev/docs/react-quick-start
+	recalculateAnimation() {
+		const { initial, animate, destroy } = this.calculateAnimation();
+		this.animationProps = { initial, animate };
+		return destroy;
+	}
+
+	calculateAnimation() {
 
 		const initial = {
-			top: this.animationProps.moved ? `${this.prevRow * 8.5}rem` : `${this.row * 8.5}rem`,
-			left: this.animationProps.moved ? `${this.prevCol * 8.5}rem` : `${this.col * 8.5}rem`,
+			top: this.animationFlags.moved ? `${this.prevRow * 8.5}rem` : `${this.row * 8.5}rem`,
+			left: this.animationFlags.moved ? `${this.prevCol * 8.5}rem` : `${this.col * 8.5}rem`,
 			opacity: 1,
-			scale: this.animationProps.merged ? 1.2 : this.animationProps.created ? 0 : 1,
+			scale: this.animationFlags.merged ? 1.2 : this.animationFlags.created ? 0 : 1,
 		};
 
-		  const animate = {
+		const animate = {
 			top: `${this.row * 8.5}rem`,
 			left: `${this.col * 8.5}rem`,
-			opacity: this.animationProps.destroyed ? 1 : 0,
+			opacity: this.animationFlags.destroyed ? 0 : 1,
 			scale: 1
-		  };
+		};
 
-		  // Update the previous row and column for future calculations
-		  this.prevRow = this.row;
-		  this.prevCol = this.col;
+		if (this.animationFlags.moved) this.animationFlags.moved = false;
+		if (this.animationFlags.created) this.animationFlags.created = false;
+		if (this.animationFlags.merged) this.animationFlags.merged = false;
 
-		  return { initial, animate };
+		this.prevRow = this.row;
+		this.prevCol = this.col;
 
-		// let animation = [];
-		// animation.push(`left-m${this.prevCol} top-m${this.prevRow}`);
-		// if (this.row !== this.prevRow){
-		// 	const rowOffset = this.row - this.prevRow;
-		// 	animation.push(`${rowOffset < 0 ? "-" : ""}translate-y-m${Math.abs(rowOffset)}`);
-		// 	this.prevRow = this.row;
-		// }
+		if (this.animationFlags.destroyed) {
+			return { initial, animate, destroy: true };
+		}
 
-		// if (this.col !== this.prevCol){
-		// 	const colOffset = this.col - this.prevCol;
-		// 	animation.push(`${colOffset < 0 ? "-" : ""}translate-x-m${Math.abs(colOffset)}`);
-		// 	this.prevCol = this.col;
-		// }
-
-		// if (this.row !== this.prevRow){
-		// 	animation.push(`translate-y-m${this.row}`);
-		// 	this.prevRow = this.row;
-		// } else {
-		// 	animation.push(`translate-y-m${this.prevRow}`);
-		// }
-
-		// if (this.col !== this.prevCol){;
-		// 	animation.push(`translate-x-m${this.col}`);
-		// 	this.prevCol = this.col;
-		// } else {
-		// 	animation.push(`translate-x-m${this.prevCol}`);
-		// }
-
-		// return animation.join(" ");
+		return { initial, animate };
 	}
 }

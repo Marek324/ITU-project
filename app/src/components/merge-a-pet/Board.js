@@ -1,8 +1,7 @@
 import React from "react";
-import MergeTile from "./MergeTile";
-import { motion } from "motion/react"
+import Tile from "./Tile";
 
-const MergeBoard = ({ grid, gameOver}) => {
+const Board = ({ grid, gameOver}) => {
 	return (
 		<div className="relative flex flex-col items-center justify-center">
 			{gameOver && (
@@ -14,7 +13,7 @@ const MergeBoard = ({ grid, gameOver}) => {
 			<div className="relative">
 				{grid.map((row, rowIndex) => (
 					row.map((cell, colIndex) => (
-						<MergeTile key={`${rowIndex}-${colIndex}`} tile={cell} row={rowIndex} col={colIndex} />
+						<Tile key={`${rowIndex}-${colIndex}`} tile={cell} row={rowIndex} col={colIndex} />
 					))
 				))}
 				<div
@@ -33,4 +32,4 @@ const MergeBoard = ({ grid, gameOver}) => {
 	);
 }
 
-export default MergeBoard;
+export default Board;

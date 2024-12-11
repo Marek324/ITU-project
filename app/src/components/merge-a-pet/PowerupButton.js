@@ -1,6 +1,6 @@
 import React from "react";
 
-const MergePlayAgainButton = ({ onRestart }) => {
+const PowerupButton = ({ onClickHandler, text }) => {
 	return (
 		<button
 			className={`
@@ -12,11 +12,11 @@ const MergePlayAgainButton = ({ onRestart }) => {
 				transition-colors duration-300
 				hover:bg-orange-500
 			`}
-			onClick={onRestart}
+			onClick={() => {onClickHandler()}}
 		>
-			Play Again
+			{text}
 		</button>
 	);
 }
 
-export default MergePlayAgainButton;
+export default PowerupButton;
