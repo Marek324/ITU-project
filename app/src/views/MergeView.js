@@ -1,16 +1,16 @@
 import React from "react";
-import MergeBoard from "components/merge-a-pet/MergeBoard";
-import MergeScore from "components/merge-a-pet/MergeScore";
-import MergePlayAgainButton from "components/merge-a-pet/MergePlayAgainButton";
+import Board from "components/merge-a-pet/Board";
+import ScorePanel from "components/merge-a-pet/ScorePanel";
+import PowerupPanel from "components/merge-a-pet/PowerupPanel";
 
 
-const MergeView = ({ grid, score, gameOver, onRestart }) => {
+const MergeView = ({ grid, score, gameOver, buttonHandlers }) => {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
 			{/* header */}
-			<MergeScore score={score} />
-			<MergeBoard grid={grid} gameOver={gameOver} onRestart={onRestart} />
-			<MergePlayAgainButton onRestart={onRestart} />
+			<ScorePanel score={score} onRestart={buttonHandlers.handleRestartGame} />
+			<Board grid={grid} gameOver={gameOver} />
+			<PowerupPanel buttonHandlers={buttonHandlers} />
         </div>
     );
 };
