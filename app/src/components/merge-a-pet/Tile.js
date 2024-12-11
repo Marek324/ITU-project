@@ -2,15 +2,16 @@ import React from "react";
 import { motion } from "motion/react"
 
 
-const Tile = ({ tile }) => {
+const Tile = ({ tile, onSelectTile }) => {
 
 	return(
 		<>
 			{!tile ? <div></div> :
 				<motion.button
+					onClick={() => onSelectTile(tile)}
 					initial={{ ...tile.animationProps.initial }}
 					animate={{ ...tile.animationProps.animate }}
-					transition={{ duration: 0.05 }} // Add this line to control animation speed
+					transition={{ duration: 0.05 }}
 					key={`${tile.id}`}
 					className={`
 						size-32 rounded-lg

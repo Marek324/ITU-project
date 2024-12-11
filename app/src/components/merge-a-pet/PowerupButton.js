@@ -1,21 +1,34 @@
 import React from "react";
+import PowerupCount from "./PowerupCount";
 
-const PowerupButton = ({ onClickHandler, text }) => {
+const PowerupButton = ({ onClickHandler, svg, count }) => {
 	return (
-		<button
+		<div
 			className={`
-				px-4 py-2
-				bg-orange-200 text-white
-				font-bold text-lg
-				rounded-lg
-				shadow-md
-				transition-colors duration-300
-				hover:bg-orange-500
+				flex flex-col items-center
+				p-1
+				w-20 h-20
 			`}
-			onClick={() => {onClickHandler()}}
 		>
-			{text}
-		</button>
+			<button
+				className={`
+					text-white
+					font-bold text-lg
+					rounded-lg
+					w-16 h-16
+					mb-3
+					transition-all duration-300
+					shadow-lg
+					hover:shadow-2xl
+					hover:bg-gray-700
+					flex items-center justify-center
+				`}
+				onClick={() => {onClickHandler()}}
+			>
+				{svg()}
+			</button>
+			<PowerupCount count={count} />
+		</div>
 	);
 }
 

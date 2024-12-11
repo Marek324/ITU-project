@@ -1,9 +1,9 @@
 import React from "react";
 import Tile from "./Tile";
 
-const Board = ({ grid, gameOver}) => {
+const Board = ({ grid, gameOver, onSelectTile }) => {
 	return (
-		<div className="relative flex flex-col items-center justify-center">
+		<div className="relative flex flex-col items-center justify-center p-10 bg-gray-700 rounded-lg">
 			{gameOver && (
 				<div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
 					<h1 className="text-white text-4xl font-bold">Game Over</h1>
@@ -13,7 +13,7 @@ const Board = ({ grid, gameOver}) => {
 			<div className="relative">
 				{grid.map((row, rowIndex) => (
 					row.map((cell, colIndex) => (
-						<Tile key={`${rowIndex}-${colIndex}`} tile={cell} row={rowIndex} col={colIndex} />
+						<Tile key={`${rowIndex}-${colIndex}`} tile={cell} onSelectTile={onSelectTile} />
 					))
 				))}
 				<div

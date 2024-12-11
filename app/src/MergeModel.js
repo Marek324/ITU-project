@@ -15,6 +15,12 @@ export default class MergeModel {
 
 	startGame() {
 		this.score = 0;
+		this.powerups = {
+			undoMove: 2,
+			deleteTile: 1,
+			swapTiles: 0,
+			deleteTilesByNumber: 0
+		}
 		this.gameOver = false;
 		this.grid = this.createGrid();
 		this.addRandomTile();
@@ -42,7 +48,7 @@ export default class MergeModel {
 		this.grid.forEach(row => {
 			row.forEach(cell => {
 				if (cell) {
-					if (cell.recalculateAnimation()) cell = null;
+					cell.recalculateAnimation()
 				}
 			});
 		});
@@ -128,22 +134,48 @@ export default class MergeModel {
 	}
 
 	deleteTile(tile) {
+		console.log("deleteTile " + this.powerups.deleteTile);
 		if (this.powerups.deleteTile === 0) return;
+		console.log("deleteTile " + tile);
 		this.powerups.deleteTile--;
-		// this.grid[tile.row][tile.col] = null;
-		tile.animationFlags.destroyed = true;
+		this.grid[tile.row][tile.col] = null;
+		// tile.animationFlags.destroyed = true;
 	}
 
 	swapTiles(tile1, tile2) {
 		if (this.powerups.swapTiles === 0) return;
 		this.powerups.swapTiles--;
-		[tile1.row, tile2.row] = [tile2.row, tile1.row];
-		[tile1.col, tile2.col] = [tile2.col, tile1.col];
+		let [row1, col1] = [tile1.row, tile1.col];
+		tile1.setPosition(tile2.row, tile2.col);
+		tile2.setPosition(row1, col1);
 		tile1.animationFlags.moved = true;
 		tile2.animationFlags.moved = true;
+
+		this.updateTiles();
 	}
 
-	deleteTilesByNumber(number) {}
+	deleteTilesByNumber(tile) {
+		if (this.powerups.deleteTilesByNumber === 0) return;
+		this.powerups.deleteTilesByNumber--;
+
+		let tileCount = 0;
+
+		this.grid = this.grid.map(row => row.map(cell => {
+			if (cell) {
+				if (cell.value === tile.value)
+					return null;
+				else
+					tileCount++;
+			}
+			return cell;
+		}));
+
+		if(tileCount < 2) {
+			this.addRandomTile();
+		}
+
+		this.updateTiles();
+	}
 
 
 	// Helper functions
