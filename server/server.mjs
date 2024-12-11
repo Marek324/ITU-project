@@ -107,6 +107,7 @@ app.delete("/api/articles/:id", async (req, res) => {
 	await db.write();
 	res.code(200).send({ message: 'Article deleted successfully' });
 });
+
 // ================================================
 // ===================== PET =====================
 // ================================================
@@ -114,9 +115,37 @@ app.get('/api/pet', async (req, res) => {
 	await db.read();
 	res.send(db.data.pet);
   });
-  // ================================================
+
+// ================================================
+// ===================== DECREMENT ITEM COUNT ======
+// ================================================
+
+app.post('/api/decrement', async (req, res) => {
+	const { petId, itemId } = req.body;
+	await db.read();
+	const pet = db.data.pet.find((p) => p.id === petId);
+	if (!pet) {
+	  return res.status(404).send({ error: "Pet not found" });
+	}
+	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
+	if (!inventoryItem) {
+	  return res.status(404).send({ error: "Item not found in inventory" });
+	}
+	if (itemId !== 4) {
+	  if (inventoryItem.count > 0) {
+		inventoryItem.count -= 1; 
+	  } else {
+		return res.status(400).send({ error: "Item count cannot be less than 0" });
+	  }
+	}
+	await db.write();
+	res.status(200).send({ message: "Item count decremented", pet });
+  });
+  
+// ================================================
 // ===================== BUY ITEM ==================
 // ================================================
+
 app.post('/api/buy', async (req, res) => {
 	const { petId, itemId } = req.body;
 	await db.read();

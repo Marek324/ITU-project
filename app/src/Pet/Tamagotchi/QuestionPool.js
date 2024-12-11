@@ -136,6 +136,7 @@ const QuestionPool = ({ setShowGame }) => {
             width: '100%',
             height: '1px',
             backgroundColor: '#B957CE',
+            left: 0,
           }}
         />
         <div className="flex flex-col space-y-4 pt-16 text-left">

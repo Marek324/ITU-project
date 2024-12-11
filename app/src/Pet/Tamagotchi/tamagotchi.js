@@ -7,7 +7,7 @@ import TopBar from 'Pet/components/TopBar.js';
 import MainPage from 'Pet/components/MainPage.js';
 import MarketContent from 'Pet/Tamagotchi/MarketContent.js';
 import InventoryContent from 'Pet/Tamagotchi/InventoryContent.js';
-import { game, food, shop, hat, home, check, homeB, shopping_cart } from 'svg.js';
+import { game, food, shop, hat, home, gameP, homeB, shopping_cart, hatB } from 'svg.js';
 
 function Tamagotchi() {
   const [showGame, setShowGame] = useState(false);
@@ -50,8 +50,8 @@ function Tamagotchi() {
   const icons = showGame
     ? { firstIcon: game(), secondIcon: homeB(), thirdIcon: shop() }
     : showMarket || showInventory
-    ? { firstIcon: showInventory ? shopping_cart() : hat(), secondIcon: home(), thirdIcon: game() }
-    : { firstIcon: game(),  secondIcon: shop(), thirdIcon: hat() };
+    ? { firstIcon: showInventory ? shopping_cart() : hat(), secondIcon: home(), thirdIcon: gameP() }
+    : { firstIcon: game(),  secondIcon: shop(), thirdIcon: hatB() };
 
   const iconsClick = showGame
     ? { onFirstClick: handleGameClick, onSecondClick: handleHomeClick, onThirdClick: handleMarketClick }
