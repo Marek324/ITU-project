@@ -133,7 +133,7 @@ app.post('/api/decrement', async (req, res) => {
 	}
 	if (itemId !== 4) {
 	  if (inventoryItem.count > 0) {
-		inventoryItem.count -= 1; 
+		inventoryItem.count -= 1;
 	  } else {
 		return res.status(400).send({ error: "Item count cannot be less than 0" });
 	  }
@@ -141,7 +141,7 @@ app.post('/api/decrement', async (req, res) => {
 	await db.write();
 	res.status(200).send({ message: "Item count decremented", pet });
   });
-  
+
 // ================================================
 // ===================== BUY ITEM ==================
 // ================================================
@@ -149,33 +149,33 @@ app.post('/api/decrement', async (req, res) => {
 app.post('/api/buy', async (req, res) => {
 	const { petId, itemId } = req.body;
 	await db.read();
-  
+
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
 	  return res.status(404).send({ error: "Pet not found" });
 	}
-  
+
 	const item = db.data.shop.find((i) => i.id === itemId);
 	if (!item) {
 	  return res.status(404).send({ error: "Item not found" });
 	}
-  
+
 	const itemPrice = parseInt(item.price.replace('¥', ''));
 	if (pet.money < itemPrice) {
 	  return res.status(400).send({ error: "Not enough money" });
 	}
 	pet.money -= itemPrice;
-  
+
 	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (inventoryItem) {
-	  inventoryItem.count += 1; 
+	  inventoryItem.count += 1;
 	} else {
-	  pet.inventory.push({ id: item.id, count: 1 }); 
+	  pet.inventory.push({ id: item.id, count: 1 });
 	}
 	await db.write();
 	res.send(pet);
   });
-  
+
 // ================================================
 // ===================== SHOP =====================
 // ================================================
@@ -184,7 +184,7 @@ app.get('/api/shop', async (req, res) => {
 	await db.read();
 	res.send(db.data.shop);
   });
-  
+
   app.get('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const item = db.data.shop.find(item => item.id === req.params.id);
@@ -194,7 +194,7 @@ app.get('/api/shop', async (req, res) => {
 	}
 	res.send(item);
   });
-  
+
   app.post('/api/shop', async (req, res) => {
 	await db.read();
 	const newItem = {
@@ -208,7 +208,7 @@ app.get('/api/shop', async (req, res) => {
 	await db.write();
 	res.status(201).send({ message: 'Item added successfully', item: newItem });
   });
-  
+
   app.put('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const index = db.data.shop.findIndex(item => item.id === req.params.id);
@@ -220,7 +220,7 @@ app.get('/api/shop', async (req, res) => {
 	await db.write();
 	res.status(200).send({ message: 'Item updated successfully', item: db.data.shop[index] });
   });
-  
+
   app.delete('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const index = db.data.shop.findIndex(item => item.id === req.params.id);
@@ -232,7 +232,7 @@ app.get('/api/shop', async (req, res) => {
 	await db.write();
 	res.status(200).send({ message: 'Item deleted successfully' });
   });
-  
+
 // ================================================
 // ===================== Animals ==================
 // ================================================
@@ -499,6 +499,17 @@ app.get('/api/fp', async (req, res) => {
 	res.send(games);
 });
 
+app.get('/api/fp/:id/leaderboards', async (req, res) => {
+	await db.read();
+	const { id } = req.params;
+	const fpEntry = db.data.fp.find(fp => fp.id === Number(id));
+
+	if (!fpEntry) {
+		return res.status(404).send({ message: 'FP entry not found' });
+	}
+
+	res.send(fpEntry.leaderboards);
+});
 
 
 app.post('/api/hop', async (req, res) => {

@@ -212,7 +212,7 @@
 			"fpId": 3
 		}
 	],
-  
+
     "shop": [
       {
         "id": 1,
@@ -320,7 +320,7 @@
 	],
 	"fp": [
 		{
-			"id": 0,
+			"id": 1,
 			"highscore": 1,
 			"leaderboards": [
 				{ "name": "Pepa1", "score": 10 },
@@ -344,7 +344,7 @@
 			]
 		},
 		{
-			"id": 1,
+			"id": 2,
 			"highscore": 10,
 			"leaderboards": [
 				{ "name": "Pepa1", "score": 20 },
@@ -368,7 +368,7 @@
 			]
 		},
 		{
-			"id": 2,
+			"id": 3,
 			"highscore": 20,
 			"leaderboards": [
 				{ "name": "Pepa1", "score": 30 },
@@ -392,7 +392,7 @@
 			]
 		},
 		{
-			"id": 3,
+			"id": 4,
 			"highscore": 30,
 			"leaderboards": [
 				{ "name": "Pepa1", "score": 40 },

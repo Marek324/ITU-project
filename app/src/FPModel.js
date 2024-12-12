@@ -1,7 +1,8 @@
-import {GetFP, UpdateFP} from "./services/FlappyPetService";
+import { GetLeaderboards, GetFP, UpdateFP } from "./services/FlappyPetService";
 
 class FPModel {
-	constructor() {
+	constructor(animalId) {
+		this.animalId = animalId;
 		this.score = 0;
 		this.highScore = 0;
 		this.ballTopPos = window.innerHeight / 2;
@@ -16,9 +17,11 @@ class FPModel {
 		this.subtitle = 'Start Game';
 		this.showLeaderboard = false;
 		this.showPopup = true;
+		this.showStore = false;
 		this.topPos = 0;
 		this.downBarOffset = 0;
 		this.data = null;
+		this.scores = [];
 		this.consts = {
 			timeInterval: 10,
 			gravity: 5,
@@ -31,42 +34,35 @@ class FPModel {
 		};
 	}
 
-	async fetchHighScore() {
-		const data = await GetFP(0);
+	async init() {
+		const data = await GetFP(this.animalId);
 		this.setData(data);
 		this.setHighScore(data.highscore);
+
+		this.scores = await GetLeaderboards(data.id);
+		console.log(this.scores);
 	}
 
 	async updateHighScore() {
 		const updatedData = { ...this.data, highscore: this.score };
-		UpdateFP(this.data.id, updatedData).then(() => {
-			this.data(updatedData);
-		});
+		await UpdateFP(this.data.id, updatedData);
+		this.setData(updatedData);
+		this.setHighScore(updatedData.highscore);
+		console.log("first");
 	}
 
 	setHighScore(newHighScore) {
 		this.highScore = newHighScore;
 	}
 
-	setTitle(newTitle) {
-		this.title = newTitle;
-	}
-
-	setSubtitle(newSubtitle) {
-		this.subtitle = newSubtitle;
-	}
-
 	toggleLeaderboard() {
-		this.setShowLeaderboard(!this.showLeaderboard);
-		this.setShowPopup(!this.showLeaderboard);
+		this.showLeaderboard = !this.showLeaderboard;
+		this.showPopup = !this.showPopup;
 	}
 
-	setShowLeaderboard(show) {
-		this.showLeaderboard = show;
-	}
-
-	setShowPopup(show) {
-		this.showPopup = show;
+	toggleShop() {
+		this.showStore = !this.showStore;
+		this.showPopup = !this.showPopup;
 	}
 
 	setTopPos(pos) {

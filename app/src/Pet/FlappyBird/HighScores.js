@@ -9,7 +9,7 @@ const HighScores = ({ scores, topBar, downBar }) => {
 				<ul>
 					{scores.map((score, index) => (
 						<li key={index} className="text-subtext text-sm">
-							{score.name}: <span className="text-yellow-500">{score.points}</span>
+							{score.name}: <span className="text-yellow-500">{score.score}</span>
 						</li>
 					))}
 				</ul>

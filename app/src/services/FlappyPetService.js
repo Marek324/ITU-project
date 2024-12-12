@@ -49,3 +49,13 @@ export async function UpdateFP(id, fp) {
 		console.error('Error updating game:', error);
 	}
 }
+
+export async function GetLeaderboards(id) {
+	try {
+		const response = await axios.get(`http://localhost:${port}/api/fp/${id}/leaderboards`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching bought colors:', error);
+		return [];
+	}
+}

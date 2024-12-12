@@ -1,14 +1,19 @@
 import GameView from "../views/FPView";
 import React, { useEffect, useRef, useState } from 'react';
 import FPModel from "../FPModel.js";
+import {useParams} from "react-router-dom";
 
 const FPController = () => {
-	const [model, setModel] = useState(new FPModel());
+	const animalId = useParams().id;
+	const [model, setModel] = useState(new FPModel(animalId));
 	const [showPopup, setShowPopup] = useState(model.showPopup);
 	const [highScore, setHighScore] = useState(model.highScore);
 	const [ballTopPos, setBallTopPos] = useState(model.ballTopPos);
 	const [gameStarted, setGameStarted] = useState(model.gameStarted);
 	const [obstacles, setObstacles] = useState(model.obstacles);
+	const [leaderboard, setLeaderboard] = useState(model.showLeaderboard);
+	const [scores, setScores] = useState(model.scores);
+	const [showShop, setShowShop] = useState(model.showStore);
 
 	model.ballRef = useRef(null);
 	model.topBarRef = useRef(null);
@@ -16,16 +21,21 @@ const FPController = () => {
 
 	//Načtení highscore
 	useEffect(() => {
-		model.fetchHighScore().then(() => {
+
+		model.init().then(() => {
 			setHighScore(model.highScore);
+			setScores(model.scores);
 		});
 	}, [model]);
 
 
-	//Volání skoku
+	//Volání skoku / startu hry
 	useEffect(() => {
 		const handleKeyDown = (event) => {
-			if ((event.code === 'Space' || event.code === 'ArrowUp')) {
+			if (event.code === 'Space' || event.code === 'ArrowUp') {
+				if (!gameStarted) {
+					startGame();
+				}
 				model.jump();
 			}
 		};
@@ -33,7 +43,7 @@ const FPController = () => {
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown);
 		};
-	}, [model]);
+	}, [gameStarted, model]);
 
 	//Zakázání scrollování
 	useEffect(() => {
@@ -80,18 +90,24 @@ const FPController = () => {
 	}, [gameStarted, model]);
 
 
-	const stopGame = () => {
-		model.stopGame();
+	const stopGame = async () => {
 		if (model.score > model.highScore) {
-			model.updateHighScore().then(() => {
-				setHighScore(model.highScore);
-			});
+			await model.updateHighScore();
+			setHighScore(model.highScore);
+			console.log("second");
 		}
+		model.stopGame();
+		updateState();
+	};
+
+	const toggleShop = () => {
+		model.toggleShop();
 		updateState();
 	};
 
 	const toggleLeaderboard = () => {
 		model.toggleLeaderboard();
+		updateState();
 	};
 
 	const startGame = () => {
@@ -103,28 +119,36 @@ const FPController = () => {
 		setShowPopup(model.showPopup);
 		setGameStarted(model.gameStarted);
 		setObstacles([...model.obstacles]);
+		setLeaderboard(model.showLeaderboard);
+		setShowShop(model.showStore);
+		console.log(model.showStore);
 	};
 
 	return (
-		<GameView
-			gameStarted={gameStarted}
-			showPopup={showPopup}
-			title={model.title}
-			subtitle={model.subtitle}
-			highScore={highScore}
-			startGame={startGame}
-			topPos={model.topPos}
-			downBarOffset={model.downBarOffset}
-			obstacles={obstacles}
-			ballTopPos={ballTopPos}
-			consts={model.consts}
-			ballRef={model.ballRef}
-			score={model.score}
-			showLeaderboard={model.showLeaderboard}
-			toggleLeaderboard={toggleLeaderboard}
-			topBarRef={model.topBarRef}
-			downBarRef={model.downBarRef}
-		/>
+		<div className="w-full h-full">
+			<GameView
+				gameStarted={gameStarted}
+				showPopup={showPopup}
+				title={model.title}
+				subtitle={model.subtitle}
+				highScore={highScore}
+				startGame={startGame}
+				topPos={model.topPos}
+				downBarOffset={model.downBarOffset}
+				obstacles={obstacles}
+				ballTopPos={ballTopPos}
+				consts={model.consts}
+				ballRef={model.ballRef}
+				score={model.score}
+				showLeaderboard={leaderboard}
+				toggleLeaderboard={toggleLeaderboard}
+				topBarRef={model.topBarRef}
+				downBarRef={model.downBarRef}
+				scores={scores}
+				toggleShop={toggleShop}
+				showShop={showShop}
+			/>
+		</div>
 	);
 };
 

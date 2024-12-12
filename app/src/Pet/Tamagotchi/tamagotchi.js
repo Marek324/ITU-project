@@ -66,6 +66,15 @@ function Tamagotchi() {
     >
       <TopBar title={showGame ? 'Games' : showMarket ? 'Market' : showInventory ? 'Inventory' : 'Pet'} />
 
+		<DownBar
+			onFirstClick={iconsClick.onFirstClick}
+			onSecondClick={iconsClick.onSecondClick}
+			onThirdClick={iconsClick.onThirdClick}
+			firstIcon={icons.firstIcon}
+			secondIcon={icons.secondIcon}
+			thirdIcon={icons.thirdIcon}
+		/>
+
       <header className="App-header flex-1 flex justify-center items-center">
         {showGame ? (
           <GameContent setShowGame={setShowGame} />
@@ -77,15 +86,6 @@ function Tamagotchi() {
           <MainPage />
         )}
       </header>
-
-      <DownBar
-        onFirstClick={iconsClick.onFirstClick}
-        onSecondClick={iconsClick.onSecondClick}
-        onThirdClick={iconsClick.onThirdClick}
-        firstIcon={icons.firstIcon}
-        secondIcon={icons.secondIcon}
-        thirdIcon={icons.thirdIcon}
-      />
     </div>
   );
 }
