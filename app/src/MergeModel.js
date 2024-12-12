@@ -30,11 +30,15 @@ export default class MergeModel {
 
 	move(direction) {
 		if (this.gameOver) return;
-		const moveMade = this.slideGrid(direction);
-		if (!moveMade) return;
 		this.prevGrid = JSON.parse(JSON.stringify(this.grid.map(row =>
 			row.map(tile => tile ? new Tile(tile.value, tile.row, tile.col) : null)
 		)));
+		const moveMade = this.slideGrid(direction);
+		if (!moveMade) {
+			this.prevGrid = null;
+			return;
+		}
+		console.log(this.prevGrid);
 		this.updateTiles();
 		this.addRandomTile();
 		this.checkGameOver();
@@ -139,12 +143,21 @@ export default class MergeModel {
 
 	// Powerups
 
-	undoMove() { // treba vyriesit model aby sa vratili mergnute
+	undoMove() {
 		if (this.powerups.undoMove === 0) return;
-		console.log(this.prevGrid);
 		if (this.prevGrid === null) return;
 		this.powerups.undoMove--;
-		this.grid = this.prevGrid;
+		this.grid = this.prevGrid.map(row =>
+			row.map(tile => {
+				if (tile) {
+					const newTile = new Tile(tile.value, tile.row, tile.col);
+					newTile.animationFlags = { ...tile.animationFlags };
+					newTile.animationProps = { ...tile.animationProps };
+					return newTile;
+				}
+				return null;
+			})
+		);
 		this.prevGrid = null;
 		this.updateTiles();
 	}
@@ -314,25 +327,48 @@ class Tile {
 
 	getTileColor() {
 		const colors = {
-			2: 'bg-emerald-200',
-			4: 'bg-emerald-400',
-			8: 'bg-yellow-400',
-			16: 'bg-orange-400',
-			32: 'bg-red-400',
-			64: 'bg-red-600',
-			128: 'bg-purple-400',
-			256: 'bg-purple-600',
-			512: 'bg-blue-400',
-			1024: 'bg-blue-600',
-			2048: 'bg-fuchsia-500',
-			4096: 'bg-pink-500',
-			8192: 'bg-rose-600',
-			16384: 'bg-amber-500',
-			32768: 'bg-lime-500',
-			65536: 'bg-cyan-600',
-			131072: 'bg-indigo-700',
+			2: 'bg-Tile_1',
+			4: 'bg-Tile_1',
+			8: 'bg-Tile_1',
+			16: 'bg-Tile_2',
+			32: 'bg-Tile_2',
+			64: 'bg-Tile_2',
+			128: 'bg-Tile_3',
+			256: 'bg-Tile_3',
+			512: 'bg-Tile_4',
+			1024: 'bg-Tile_4',
+			2048: 'bg-Tile_5',
+			4096: 'bg-Tile_5',
+			8192: 'bg-Tile_6',
+			16384: 'bg-Tile_6',
+			32768: 'bg-Tile_7',
+			65536: 'bg-Tile_7',
+			131072: 'bg-Tile_8',
 		};
 		return colors[this.value];
 	};
+
+	getTileImage() {
+		const images = {
+			2: '/tiles/01.png',
+			4: '/tiles/02.png',
+			8: '/tiles/03.png',
+			16: '/tiles/04.png',
+			32: '/tiles/05.png',
+			64: '/tiles/06.png',
+			128: '/tiles/07.png',
+			256: '/tiles/08.png',
+			512: '/tiles/09.png',
+			1024: '/tiles/10.png',
+			2048: '/tiles/11.png',
+			4096: '/tiles/12.png',
+			8192: '/tiles/13.png',
+			16384: '/tiles/14.png',
+			32768: '/tiles/15.png',
+			65536: '/tiles/16.png',
+			131072: '/tiles/17.png'
+		}
+		return images[this.value];
+	}
 
 }

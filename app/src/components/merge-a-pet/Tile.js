@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "motion/react"
 
 
-const Tile = ({ tile, onSelectTile, getTileColor }) => {
+const Tile = ({ tile, onSelectTile }) => {
 
 	return(
 		<>
@@ -22,7 +22,8 @@ const Tile = ({ tile, onSelectTile, getTileColor }) => {
 						flex items-center justify-center
 						`}
 				>
-					{tile.value}
+					{/* {tile.value} */}
+					<img src={tile.getTileImage()} />
 				</motion.button>
 			}
 		</>
