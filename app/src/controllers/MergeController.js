@@ -27,6 +27,7 @@ const MergeController = () => {
     const updateState = () => {
 		setGrid([...model.grid]);
         setScore(model.score);
+		setPowerupCounts({ ...model.powerups });
     };
 
 	useEffect(() => {

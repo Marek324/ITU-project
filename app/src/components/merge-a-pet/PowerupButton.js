@@ -1,9 +1,17 @@
 import React from "react";
 import PowerupCount from "./PowerupCount";
 
-const PowerupButton = ({ onClickHandler, svg, count }) => {
+const PowerupButton = ({ onClickHandler, svg, powerupName, count }) => {
+	const abbrTitles = {
+		undo: "Undo the last move\nMake a 128 tile to get more uses",
+		delete: "Delete a tile\nMake a 256 tile to get more uses",
+		swap: "Swap two tiles\nMake a 512 tile to get more uses",
+		deletenum: "Delete all tiles with a certain number\nMake a 1024 tile to get more uses"
+	};
+
 	return (
-		<div
+		<abbr
+			title={abbrTitles[powerupName]}
 			className={`
 				flex flex-col items-center
 				p-1
@@ -20,7 +28,7 @@ const PowerupButton = ({ onClickHandler, svg, count }) => {
 					transition-all duration-300
 					shadow-lg
 					hover:shadow-2xl
-					hover:bg-gray-700
+					hover:bg-gray-600
 					flex items-center justify-center
 				`}
 				onClick={() => {onClickHandler()}}
@@ -28,7 +36,7 @@ const PowerupButton = ({ onClickHandler, svg, count }) => {
 				{svg()}
 			</button>
 			<PowerupCount count={count} />
-		</div>
+		</abbr>
 	);
 }
 

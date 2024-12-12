@@ -215,7 +215,7 @@ export const Return = () => {
         </svg>
       );
     };
-    
+
 
 
 export const leaderboard = () => {
@@ -579,7 +579,6 @@ export const deleteTilesByNumber = () => (
 	  xmlns="http://www.w3.org/2000/svg"
 	  fill="#F3F3F3"
 	>
-	  <title>{"dashboard-tile-remove"}</title>
 	  <g id="Layer_2" data-name="Layer 2">
 		<g id="invisible_box" data-name="invisible box">
 		  <rect width={48} height={48} fill="none" />
@@ -608,7 +607,6 @@ export const swapTiles = () => (
     strokeLinejoin="round"
     fill="none"
   >
-    <title id="swapHorizontalIconTitle">{"Swap items (horizontally)"}</title>
     <path d="M16 4L19 7L16 10" />
     <path d="M4 7L18 7" />
     <path d="M7 20L4 17L7 14" />
