@@ -2,6 +2,7 @@ export default class MergeModel {
     constructor(size = 4) {
         this.size = size;
         this.grid = this.createGrid();
+		this.prevGrid = null;
         this.score = 0;
         this.gameOver = false;
 		this.powerups = {
@@ -31,6 +32,9 @@ export default class MergeModel {
 		if (this.gameOver) return;
 		const moveMade = this.slideGrid(direction);
 		if (!moveMade) return;
+		this.prevGrid = JSON.parse(JSON.stringify(this.grid.map(row =>
+			row.map(tile => tile ? new Tile(tile.value, tile.row, tile.col) : null)
+		)));
 		this.updateTiles();
 		this.addRandomTile();
 		this.checkGameOver();
@@ -104,6 +108,20 @@ export default class MergeModel {
 				newRow[i].merge(newRow[i + 1]);
 				this.score += newRow[i].value;
 				newRow.splice(i + 1, 1);
+				switch (newRow[i].value) {
+					case 128:
+						this.powerups.undoMove = Math.min((this.powerups.undoMove+1), 3);
+						break;
+					case 256:
+						this.powerups.deleteTile = Math.min((this.powerups.deleteTile+1), 3);
+						break;
+					case 512:
+						this.powerups.swapTiles = Math.min((this.powerups.swapTiles+1), 3);
+						break;
+					case 1024:
+						this.powerups.deleteTilesByNumber = Math.min((this.powerups.deleteTilesByNumber+1), 3);
+						break;
+				}
 			}
 		}
 
@@ -123,23 +141,18 @@ export default class MergeModel {
 
 	undoMove() { // treba vyriesit model aby sa vratili mergnute
 		if (this.powerups.undoMove === 0) return;
+		console.log(this.prevGrid);
+		if (this.prevGrid === null) return;
 		this.powerups.undoMove--;
-		this.grid = this.grid.map(row => row.map(tile => {
-			if (tile) {
-				tile.setPosition(tile.prevRow, tile.prevCol);
-				tile.animationFlags.moved = true;
-			}
-			return tile;
-		}));
+		this.grid = this.prevGrid;
+		this.prevGrid = null;
+		this.updateTiles();
 	}
 
 	deleteTile(tile) {
-		console.log("deleteTile " + this.powerups.deleteTile);
 		if (this.powerups.deleteTile === 0) return;
-		console.log("deleteTile " + tile);
 		this.powerups.deleteTile--;
 		this.grid[tile.row][tile.col] = null;
-		// tile.animationFlags.destroyed = true;
 	}
 
 	swapTiles(tile1, tile2) {
@@ -298,4 +311,28 @@ class Tile {
 
 		return { initial, animate };
 	}
+
+	getTileColor() {
+		const colors = {
+			2: 'bg-emerald-200',
+			4: 'bg-emerald-400',
+			8: 'bg-yellow-400',
+			16: 'bg-orange-400',
+			32: 'bg-red-400',
+			64: 'bg-red-600',
+			128: 'bg-purple-400',
+			256: 'bg-purple-600',
+			512: 'bg-blue-400',
+			1024: 'bg-blue-600',
+			2048: 'bg-fuchsia-500',
+			4096: 'bg-pink-500',
+			8192: 'bg-rose-600',
+			16384: 'bg-amber-500',
+			32768: 'bg-lime-500',
+			65536: 'bg-cyan-600',
+			131072: 'bg-indigo-700',
+		};
+		return colors[this.value];
+	};
+
 }
