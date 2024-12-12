@@ -136,50 +136,54 @@ const [money, setMoney] = useState(0);
       </div>
 
       <div
-        className="relative flex flex-col justify-start"
-        style={{
-          backgroundColor: '#3A4E93',
-          width: '800px',
-          height: '600px',
-          border: '1px solid #B957CE',
-          padding: '20px',
-          overflowY: 'auto', 
-        }}
-      >
-        {/* Close Button */}
-        <div
-          className="absolute top-1 left-1 cursor-pointer"
-          style={{
-            width: '60px',
-            height: '60px',
-          }}
-          onClick={() => setShowQuiz(true)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="text-black hover:text-[#B957CE]"
-            style={{ width: '100%', height: '100%' }}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </div>
+  className="relative flex flex-col justify-center"
+  style={{
+    backgroundColor: '#3A4E93',
+    width: '800px',
+    height: '600px',
+    border: '1px solid #B957CE',
+    padding: '20px',
+    overflowY: 'auto',
+  }}
+>
+  {/* Close Button */}
+  <div
+    className="absolute top-1 left-1 cursor-pointer"
+    style={{
+      width: '60px',
+      height: '60px',
+    }}
+    onClick={() => setShowQuiz(true)}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      className="text-black hover:text-[#B957CE]"
+      style={{ width: '100%', height: '100%' }}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  </div>
 
-        <div
-          className="absolute top-16"
-          style={{
-            width: '100%',
-            height: '1px',
-            backgroundColor: '#B957CE',
-          }}
-        />
+  {/* Line across the window */}
+  <div
+    className="absolute top-16"
+    style={{
+      width: '100%',
+      height: '1px',
+      backgroundColor: '#B957CE',
+      left: 0,
+    }}
+  />
+
+
 
         <div className="mt-10 text-center">
           {noMoreQuestions ? (

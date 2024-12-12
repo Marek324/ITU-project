@@ -93,10 +93,32 @@ const InventoryContent = () => {
   const IconComponent = iconMap[item.icon];
   const inventoryItem = inventory.find((inv) => inv.id === item.id);
 
-  const handleIconClick = () => {
-    console.log(`Clicked on ${item.name} with ID: ${item.id}`);
-    alert(`You clicked on ${item.name}. Inventory count: ${inventoryItem ? inventoryItem.count : 0}`);
+  const handleIconClick = async () => {
+    if (item.id !== 4) {
+      try {
+        const response = await fetch('http://localhost:5000/api/decrement', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ petId: 1, itemId: item.id }), 
+        });
+  
+        if (!response.ok) {
+          const error = await response.json();
+          console.error("Error decrementing item count:", error);
+          alert(error.error || "Failed to decrement item count");
+          return;
+        }
+        const updatedPet = await response.json();
+        setInventory(updatedPet.pet.inventory);
+      } catch (error) {
+        console.error("Error making API call:", error);
+      }
+    }
   };
+  
+  
 
   return (
     <div
