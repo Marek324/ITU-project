@@ -6,7 +6,7 @@ import '../../App.css';
 
 const port = 5000;
 
-const NewGameQuiz = ({ setShowGame }) => {
+const NewGameQuiz = ({ setShowGame, setHappiness }) => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -16,6 +16,28 @@ const NewGameQuiz = ({ setShowGame }) => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [userAnswer, setUserAnswer] = useState('');
 const [money, setMoney] = useState(0);
+
+useEffect(() => {
+  if (noMoreQuestions) {
+    const decreaseHappiness = async () => {
+      try {
+        await fetch('http://localhost:5000/api/pet/happiness', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ petId: 1, change: -10 }), 
+        });
+        setHappiness(prevHappiness => prevHappiness - 10);
+      } catch (error) {
+        console.error('Error updating happiness:', error);
+      }
+    };
+
+    decreaseHappiness();
+  }
+}, [noMoreQuestions, setHappiness]);
+
 
   useEffect(() => {
     const fetchShopMoney = async () => {
