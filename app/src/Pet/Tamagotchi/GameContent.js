@@ -4,6 +4,8 @@ import Quiz from './quiz.js';
 import FPGame from '../../controllers/FPController.js';
 import GameHop from '../Hop/Game.js';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 const GameContent = ({ setShowGame }) => {
   const [currentGame, setCurrentGame] = useState(null);
@@ -12,6 +14,7 @@ const GameContent = ({ setShowGame }) => {
   const handleKozaHopClick = () => setCurrentGame('GameHop');
   const handleQuizClick = () => setCurrentGame('Quiz');
   const handleFlappyPetClick = () => setCurrentGame('FlappyPet');
+  const { id } = useParams();
 
   const handleCrossClick = () => {
     if (currentGame) {
@@ -96,6 +99,7 @@ const GameContent = ({ setShowGame }) => {
             >
               Flappy Pet
             </h1>
+			<Link to={`/animal/${id}/merge-a-pet`} className="text-4xl cursor-pointer hover:text-[#B957CE]" style={{ fontFamily: 'Pixelify Sans' }} >Merge-a-pet</Link>
           </div>
         </div>
       ) : currentGame === 'Quiz' ? (

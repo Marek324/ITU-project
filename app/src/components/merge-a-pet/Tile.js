@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "motion/react"
 
 
-const Tile = ({ tile, onSelectTile, getTileColor }) => {
+const Tile = ({ tile, onSelectTile }) => {
 
 	return(
 		<>
@@ -22,7 +22,9 @@ const Tile = ({ tile, onSelectTile, getTileColor }) => {
 						flex items-center justify-center
 						`}
 				>
-					{tile.value}
+					<div className="relative w-full h-full"></div>
+					{<p className="absolute text-xs top-2 left-2 text-black " >{tile.value}</p>}
+					<img src={tile.getTileImage()} />
 				</motion.button>
 			}
 		</>

@@ -38,18 +38,29 @@ function AnimalEdit({ animal, toggleAdminMode, handleSave, setEditableAnimal, ad
 						/>
 					</div>
 					<div className="items-center flex">
+						<text className="text-black">Sex:</text>
+						<select
+							className="mt-2 ml-2 text-black bg-Main_BG"
+							value={animal.sex}
+							onChange={(e) => setEditableAnimal({...animal, sex: e.target.value})}
+						>
+							<option value="M">M</option>
+							<option value="F">F</option>
+						</select>
+					</div>
+					<div className="items-center flex">
 						<text className="text-black">Neutered:</text>
 						<input
 							type="checkbox"
 							className="mt-2 ml-2 text-black bg-Main_BG"
 							checked={animal.neutered}
-							onChange={(e) => setEditableAnimal({ ...animal, neutered: e.target.checked })}
+							onChange={(e) => setEditableAnimal({...animal, neutered: e.target.checked})}
 						/>
 					</div>
 					<div className="items-top flex">
-						<text className="text-black">Text:</text>
+					<text className="text-black">Text:</text>
 						<textarea
-							className="text-box mt-2 ml-2 text-black"
+							className="edit-text-box mt-2 ml-2 text-black"
 							value={animal.text}
 							onChange={(e) => setEditableAnimal({ ...animal, text: e.target.value })}
 						/>

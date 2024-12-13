@@ -137,6 +137,16 @@
 	width: 70vw;
 	height: 40vh;
 	padding: 10px; /* Padding inside the box */
+	background-color: #ffffff; /* Background color */
+	border-radius: 2px; /* Rounded corners */
+	margin-top: 10px; /* Space above the box */
+}
+
+.edit-text-box {
+	border: 1px solid #000; /* Border color */
+	width: 70vw;
+	height: 40vh;
+	padding: 10px; /* Padding inside the box */
 	background-color: #f9f9f9; /* Background color */
 	border-radius: 2px; /* Rounded corners */
 	margin-top: 10px; /* Space above the box */

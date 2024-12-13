@@ -3,10 +3,10 @@ import PowerupCount from "./PowerupCount";
 
 const PowerupButton = ({ onClickHandler, svg, powerupName, count }) => {
 	const abbrTitles = {
-		undo: "Undo the last move\nMake a 128 tile to get more uses",
-		delete: "Delete a tile\nMake a 256 tile to get more uses",
-		swap: "Swap two tiles\nMake a 512 tile to get more uses",
-		deletenum: "Delete all tiles with a certain number\nMake a 1024 tile to get more uses"
+		undo: "Undo the last move",
+		delete: "Delete a tile",
+		swap: "Swap two tiles",
+		deletenum: "Delete all tiles with a certain number"
 	};
 
 	return (
