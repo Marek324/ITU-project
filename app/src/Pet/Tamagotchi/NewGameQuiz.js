@@ -206,13 +206,13 @@ const [money, setMoney] = useState(0);
 
         {!noMoreQuestions && (
           <div className="flex items-center justify-center mt-16 space-x-4">
-            <button
+            {/* <button
               className="px-4 py-2 rounded hover:text-[#9c3eb2] text-3xl text-[#B9E9E9]"
               style={{ fontFamily: 'Pixelify Sans' }}
               onClick={handlePreviousClick}
             >
               Previous
-            </button>
+            </button> */}
             <button
               className="px-4 py-2 rounded hover:text-[#9c3eb2] text-3xl text-[#B9E9E9]"
               style={{ fontFamily: 'Pixelify Sans' }}

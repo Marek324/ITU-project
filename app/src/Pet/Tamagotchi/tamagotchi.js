@@ -48,16 +48,16 @@ function Tamagotchi() {
     : { backgroundImage: `url('https://i.postimg.cc/sXdFD24k/pes3.png')` };
 
   const icons = showGame
-    ? { firstIcon: game(), secondIcon: homeB(), thirdIcon: shop() }
+    ? { firstIcon: shop(), secondIcon: homeB(), thirdIcon: hatB() }
     : showMarket || showInventory
     ? { firstIcon: showInventory ? shopping_cart() : hat(), secondIcon: home(), thirdIcon: gameP() }
-    : { firstIcon: game(),  secondIcon: shop(), thirdIcon: hatB() };
+    : { firstIcon: shop(),  secondIcon: game(), thirdIcon: hatB() };
 
   const iconsClick = showGame
-    ? { onFirstClick: handleGameClick, onSecondClick: handleHomeClick, onThirdClick: handleMarketClick }
+    ? { onFirstClick: handleMarketClick, onSecondClick: handleHomeClick, onThirdClick: handleInventoryClick }
     : showMarket || showInventory
     ? { onFirstClick: showInventory ? handleMarketClick : handleInventoryClick, onSecondClick: handleHomeClick, onThirdClick: handleGameClick }
-    : { onFirstClick: handleGameClick, onSecondClick: handleMarketClick, onThirdClick: handleInventoryClick };
+    : { onFirstClick: handleMarketClick, onSecondClick: handleGameClick, onThirdClick: handleInventoryClick };
 
   return (
     <div
