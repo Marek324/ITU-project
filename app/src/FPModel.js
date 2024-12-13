@@ -1,4 +1,5 @@
-import { GetLeaderboards, GetFP, UpdateFP } from "./services/FlappyPetService";
+import {GetLeaderboards, GetFP, UpdateFP, UpdatePetColors} from "./services/FlappyPetService";
+import {GetMoney, UpdatePetMoney} from "./services/GameService";
 
 class FPModel {
 	constructor(animalId) {
@@ -22,6 +23,9 @@ class FPModel {
 		this.downBarOffset = 0;
 		this.data = null;
 		this.scores = [];
+		this.colors = [];
+		this.money = 0;
+		this.equippedColor = 'Default';
 		this.consts = {
 			timeInterval: 10,
 			gravity: 5,
@@ -36,33 +40,54 @@ class FPModel {
 
 	async init() {
 		const data = await GetFP(this.animalId);
-		this.setData(data);
-		this.setHighScore(data.highscore);
-
-		this.scores = await GetLeaderboards(data.id);
-		console.log(this.scores);
+		this.data = data;
+		this.scores = data.leaderboards;
+		this.highScore = data.highscore;
+		this.colors = data.boughtColors;
+		this.money = await GetMoney(data.id);
 	}
 
 	async updateHighScore() {
-		const updatedData = { ...this.data, highscore: this.score };
+		const updatedData = {...this.data, highscore: this.score};
 		await UpdateFP(this.data.id, updatedData);
-		this.setData(updatedData);
-		this.setHighScore(updatedData.highscore);
-		console.log("first");
+		this.data = updatedData;
+		this.highScore = updatedData.highscore;
+		this.scores = updatedData.leaderboards;
 	}
 
-	setHighScore(newHighScore) {
-		this.highScore = newHighScore;
-	}
 
 	toggleLeaderboard() {
 		this.showLeaderboard = !this.showLeaderboard;
+		this.showStore = false;
 		this.showPopup = !this.showPopup;
 	}
 
 	toggleShop() {
 		this.showStore = !this.showStore;
+		this.showLeaderboard = false;
 		this.showPopup = !this.showPopup;
+	}
+
+	buyColor(color) {
+		if (this.money >= 100) {
+			this.money -= 100;
+			this.colors = this.colors.map(item =>
+				item.color === color ? {...item, bought: true} : item
+			);
+
+			UpdatePetMoney(this.animalId, this.money).then(r => console.log(r));
+			UpdatePetColors(this.animalId, this.colors).then(r => console.log(r));
+
+			this.selectColor(color);
+		} else {
+
+			//něco na ukázání že nejsou penízky
+			console.log('Not enough money');
+		}
+	}
+
+	selectColor(color) {
+		this.equippedColor = color;
 	}
 
 	setTopPos(pos) {
@@ -71,10 +96,6 @@ class FPModel {
 
 	setDownBarOffset(offset) {
 		this.downBarOffset = offset;
-	}
-
-	setData(data) {
-		this.data = data;
 	}
 
 	startGame() {
@@ -92,6 +113,9 @@ class FPModel {
 		this.showPopup = true;
 		this.title = 'Game Over';
 		this.subtitle = 'Restart Game';
+
+		this.money += this.score;
+		UpdatePetMoney(this.animalId, this.money).then(r => console.log(r));
 	}
 
 	jump() {
@@ -114,7 +138,7 @@ class FPModel {
 		const left = window.innerWidth;
 		const topHeight = Math.floor(Math.random() * (window.innerHeight - this.downBarOffset - this.topPos - this.consts.gapSize - 50));
 		const bottomPos = topHeight + this.consts.gapSize;
-		this.obstacles.push({ topPos, topHeight, bottomPos, bottomHeight: window.innerHeight - bottomPos, left });
+		this.obstacles.push({topPos, topHeight, bottomPos, bottomHeight: window.innerHeight - bottomPos, left});
 	}
 
 	checkCollision() {

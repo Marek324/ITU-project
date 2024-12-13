@@ -1,11 +1,12 @@
 import axios from 'axios';
+import {DeleteFP} from './FlappyPetService.js';
+
 const port = 5000;
-import {DeleteFP} from './FlappyPetService';
 
 export async function DeleteGame(id) {
 	try {
 		let data = await GetGame(id);
-		if(data.fpId !== null) {
+		if (data.fpId !== null) {
 			await DeleteFP(data.fpId);
 		}
 
@@ -27,8 +28,7 @@ export async function GetGames() {
 			fpId: game.fpId,
 			//Tady si dejte další hry
 		}));
-	}
-	catch (error) {
+	} catch (error) {
 		console.error('Error fetching games:', error);
 		return [];
 	}
@@ -36,7 +36,6 @@ export async function GetGames() {
 
 export async function GetGame(gameId) {
 	try {
-		console.log("sdfsdsdf");
 		const response = await axios.get(`http://localhost:${port}/api/games/${gameId}`);
 		const game = response.data;
 		return {
@@ -48,6 +47,26 @@ export async function GetGame(gameId) {
 		}
 	} catch (error) {
 		console.error('Error fetching game:', error);
+		return null;
+	}
+}
+
+export async function GetMoney(id) {
+	try {
+		const response = await axios.get(`http://localhost:${port}/api/pet/${id}/money`);
+		return response.data.money;
+	} catch (error) {
+		console.error('Error fetching money:', error);
+		return null;
+	}
+}
+
+export async function UpdatePetMoney(id, money) {
+	try {
+		const response = await axios.put(`http://localhost:${port}/api/pet/${id}/money`, {money});
+		return response.data;
+	} catch (error) {
+		console.error('Error updating pet money:', error);
 		return null;
 	}
 }

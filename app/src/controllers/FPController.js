@@ -1,5 +1,5 @@
 import GameView from "../views/FPView";
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import FPModel from "../FPModel.js";
 import {useParams} from "react-router-dom";
 
@@ -14,6 +14,9 @@ const FPController = () => {
 	const [leaderboard, setLeaderboard] = useState(model.showLeaderboard);
 	const [scores, setScores] = useState(model.scores);
 	const [showShop, setShowShop] = useState(model.showStore);
+	const [colors, setColors] = useState(model.colors);
+	const [currentColor, setCurrentColor] = useState(model.equippedColor);
+	const [coins, setCoins] = useState(model.money);
 
 	model.ballRef = useRef(null);
 	model.topBarRef = useRef(null);
@@ -21,10 +24,11 @@ const FPController = () => {
 
 	//Načtení highscore
 	useEffect(() => {
-
 		model.init().then(() => {
 			setHighScore(model.highScore);
 			setScores(model.scores);
+			setColors(model.colors);
+			setCoins(model.money);
 		});
 	}, [model]);
 
@@ -33,7 +37,7 @@ const FPController = () => {
 	useEffect(() => {
 		const handleKeyDown = (event) => {
 			if (event.code === 'Space' || event.code === 'ArrowUp') {
-				if (!gameStarted) {
+				if (!gameStarted && model.showPopup) {
 					startGame();
 				}
 				model.jump();
@@ -94,7 +98,6 @@ const FPController = () => {
 		if (model.score > model.highScore) {
 			await model.updateHighScore();
 			setHighScore(model.highScore);
-			console.log("second");
 		}
 		model.stopGame();
 		updateState();
@@ -115,13 +118,25 @@ const FPController = () => {
 		updateState();
 	};
 
+	const buyColor = (color) => {
+		model.buyColor(color);
+		updateState();
+	}
+
+	const selectColor = (color) => {
+		model.selectColor(color);
+		updateState();
+	}
+
 	const updateState = () => {
 		setShowPopup(model.showPopup);
 		setGameStarted(model.gameStarted);
 		setObstacles([...model.obstacles]);
 		setLeaderboard(model.showLeaderboard);
 		setShowShop(model.showStore);
-		console.log(model.showStore);
+		setCurrentColor(model.equippedColor);
+		setCoins(model.money);
+		setColors([...model.colors]);
 	};
 
 	return (
@@ -147,6 +162,11 @@ const FPController = () => {
 				scores={scores}
 				toggleShop={toggleShop}
 				showShop={showShop}
+				colors={colors}
+				currentColor={currentColor}
+				coins={coins}
+				onColorBuy={buyColor}
+				onColorSelect={selectColor}
 			/>
 		</div>
 	);

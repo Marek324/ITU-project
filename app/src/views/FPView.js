@@ -10,9 +10,35 @@ import bGImage from '../Pet/FlappyBird/Assets/bg.jpg';
 import {homeB, leaderboard, shop} from "../svg";
 import Shop from "../Pet/FlappyBird/Shop";
 
-const GameView = ({ gameStarted, showPopup, title, subtitle, highScore, startGame, topPos, downBarOffset, obstacles, ballTopPos, consts, ballRef, score, showLeaderboard, toggleLeaderboard, topBarRef, downBarRef, scores, toggleShop, showShop }) => {
+const GameView = ({
+					  gameStarted, showPopup, title, subtitle, highScore, startGame, topPos, downBarOffset,
+					  obstacles, ballTopPos, consts, ballRef, score, showLeaderboard, toggleLeaderboard,
+					  topBarRef, downBarRef, scores, toggleShop, showShop, colors, currentColor, coins, onColorBuy,
+					  onColorSelect
+				  }) => {
+
+	const getFilter = (color) => {
+		switch (color) {
+			case 'Pink':
+				return 'sepia(1) hue-rotate(200deg) saturate(100)';
+			case 'Green':
+				return 'sepia(1) hue-rotate(50deg) saturate(100)';
+			case 'Blue':
+				return 'sepia(1) hue-rotate(100deg) saturate(100)';
+			case 'Yellow':
+				return 'sepia(1) saturate(100)';
+			case 'Cyan':
+				return 'sepia(1) saturate(100) hue-rotate(150deg)';
+			case 'Grey':
+				return 'grayscale(1) brightness(0.5)';
+			default:
+				return;
+		}
+	};
+
 	return (
-		<div className="game-container min-h-screen flex flex-col bg-cover bg-center" style={{backgroundImage: `url(${bGImage})`}}>
+		<div className="game-container min-h-screen flex flex-col bg-cover bg-center"
+			 style={{backgroundImage: `url(${bGImage})`}}>
 
 			<TopBar ref={topBarRef} title="Flappy Pet"/>
 
@@ -24,7 +50,8 @@ const GameView = ({ gameStarted, showPopup, title, subtitle, highScore, startGam
 
 			{gameStarted && (
 				<>
-					<Ball ref={ballRef} leftPos={consts.ballLeftPos} top={ballTopPos} filter="sepia(1) saturate(5) hue-rotate(200deg)" />
+					<Ball ref={ballRef} leftPos={consts.ballLeftPos} top={ballTopPos}
+						  filter={getFilter(currentColor)}/>
 					{obstacles.map((obstacle, index) => (
 						<Obstacle
 							key={index}
@@ -45,7 +72,8 @@ const GameView = ({ gameStarted, showPopup, title, subtitle, highScore, startGam
 							downBar={downBarOffset}/>}
 
 			{showShop &&
-				<Shop ></Shop>}
+				<Shop colors={colors} topBar={topPos} downBar={downBarOffset} currentColor={currentColor} coins={coins}
+					  onColorBuy={onColorBuy} onColorSelect={onColorSelect}></Shop>}
 
 		</div>
 	);
