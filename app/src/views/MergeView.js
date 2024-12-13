@@ -7,7 +7,7 @@ import Header from "components/merge-a-pet/Header";
 
 const MergeView = ({ grid, score, gameOver, buttonHandlers, powerupCounts }) => {
     return (
-		<div className="flex items-center justify-center h-screen" >
+		<div className="flex flex-col items-center justify-center" >
 			<Header />
 			<div className="flex flex-col items-center justify-center w-[40rem] bg-gray-700 rounded-lg">
 				<ScorePanel score={score} onRestart={buttonHandlers.handleRestartGame} />

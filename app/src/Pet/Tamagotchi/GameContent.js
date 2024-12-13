@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
 import { moneyS } from '../../svg.js';
 import Quiz from './quiz.js';
-import Game from '../FlappyBird/Game.js'; 
-import GameHop from '../Hop/Game.js'; 
+import Game from '../FlappyBird/Game.js';
+import GameHop from '../Hop/Game.js';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 const GameContent = ({ setShowGame }) => {
   const [currentGame, setCurrentGame] = useState(null);
   const [money, setMoney] = useState(0);
 
-  const handleKozaHopClick = () => setCurrentGame('GameHop');  
+  const handleKozaHopClick = () => setCurrentGame('GameHop');
   const handleQuizClick = () => setCurrentGame('Quiz');
   const handleFlappyPetClick = () => setCurrentGame('FlappyPet');
+  const { id } = useParams();
 
   const handleCrossClick = () => {
     if (currentGame) {
-      setCurrentGame(null); 
+      setCurrentGame(null);
     } else {
-      setShowGame(false); 
+      setShowGame(false);
     }
   };
 
@@ -27,7 +30,7 @@ const GameContent = ({ setShowGame }) => {
         const response = await fetch('http://localhost:5000/api/pet');
         const data = await response.json();
         if (data.length > 0) {
-          setMoney(data[0].money); 
+          setMoney(data[0].money);
         } else {
           console.error('No data found');
         }
@@ -35,7 +38,7 @@ const GameContent = ({ setShowGame }) => {
         console.error('Error fetching money:', error);
       }
     };
-  
+
     fetchShopMoney();
   }, []);
   return (
@@ -96,13 +99,14 @@ const GameContent = ({ setShowGame }) => {
             >
               Flappy Pet
             </h1>
+			<Link to={`/animal/${id}/merge-a-pet`} className="text-4xl cursor-pointer hover:text-[#B957CE]" style={{ fontFamily: 'Pixelify Sans' }} >Merge-a-pet</Link>
           </div>
         </div>
       ) : currentGame === 'Quiz' ? (
         <Quiz setShowGame={setShowGame} />
       ) : currentGame === 'FlappyPet' ? (
         <Game setShowGame={setShowGame} />
-      ) : currentGame === 'GameHop' ? ( 
+      ) : currentGame === 'GameHop' ? (
         <GameHop setShowGame={setShowGame} />
       ) : (
         <div className="text-white">Game not implemented yet!</div>
