@@ -24,20 +24,21 @@ export default class MergeModel {
 		}
 		this.gameOver = false;
 		this.grid = this.createGrid();
+		this.prevGrid = null;
 		this.addRandomTile();
 		this.addRandomTile();
 	}
 
 	move(direction) {
 		if (this.gameOver) return;
-		this.prevGrid = JSON.parse(JSON.stringify(this.grid.map(row =>
+		const tmpGrid = JSON.parse(JSON.stringify(this.grid.map(row =>
 			row.map(tile => tile ? new Tile(tile.value, tile.row, tile.col) : null)
 		)));
 		const moveMade = this.slideGrid(direction);
 		if (!moveMade) {
-			this.prevGrid = null;
 			return;
 		}
+		this.prevGrid = tmpGrid;
 		console.log(this.prevGrid);
 		this.updateTiles();
 		this.addRandomTile();
@@ -208,6 +209,7 @@ export default class MergeModel {
 
 	checkGameOver() {
 		if (this.grid.flat().includes(null)) return;
+		if (this.powerups.undoMove > 0 || this.powerups.deleteTile > 0 || this.powerups.swapTiles > 0 || this.powerups.deleteTilesByNumber > 0) return;
 
 		for (let i = 0; i < this.size; i++) {
 			for (let j = 0; j < this.size; j++) {
