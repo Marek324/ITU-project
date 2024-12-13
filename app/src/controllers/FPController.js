@@ -137,6 +137,7 @@ const FPController = () => {
 		setCurrentColor(model.equippedColor);
 		setCoins(model.money);
 		setColors([...model.colors]);
+		setScores([...model.scores]);
 	};
 
 	return (

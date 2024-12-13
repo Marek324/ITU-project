@@ -48,7 +48,16 @@ class FPModel {
 	}
 
 	async updateHighScore() {
-		const updatedData = {...this.data, highscore: this.score};
+		const updatedLeaderboards = this.scores.filter(entry => entry.name !== 'Player');
+		updatedLeaderboards.push({name: 'Player', score: this.score});
+		updatedLeaderboards.sort((a, b) => b.score - a.score);
+
+		const updatedData = {
+			...this.data,
+			highscore: this.score,
+			leaderboards: updatedLeaderboards
+		};
+
 		await UpdateFP(this.data.id, updatedData);
 		this.data = updatedData;
 		this.highScore = updatedData.highscore;
@@ -109,6 +118,9 @@ class FPModel {
 	}
 
 	stopGame() {
+		if (!this.gameStarted) {
+			return;
+		}
 		this.gameStarted = false;
 		this.showPopup = true;
 		this.title = 'Game Over';
