@@ -41,6 +41,11 @@
       "neutered": true
     }
   ],
+	"favoritedAnimals": [
+		{
+			"id": 1
+		}
+	],
   "articles": [
     {
       "id": 1,
@@ -212,7 +217,7 @@
 			"fpId": 3
 		}
 	],
-  
+
     "shop": [
       {
         "id": 1,

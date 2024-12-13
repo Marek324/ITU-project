@@ -204,7 +204,7 @@ app.get('/api/shop', async (req, res) => {
 	await db.read();
 	res.send(db.data.shop);
   });
-  
+
   app.get('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const item = db.data.shop.find(item => item.id === req.params.id);
@@ -214,7 +214,7 @@ app.get('/api/shop', async (req, res) => {
 	}
 	res.send(item);
   });
-  
+
   app.post('/api/shop', async (req, res) => {
 	await db.read();
 	const newItem = {
@@ -228,7 +228,7 @@ app.get('/api/shop', async (req, res) => {
 	await db.write();
 	res.status(201).send({ message: 'Item added successfully', item: newItem });
   });
-  
+
   app.put('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const index = db.data.shop.findIndex(item => item.id === req.params.id);
@@ -240,7 +240,7 @@ app.get('/api/shop', async (req, res) => {
 	await db.write();
 	res.status(200).send({ message: 'Item updated successfully', item: db.data.shop[index] });
   });
-  
+
   app.delete('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const index = db.data.shop.findIndex(item => item.id === req.params.id);
@@ -252,7 +252,7 @@ app.get('/api/shop', async (req, res) => {
 	await db.write();
 	res.status(200).send({ message: 'Item deleted successfully' });
   });
-  
+
 // ================================================
 // ===================== Animals ==================
 // ================================================
@@ -326,6 +326,41 @@ app.delete('/api/animals/:id', async (req, res) => {
 		res.code(500).send({ error: 'Failed to delete the animal' });
 	}
 });
+
+// ================================================
+// ============== Favorited animals ===============
+// ================================================
+
+app.post('/api/favoritedAnimals/:id', async (req, res) => {
+	let id = Number(req.params.id);
+	try {
+		await db.read();
+		db.data.favoritedAnimals.push(id);
+		await db.write();
+		res.code(200).send({ message: 'Animal added to favorited animals' });
+	} catch (err) {
+		console.error(err);
+		res.code(500).send({ error: 'Failed to add the animal to favorited animals' });
+	}
+});
+
+app.delete('/api/favoritedAnimals/:id', async (req, res) => {
+	let id = Number(req.params.id);
+	try {
+		await db.read();
+		db.data.favoritedAnimals = db.data.favoritedAnimals.filter(animalId => animalId !== id);
+		await db.write();
+		res.code(200).send({ message: 'Animal removed from favorited animals' });
+	}
+	catch (err) {
+		console.error(err);
+		res.code(500).send({ error: 'Failed to remove the animal from favorited animals' });
+	}
+});
+
+// ================================================
+// ===================== Petra ====================
+// ================================================
 // ================================================
 // ===================== Questions ==================
 // ================================================

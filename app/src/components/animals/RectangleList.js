@@ -1,5 +1,5 @@
 ﻿import RectangleItem from "./RectangleItem";
-
+import { deleteCross } from "svg";
 
 function RectangleList({ animals, adminMode, handleRemoveAnimal }) {
 	return (
@@ -8,7 +8,7 @@ function RectangleList({ animals, adminMode, handleRemoveAnimal }) {
 				<div key={index} className="flex items-center justify-center w-full">
 					{adminMode && (
 						<button onClick={() => handleRemoveAnimal(animal.id)} className="mr-2">
-							Remove
+							{deleteCross()}
 						</button>
 					)}
 					<RectangleItem animal={animal} adminMode={adminMode} />
