@@ -13,7 +13,7 @@ const iconMap = {
   food_03,
 };
 
-const InventoryContent = () => {
+const InventoryContent = ({ setHappiness }) => {
   const [items, setItems] = useState([]);
   const [money, setMoney] = useState(0);
   const [inventory, setInventory] = useState([]);
@@ -60,24 +60,36 @@ const InventoryContent = () => {
         },
         body: JSON.stringify({ petId: 1, itemId: item.id }),
       });
-
+  
       if (!response.ok) {
         const error = await response.json();
         console.error('Error updating item:', error);
         alert(error.error || 'Failed to update item');
         return;
       }
-
+  
       const updatedPet = await response.json();
       setInventory(updatedPet.pet.inventory);
+  
+      if (item.id !== 4) {
+        const randomHappiness = Math.floor(Math.random() * 11) + 5; 
+        await fetch('http://localhost:5000/api/pet/happiness', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ petId: 1, change: randomHappiness }),
+        });
+        setHappiness((prevHappiness) => prevHappiness + randomHappiness); 
 
-      if (item.id === 4) {
-        setHasHat(!hasHat); 
+      } else {
+        setHasHat(!hasHat);
       }
     } catch (error) {
       console.error('Error making API call:', error);
     }
   };
+  
 
   return (
     <div className="flex flex-1 justify-center items-start text-white">

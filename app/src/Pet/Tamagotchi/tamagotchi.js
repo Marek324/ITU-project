@@ -7,13 +7,35 @@ import TopBar from 'Pet/components/TopBar.js';
 import MainPage from 'Pet/components/MainPage.js';
 import MarketContent from 'Pet/Tamagotchi/MarketContent.js';
 import InventoryContent from 'Pet/Tamagotchi/InventoryContent.js';
+import Bar from 'Pet/components/Bar.js';
 import { game, food, shop, hat, home, gameP, homeB, shopping_cart, hatB } from 'svg.js';
+import { useEffect } from 'react';
 
 function Tamagotchi() {
   const [showGame, setShowGame] = useState(false);
   const [showMarket, setShowMarket] = useState(false);
   const [showHome, setShowHome] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
+  const [happiness, setHappiness] = useState(100);
+
+  useEffect(() => {
+    const fetchPetData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/pet');
+        const data = await response.json();
+        if (data.length > 0) {
+          setHappiness(data[0].happiness);
+          console.log("aa",data[0].happiness);
+        } else {
+          console.error('No data found');
+        }
+      } catch (error) {
+        console.error('Error fetching pet data:', error);
+      }
+    };
+
+    fetchPetData();
+  }, []); 
 
   const handleGameClick = () => {
     setShowGame(true);
@@ -64,7 +86,17 @@ function Tamagotchi() {
       className="App min-h-screen flex flex-col bg-cover bg-center relative"
       style={backgroundStyle}
     >
-      <TopBar title={showGame ? 'Games' : showMarket ? 'Market' : showInventory ? 'Inventory' : 'Pet'} />
+    <TopBar title={showGame ? 'Games' : showMarket ? 'Market' : showInventory ? 'Inventory' : 'Pet'} />
+
+    <div
+    className="absolute top-[68px] right-[16px]"
+    style={{
+      width: '120px', 
+      height: '20px', 
+    }}
+  >
+<Bar label="Happiness" value={happiness} color="#B957CE" labelColor="#B9E9E9" />
+  </div>
 
       <header className="App-header flex-1 flex justify-center items-center">
         {showGame ? (
@@ -72,8 +104,7 @@ function Tamagotchi() {
         ) : showMarket ? (
           <MarketContent />
         ) : showInventory ? (
-          <InventoryContent />
-        ) : (
+          <InventoryContent setHappiness={setHappiness} />        ) : (
           <MainPage />
         )}
       </header>

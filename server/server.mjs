@@ -115,7 +115,21 @@ app.get('/api/pet', async (req, res) => {
 	await db.read();
 	res.send(db.data.pet);
   });
-
+  
+  app.post('/api/pet/happiness', async (req, res) => {
+	const { petId, change } = req.body; 
+	await db.read();
+  
+	const pet = db.data.pet.find(p => p.id === petId);
+	if (!pet) {
+	  return res.status(404).send({ error: "Pet not found" });
+	}
+	pet.happiness = Math.min(100, Math.max(0, (pet.happiness || 0) + change)); 
+  
+	await db.write();
+	res.status(200).send({ message: "Happiness updated successfully", pet });
+  });
+  
 // ================================================
 // ===================== Inventory ======
 // ================================================
@@ -169,7 +183,6 @@ app.post('/api/buy', async (req, res) => {
 		return res.status(404).send({ error: "Item not found" });
 	}
 
-	// If the item is ID 4 and the pet already owns it (count > 0), prevent buying it again
 	if (itemId === 4) {
 		const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 		if (inventoryItem && inventoryItem.count > 0) {
