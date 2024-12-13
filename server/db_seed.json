@@ -282,12 +282,13 @@
     ],
     "pet": [ {
         "id": 1,
-        "money": 100,
+        "money": 900,
+        "hasHat": false,
         "inventory": [
           { "id": 1, "count": 10 },
           { "id": 2, "count": 5 },
           { "id": 3, "count": 7 },
-          { "id": 4, "count": 1 },
+          { "id": 4, "count": 0 },
           { "id": 5, "count": 2 },
           { "id": 6, "count": 3 },
           { "id": 7, "count": 4 },

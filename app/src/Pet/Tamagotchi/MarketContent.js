@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { moneyS, hatS, food_01, food_02, background, pallete,  hat_02, ball, toy, food_03 } from '../../svg.js';
+import { moneyS, hatS, food_01, food_02, background, pallete, hat_02, ball, toy, food_03 } from '../../svg.js';
 
 const iconMap = {
   hatS,
@@ -16,6 +16,9 @@ const iconMap = {
 const MarketContent = () => {
   const [items, setItems] = useState([]);
   const [money, setMoney] = useState(0);
+  const [hasHat, setHasHat] = useState(false);
+  const [tempPrice, setTempPrice] = useState(null); 
+  const [showPriceAnimation, setShowPriceAnimation] = useState(false); 
 
   useEffect(() => {
     const fetchShopItems = async () => {
@@ -38,6 +41,7 @@ const MarketContent = () => {
         const data = await response.json();
         if (data.length > 0) {
           setMoney(data[0].money); 
+          setHasHat(data[0].hasHat || false); 
         } else {
           console.error('No data found');
         }
@@ -49,38 +53,44 @@ const MarketContent = () => {
     fetchShopMoney();
   }, []);
 
-  const handleBuyItem = async (itemId) => {
-  try {
-    const response = await fetch('http://localhost:5000/api/buy', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        petId: 1,  // Hardcoded petId
-        itemId,  
-      }),
-    });
+  const handleBuyItem = async (itemId, itemPrice) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/buy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          petId: 1,  // Hardcoded petId
+          itemId,  
+        }),
+      });
 
-    if (!response.ok) {
-      const error = await response.json();
-      alert(error.error); 
-    } else {
-      const updatedPet = await response.json();
-      setMoney(updatedPet.money);
+      if (!response.ok) {
+        const error = await response.json();
+        alert(error.error); 
+      } else {
+        const updatedPet = await response.json();
+        setMoney(updatedPet.money);
+        setTempPrice(itemPrice);
+        setShowPriceAnimation(true);
+        setTimeout(() => {
+          setShowPriceAnimation(false);
+          setTempPrice(null);  
+        }, 500); 
+      }
+    } catch (error) {
+      console.error('Error buying item:', error);
     }
-  } catch (error) {
-    console.error('Error buying item:', error);
-  }
-};
+  };
 
   return (
     <div className="flex flex-1 justify-center items-start text-white">
       <div className="absolute top-20 left-2 flex items-center">
         <div className="flex top-20 left-2 items-center space-x-1">
-        {moneyS()}
+          {moneyS()}
           <span className="text-2xl text-outline text-[#B957CE]">
-          {money}
+            {money}
           </span>
         </div>
       </div>
@@ -96,7 +106,7 @@ const MarketContent = () => {
         }}
       >
         <img
-          src="https://i.postimg.cc/rmjLnk57/peshat.png"
+          src={hasHat ? 'https://i.postimg.cc/rmjLnk57/peshat.png' : 'https://i.postimg.cc/Qtkzv9T6/pess.png'}
           alt="Character"
           className="absolute"
           style={{
@@ -109,13 +119,13 @@ const MarketContent = () => {
 
         <div className="grid grid-cols-3 gap-x-36 gap-y-12 mt-30">
           {items.map((item, index) => {
-            const IconComponent = iconMap[item.icon]
+            const IconComponent = iconMap[item.icon];
         
             return (
               <div
                 key={item.id || index}
                 className="relative w-16 h-16 rounded-full border-2 border-[#B957CE] flex justify-center items-center cursor-pointer"
-                onClick={() => handleBuyItem(item.id)} 
+                onClick={() => handleBuyItem(item.id, item.price)} 
                 title={item.name}
               >
                 {IconComponent && <IconComponent />}
@@ -134,6 +144,20 @@ const MarketContent = () => {
           })}
         </div>
       </div>
+
+      {showPriceAnimation && tempPrice && (
+        <div
+          className="absolute top-36 left-2 text-2xl text-outline text-[#B957CE] animate-jump"
+          style={{
+           fontFamily: 'Pixelify Sans',
+            fontSize: '2rem',
+            transition: 'transform 0.5s ease',
+            transform: showPriceAnimation ? 'translateY(0)' : 'translateY(-10px)',
+          }}
+        >
+          -{tempPrice}
+        </div>
+      )}
     </div>
   );
 };

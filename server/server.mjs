@@ -117,31 +117,40 @@ app.get('/api/pet', async (req, res) => {
   });
 
 // ================================================
-// ===================== DECREMENT ITEM COUNT ======
+// ===================== Inventory ======
 // ================================================
-
-app.post('/api/decrement', async (req, res) => {
+app.post('/api/inventory', async (req, res) => {
 	const { petId, itemId } = req.body;
 	await db.read();
+  
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
 	  return res.status(404).send({ error: "Pet not found" });
 	}
+  
 	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (!inventoryItem) {
 	  return res.status(404).send({ error: "Item not found in inventory" });
 	}
-	if (itemId !== 4) {
+	if (itemId === 4) {
+		if (inventoryItem.count > 0) {
+			pet.hasHat = !pet.hasHat;  
+		} else {
+			return res.status(400).send({ error: "Cannot toggle hat, count is 0" });
+		}
+	} else {
 	  if (inventoryItem.count > 0) {
-		inventoryItem.count -= 1; 
+		inventoryItem.count -= 1;
 	  } else {
 		return res.status(400).send({ error: "Item count cannot be less than 0" });
 	  }
 	}
+  
 	await db.write();
-	res.status(200).send({ message: "Item count decremented", pet });
+	res.status(200).send({ message: "Item updated", pet });
   });
   
+
 // ================================================
 // ===================== BUY ITEM ==================
 // ================================================
@@ -149,32 +158,43 @@ app.post('/api/decrement', async (req, res) => {
 app.post('/api/buy', async (req, res) => {
 	const { petId, itemId } = req.body;
 	await db.read();
-  
+
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
-	  return res.status(404).send({ error: "Pet not found" });
+		return res.status(404).send({ error: "Pet not found" });
 	}
-  
+
 	const item = db.data.shop.find((i) => i.id === itemId);
 	if (!item) {
-	  return res.status(404).send({ error: "Item not found" });
+		return res.status(404).send({ error: "Item not found" });
 	}
-  
+
+	// If the item is ID 4 and the pet already owns it (count > 0), prevent buying it again
+	if (itemId === 4) {
+		const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
+		if (inventoryItem && inventoryItem.count > 0) {
+			return res.status(400).send({ error: "You already own this item and cannot buy it again" });
+		}
+	}
+
 	const itemPrice = parseInt(item.price.replace('¥', ''));
 	if (pet.money < itemPrice) {
-	  return res.status(400).send({ error: "Not enough money" });
+		return res.status(400).send({ error: "Not enough money" });
 	}
+
 	pet.money -= itemPrice;
-  
+
 	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (inventoryItem) {
-	  inventoryItem.count += 1; 
+		inventoryItem.count += 1;
 	} else {
-	  pet.inventory.push({ id: item.id, count: 1 }); 
+		pet.inventory.push({ id: item.id, count: 1 });
 	}
+
 	await db.write();
 	res.send(pet);
-  });
+});
+
   
 // ================================================
 // ===================== SHOP =====================
@@ -306,89 +326,70 @@ app.delete('/api/animals/:id', async (req, res) => {
 		res.code(500).send({ error: 'Failed to delete the animal' });
 	}
 });
+// ================================================
+// ===================== Questions ==================
+// ================================================
 
 app.get('/api/questions', async (req, res) => {
 	await db.read();
-
-	// const questions = [];
-	// let currentQuestion = null;
-
-	// db.data.questions.forEach(row => {
-	//   if (currentQuestion && currentQuestion.id !== row.question_id) {
-	// 	questions.push(currentQuestion);
-	// 	currentQuestion = null;
-	//   }
-
-	//   if (!currentQuestion) {
-	// 	currentQuestion = {
-	// 	  id: row.question_id,
-	// 	  question: row.question,
-	// 	  user_created: row.user_created,
-	// 	  answers: [],
-	// 	};
-	//   }
-
-	//   currentQuestion.answers.push({
-	// 	id: row.answer_id,
-	// 	text: row.text,
-	// 	correct: row.correct,
-	//   });
-	// });
-
-	// if (currentQuestion) {
-	//   questions.push(currentQuestion);
-	// }
-
-	res.send( db.data.questions );
-});
-
-app.post('/api/questions', async (req, res) => {
+	res.send(db.data.questions);
+  });
+  
+  app.post('/api/questions', async (req, res) => {
 	await db.read();
-
-	// const new_question = {
-	// 	id: genId(),
-	// 	question: req.body.question,
-	// 	answers: [{
-	// 		id: genId(),
-	// 		text: req.body.answers.text,
-	// 		correct: true,
-	// 	}],
-	// 	user_created: true,
-	// }
-
+	
 	let new_question = {
-		id: genId(),
-		question: '',
-		answers: [],
-		user_created: true,
+	  id: genId(),
+	  question: '',
+	  answers: [],
+	  correctAnswer: req.body.correctAnswer, 
+	  user_created: true,
 	};
-
+  
 	Object.assign(new_question, req.body.question);
-
-	// console.log(new_question);
-
-	// const { question, answers, correct } = req.body;
-
-	// let new_question = {
-	// 	id: genId(),
-	// 	question: question,
-	// 	user_created: true,
-	// }
-
-	// console.log(new_question);
-
-	// new_question.answers =  answers.map((answer, idx) => ({
-	// 	id: genId(),
-	// 	text: answer,
-	// 	correct: idx === correct,
-	// }));
-
-
 	db.data.questions.push(new_question);
-
+  
 	await db.write();
 	res.status(200).send({ message: 'Question added successfully' });
-});
+  });
+  
+   app.post('/api/quiz/progress', async (req, res) => {
+	const { currentQuestionIndex, selectedAnswerIndex, userAnswer } = req.body;
+  
+	await db.read();
+	const questions = db.data.questions;
+  
+	if (!questions || questions.length === 0) {
+	  return res.status(404).send({ error: 'No questions available' });
+	}
+  
+	const currentQuestion = questions[currentQuestionIndex];
+	if (!currentQuestion) {
+	  return res.status(404).send({ error: 'Question not found' });
+	}
+  
+	let isCorrect = false;
+	if (currentQuestion.user_created) {
+		const correctAnswerText = currentQuestion.correctAnswer?.trim().toLowerCase() || '';
+		const userAnswerTrimmed = (userAnswer || '').trim().toLowerCase();
+		isCorrect = userAnswerTrimmed === correctAnswerText;
+	} else {
+	  const correctAnswer = currentQuestion.answers.find((ans) => ans.correct);
+	  if (correctAnswer) {
+		isCorrect = selectedAnswerIndex !== null && correctAnswer.text === currentQuestion.answers[selectedAnswerIndex].text;
+	  }
+	}
+  
+	res.status(200).send({
+	  isCorrect,
+	  nextQuestionIndex: currentQuestionIndex + 1,
+	  hasMoreQuestions: currentQuestionIndex + 1 < questions.length,
+	  correctAnswersCount: isCorrect ? 1 : 0,
+	  currentQuestion,
+	});
+  });
+
+
 
 app.delete('/api/questions/:id', async (req, res) => {
 	await db.read();
