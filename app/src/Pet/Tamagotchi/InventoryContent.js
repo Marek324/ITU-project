@@ -13,11 +13,11 @@ const iconMap = {
   food_03,
 };
 
-const InventoryContent = ({ setHappiness }) => {
+const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
   const [items, setItems] = useState([]);
   const [money, setMoney] = useState(0);
   const [inventory, setInventory] = useState([]);
-  const [hasHat, setHasHat] = useState(false);
+  // const [hasHat, setHasHat] = useState(false);
 
   useEffect(() => {
     const fetchShopItems = async () => {
@@ -111,7 +111,7 @@ const InventoryContent = ({ setHappiness }) => {
         }}
       >
         <img
-          src={hasHat ? 'https://i.postimg.cc/rmjLnk57/peshat.png' : 'https://i.postimg.cc/Qtkzv9T6/pess.png'}
+          src={hasHat ? 'https://i.postimg.cc/rmjLnk57/peshat.png' : 'https://i.postimg.cc/GmC9sFNg/pess.png'}
           alt="Character"
           className="absolute"
           style={{

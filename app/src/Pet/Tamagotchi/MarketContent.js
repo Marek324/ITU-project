@@ -106,7 +106,7 @@ const MarketContent = () => {
         }}
       >
         <img
-          src={hasHat ? 'https://i.postimg.cc/rmjLnk57/peshat.png' : 'https://i.postimg.cc/Qtkzv9T6/pess.png'}
+          src={hasHat ? 'https://i.postimg.cc/rmjLnk57/peshat.png' : 'https://i.postimg.cc/GmC9sFNg/pess.png'}
           alt="Character"
           className="absolute"
           style={{

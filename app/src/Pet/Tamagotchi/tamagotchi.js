@@ -17,6 +17,11 @@ function Tamagotchi() {
   const [showHome, setShowHome] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
   const [happiness, setHappiness] = useState(100);
+  const [hasHat, setHasHat] = useState(false);
+
+  const handleHatChange = (newHasHat) => {
+    setHasHat(newHasHat);
+  };
 
   useEffect(() => {
     const fetchPetData = async () => {
@@ -25,7 +30,7 @@ function Tamagotchi() {
         const data = await response.json();
         if (data.length > 0) {
           setHappiness(data[0].happiness);
-          console.log("aa",data[0].happiness);
+          setHasHat(data[0].hasHat || false); 
         } else {
           console.error('No data found');
         }
@@ -33,9 +38,8 @@ function Tamagotchi() {
         console.error('Error fetching pet data:', error);
       }
     };
-
     fetchPetData();
-  }, []); 
+  }, []);
 
   const handleGameClick = () => {
     setShowGame(true);
@@ -66,8 +70,11 @@ function Tamagotchi() {
   };
 
   const backgroundStyle = (showGame || showMarket || showInventory)
-    ? { backgroundColor: '#2A2356' }
-    : { backgroundImage: `url('https://i.postimg.cc/sXdFD24k/pes3.png')` };
+  ? { backgroundColor: '#2A2356' }
+  : hasHat
+  ? { backgroundImage: `url('https://i.postimg.cc/tThM7HVM/pesbgh.png')` } 
+  : { backgroundImage: `url('https://i.postimg.cc/sXdFD24k/pes3.png')` }; 
+
 
   const icons = showGame
     ? { firstIcon: shop(), secondIcon: homeB(), thirdIcon: hatB() }
@@ -113,7 +120,8 @@ function Tamagotchi() {
         ) : showMarket ? (
           <MarketContent />
         ) : showInventory ? (
-          <InventoryContent setHappiness={setHappiness} />        ) : (
+          <InventoryContent setHappiness={setHappiness} hasHat={hasHat} setHasHat={handleHatChange} />
+        ) : (
           <MainPage />
         )}
       </header>
