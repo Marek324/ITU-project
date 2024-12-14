@@ -1,164 +1,163 @@
 {
-  "animals": [
-    {
-      "id": 1,
-      "image": "dog_2",
-      "name": "Věroslav",
-      "text": "Animal 1",
-      "species": "Dog",
-      "age": 6,
-      "sex": "M",
-      "neutered": true
-    },
-    {
-      "id": 2,
-      "image": "cat_2",
-      "name": "Terka",
-      "text": "Animal 2",
-      "species": "Goat",
-      "age": 7,
-      "sex": "F",
-      "neutered": false
-    },
-    {
-      "id": 3,
-      "image": "koteseni",
-      "name": "Kotěšenimír",
-      "text": "Animal 3",
-      "species": "Cat",
-      "age": 5,
-      "sex": "M",
-      "neutered": false
-    },
-    {
-      "id": 4,
-      "image": "cat_3",
-      "name": "Marek",
-      "text": "Animal 4",
-      "species": "Cat",
-      "age": 3,
-      "sex": "M",
-      "neutered": true
-    }
-  ],
-	"favoritedAnimals": [1],
-  "articles": [
-    {
-      "id": 1,
-      "title": "How to take care of a dog",
-      "author": "John Doe",
-      "date": "8/12/2020",
-      "content": "Article 1",
-      "image": "dog_1"
-    },
-    {
-      "id": 2,
-      "title": "The benefits of neutering your pet",
-      "author": "Jane Smith",
-      "date": "28/7/2021",
-      "content": "Article 2",
-      "image": "cat_1"
-    },
-    {
-      "id": 3,
-      "title": "Understanding your cat's behavior",
-      "author": "Alice Johnson",
-      "date": "24/3/2021",
-      "content": "Article 3",
-      "image": "cat_2"
-    },
-    {
-      "id": 4,
-      "title": "Training tips for your new puppy",
-      "author": "Bob Brown",
-      "date": "13/4/2024",
-      "content": "Article 4",
-      "image": "dog_2"
-    },
-    {
-      "id": 5,
-      "title": "Common health issues in older pets",
-      "author": "Sarah Wilson",
-      "date": "12/12/2012",
-      "content": "Article 5",
-      "image": "dog_3"
-    },
-    {
-      "id": 6,
-      "title": "How to introduce a new pet to your home",
-      "author": "David Jones",
-      "date": "1/1/2021",
-      "content": "Article 6",
-      "image": "cat_3"
-    },
-    {
-      "id": 7,
-      "title": "The importance of regular vet check-ups",
-      "author": "Emily White",
-      "date": "5/6/2020",
-      "content": "Article 7",
-      "image": "dog_4"
-    }
-  ],
-  "questions": [
-    {
-      "id": 1,
-      "question": "What is the average lifespan of a domestic cat?",
-      "answers": [
-        {
-          "text": "10-15 years",
-          "correct": true
-        },
-        {
-          "text": "5-10 years",
-          "correct": false
-        },
-
-        {
-          "text": "20-25 years",
-          "correct": false
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "question": "Which food is toxic to dogs?",
-      "answers": [
-        {
-          "text": "Chocolate",
-          "correct": true
-        },
-
-        {
-          "text": "Apples",
-          "correct": false
-        },
-        {
-          "text": "Rice",
-          "correct": false
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "question": "How often should a dog be taken for a walk?",
-      "answers": [
-        {
-          "text": "Once week",
-          "correct": false
-        },
-        {
-          "text": "Once a day",
-          "correct": false
-        },
-        {
-          "text": "2-3 times a day",
-          "correct": true
-        }
-
-      ]
-    }
-  ],
+	"animals": [
+		{
+			"id": 1,
+			"image": "dog_2",
+			"name": "Věroslav",
+			"text": "Animal 1",
+			"species": "Dog",
+			"age": 6,
+			"sex": "M",
+			"neutered": true
+		},
+		{
+			"id": 2,
+			"image": "cat_2",
+			"name": "Terka",
+			"text": "Animal 2",
+			"species": "Goat",
+			"age": 7,
+			"sex": "F",
+			"neutered": false
+		},
+		{
+			"id": 3,
+			"image": "koteseni",
+			"name": "Kotěšenimír",
+			"text": "Animal 3",
+			"species": "Cat",
+			"age": 5,
+			"sex": "M",
+			"neutered": false
+		},
+		{
+			"id": 4,
+			"image": "cat_3",
+			"name": "Marek",
+			"text": "Animal 4",
+			"species": "Cat",
+			"age": 3,
+			"sex": "M",
+			"neutered": true
+		}
+	],
+	"favoritedAnimals": [
+		1
+	],
+	"articles": [
+		{
+			"id": 1,
+			"title": "How to take care of a dog",
+			"author": "John Doe",
+			"date": "8/12/2020",
+			"content": "Article 1",
+			"image": "dog_1"
+		},
+		{
+			"id": 2,
+			"title": "The benefits of neutering your pet",
+			"author": "Jane Smith",
+			"date": "28/7/2021",
+			"content": "Article 2",
+			"image": "cat_1"
+		},
+		{
+			"id": 3,
+			"title": "Understanding your cat's behavior",
+			"author": "Alice Johnson",
+			"date": "24/3/2021",
+			"content": "Article 3",
+			"image": "cat_2"
+		},
+		{
+			"id": 4,
+			"title": "Training tips for your new puppy",
+			"author": "Bob Brown",
+			"date": "13/4/2024",
+			"content": "Article 4",
+			"image": "dog_2"
+		},
+		{
+			"id": 5,
+			"title": "Common health issues in older pets",
+			"author": "Sarah Wilson",
+			"date": "12/12/2012",
+			"content": "Article 5",
+			"image": "dog_3"
+		},
+		{
+			"id": 6,
+			"title": "How to introduce a new pet to your home",
+			"author": "David Jones",
+			"date": "1/1/2021",
+			"content": "Article 6",
+			"image": "cat_3"
+		},
+		{
+			"id": 7,
+			"title": "The importance of regular vet check-ups",
+			"author": "Emily White",
+			"date": "5/6/2020",
+			"content": "Article 7",
+			"image": "dog_4"
+		}
+	],
+	"questions": [
+		{
+			"id": 1,
+			"question": "What is the average lifespan of a domestic cat?",
+			"answers": [
+				{
+					"text": "10-15 years",
+					"correct": true
+				},
+				{
+					"text": "5-10 years",
+					"correct": false
+				},
+				{
+					"text": "20-25 years",
+					"correct": false
+				}
+			]
+		},
+		{
+			"id": 2,
+			"question": "Which food is toxic to dogs?",
+			"answers": [
+				{
+					"text": "Chocolate",
+					"correct": true
+				},
+				{
+					"text": "Apples",
+					"correct": false
+				},
+				{
+					"text": "Rice",
+					"correct": false
+				}
+			]
+		},
+		{
+			"id": 3,
+			"question": "How often should a dog be taken for a walk?",
+			"answers": [
+				{
+					"text": "Once week",
+					"correct": false
+				},
+				{
+					"text": "Once a day",
+					"correct": false
+				},
+				{
+					"text": "2-3 times a day",
+					"correct": true
+				}
+			]
+		}
+	],
 	"chat": [
 		{
 			"id": 1,
@@ -213,92 +212,117 @@
 			"fpId": 3
 		}
 	],
-
-    "shop": [
-      {
-        "id": 1,
-        "name": "Pet Food",
-        "price": "5¥",
-        "count": 100,
-        "icon": "food_01"
-      },
-      {
-        "id": 2,
-        "name": "Pet Food 2",
-        "price": "4¥",
-        "count": 50,
-        "icon": "food_02"
-
-      },
-      {
-        "id": 3,
-        "name": "Pet Food 3",
-        "price": "10¥",
-        "count": 70,
-        "icon": "food_03"
-
-      },
-      {
-        "id": 4,
-        "name": "Hat",
-        "price": "50¥",
-        "count": 150,
-        "icon": "hatS"
-      },
-      {
-        "id": 5,
-        "name": "Hat_02",
-        "price": "55¥",
-        "count": 60,
-        "icon": "hat_02"
-      },
-      {
-        "id": 6,
-        "name": "Ball",
-        "price": "72¥",
-        "count": 80,
-        "icon": "ball"
-      },
-      {
-        "id": 7,
-        "name": "Background",
-        "price": "90¥",
-        "count": 30,
-        "icon": "background"
-      },
-      {
-        "id": 8,
-        "name": "Pallete",
-        "price": "85¥",
-        "count": 40,
-        "icon": "pallete"
-      },
-      {
-        "id": 9,
-        "name": "Toy",
-        "price": "36¥",
-        "count": 20,
-        "icon": "toy"
-      }
-    ],
-    "pet": [ {
-        "id": 1,
-        "money": 900,
-        "hasHat": false,
-        "happiness": 8,
-        "inventory": [
-          { "id": 1, "count": 10 },
-          { "id": 2, "count": 5 },
-          { "id": 3, "count": 7 },
-          { "id": 4, "count": 0 },
-          { "id": 5, "count": 2 },
-          { "id": 6, "count": 3 },
-          { "id": 7, "count": 4 },
-          { "id": 8, "count": 5 },
-          { "id": 9, "count": 6 }
-        ]
-      }
-    ],
+	"shop": [
+		{
+			"id": 1,
+			"name": "Pet Food",
+			"price": "5¥",
+			"count": 100,
+			"icon": "food_01"
+		},
+		{
+			"id": 2,
+			"name": "Pet Food 2",
+			"price": "4¥",
+			"count": 50,
+			"icon": "food_02"
+		},
+		{
+			"id": 3,
+			"name": "Pet Food 3",
+			"price": "10¥",
+			"count": 70,
+			"icon": "food_03"
+		},
+		{
+			"id": 4,
+			"name": "Hat",
+			"price": "50¥",
+			"count": 150,
+			"icon": "hatS"
+		},
+		{
+			"id": 5,
+			"name": "Hat_02",
+			"price": "55¥",
+			"count": 60,
+			"icon": "hat_02"
+		},
+		{
+			"id": 6,
+			"name": "Ball",
+			"price": "72¥",
+			"count": 80,
+			"icon": "ball"
+		},
+		{
+			"id": 7,
+			"name": "Background",
+			"price": "90¥",
+			"count": 30,
+			"icon": "background"
+		},
+		{
+			"id": 8,
+			"name": "Pallete",
+			"price": "85¥",
+			"count": 40,
+			"icon": "pallete"
+		},
+		{
+			"id": 9,
+			"name": "Toy",
+			"price": "36¥",
+			"count": 20,
+			"icon": "toy"
+		}
+	],
+	"pet": [
+		{
+			"id": 1,
+			"money": 900,
+			"hasHat": false,
+			"happiness": 8,
+			"inventory": [
+				{
+					"id": 1,
+					"count": 10
+				},
+				{
+					"id": 2,
+					"count": 5
+				},
+				{
+					"id": 3,
+					"count": 7
+				},
+				{
+					"id": 4,
+					"count": 0
+				},
+				{
+					"id": 5,
+					"count": 2
+				},
+				{
+					"id": 6,
+					"count": 3
+				},
+				{
+					"id": 7,
+					"count": 4
+				},
+				{
+					"id": 8,
+					"count": 5
+				},
+				{
+					"id": 9,
+					"count": 6
+				}
+			]
+		}
+	],
 	"hop": [
 		{
 			"id": 0,
@@ -326,96 +350,272 @@
 			"id": 1,
 			"highscore": 1,
 			"leaderboards": [
-				{ "name": "Pepa1", "score": 10 },
-				{ "name": "Jirka1", "score": 9 },
-				{ "name": "Honza1", "score": 8 },
-				{ "name": "Honza2", "score": 7 },
-				{ "name": "Honza3", "score": 6 },
-				{ "name": "Honza4", "score": 5 },
-				{ "name": "Honza5", "score": 4 },
-				{ "name": "Honza6", "score": 3 },
-				{ "name": "Honza7", "score": 2 },
-				{ "name": "Honza8", "score": 1 }
+				{
+					"name": "Pepa1",
+					"score": 10
+				},
+				{
+					"name": "Jirka1",
+					"score": 9
+				},
+				{
+					"name": "Honza1",
+					"score": 8
+				},
+				{
+					"name": "Honza2",
+					"score": 7
+				},
+				{
+					"name": "Honza3",
+					"score": 6
+				},
+				{
+					"name": "Honza4",
+					"score": 5
+				},
+				{
+					"name": "Honza5",
+					"score": 4
+				},
+				{
+					"name": "Honza6",
+					"score": 3
+				},
+				{
+					"name": "Honza7",
+					"score": 2
+				},
+				{
+					"name": "Honza8",
+					"score": 1
+				}
 			],
 			"boughtColors": [
-				{ "color": "blue", "bought": true },
-				{ "color": "green", "bought": false },
-				{ "color": "red", "bought": false },
-				{ "color": "yellow", "bought": true },
-				{ "color": "cyan", "bought": true },
-				{ "color": "grey", "bought": false }
+				{
+					"color": "Green",
+					"bought": false
+				},
+				{
+					"color": "Red",
+					"bought": false
+				},
+				{
+					"color": "Yellow",
+					"bought": true
+				},
+				{
+					"color": "Cyan",
+					"bought": true
+				},
+				{
+					"color": "Grey",
+					"bought": false
+				}
 			]
 		},
 		{
 			"id": 2,
 			"highscore": 10,
 			"leaderboards": [
-				{ "name": "Pepa1", "score": 20 },
-				{ "name": "Jirka1", "score": 19},
-				{ "name": "Honza1", "score": 18},
-				{ "name": "Honza2", "score": 17},
-				{ "name": "Honza3", "score": 16},
-				{ "name": "Honza4", "score": 15},
-				{ "name": "Honza5", "score": 14},
-				{ "name": "Honza6", "score": 13},
-				{ "name": "Honza7", "score": 12},
-				{ "name": "Honza8", "score": 11}
+				{
+					"name": "Pepa1",
+					"score": 20
+				},
+				{
+					"name": "Jirka1",
+					"score": 19
+				},
+				{
+					"name": "Honza1",
+					"score": 18
+				},
+				{
+					"name": "Honza2",
+					"score": 17
+				},
+				{
+					"name": "Honza3",
+					"score": 16
+				},
+				{
+					"name": "Honza4",
+					"score": 15
+				},
+				{
+					"name": "Honza5",
+					"score": 14
+				},
+				{
+					"name": "Honza6",
+					"score": 13
+				},
+				{
+					"name": "Honza7",
+					"score": 12
+				},
+				{
+					"name": "Honza8",
+					"score": 11
+				}
 			],
 			"boughtColors": [
-				{ "color": "blue", "bought": false },
-				{ "color": "green", "bought": false },
-				{ "color": "red", "bought": false },
-				{ "color": "yellow", "bought": false },
-				{ "color": "cyan", "bought": false },
-				{ "color": "grey", "bought": false }
+				{
+					"color": "Green",
+					"bought": false
+				},
+				{
+					"color": "Red",
+					"bought": false
+				},
+				{
+					"color": "Yellow",
+					"bought": false
+				},
+				{
+					"color": "Cyan",
+					"bought": false
+				},
+				{
+					"color": "Grey",
+					"bought": false
+				}
 			]
 		},
 		{
 			"id": 3,
 			"highscore": 20,
 			"leaderboards": [
-				{ "name": "Pepa1", "score": 30 },
-				{ "name": "Jirka1", "score": 29 },
-				{ "name": "Honza1", "score": 28 },
-				{ "name": "Honza2", "score": 27 },
-				{ "name": "Honza3", "score": 26 },
-				{ "name": "Honza4", "score": 25 },
-				{ "name": "Honza5", "score": 24 },
-				{ "name": "Honza6", "score": 23 },
-				{ "name": "Honza7", "score": 22 },
-				{ "name": "Honza8", "score": 21 }
+				{
+					"name": "Pepa1",
+					"score": 30
+				},
+				{
+					"name": "Jirka1",
+					"score": 29
+				},
+				{
+					"name": "Honza1",
+					"score": 28
+				},
+				{
+					"name": "Honza2",
+					"score": 27
+				},
+				{
+					"name": "Honza3",
+					"score": 26
+				},
+				{
+					"name": "Honza4",
+					"score": 25
+				},
+				{
+					"name": "Honza5",
+					"score": 24
+				},
+				{
+					"name": "Honza6",
+					"score": 23
+				},
+				{
+					"name": "Honza7",
+					"score": 22
+				},
+				{
+					"name": "Honza8",
+					"score": 21
+				}
 			],
 			"boughtColors": [
-				{ "color": "blue", "bought": true },
-				{ "color": "green", "bought": true },
-				{ "color": "red", "bought": true },
-				{ "color": "yellow", "bought": true },
-				{ "color": "cyan", "bought": true },
-				{ "color": "grey", "bought": true }
+				{
+					"color": "Green",
+					"bought": true
+				},
+				{
+					"color": "Red",
+					"bought": true
+				},
+				{
+					"color": "Yellow",
+					"bought": true
+				},
+				{
+					"color": "Cyan",
+					"bought": true
+				},
+				{
+					"color": "Grey",
+					"bought": true
+				}
 			]
 		},
 		{
 			"id": 4,
 			"highscore": 30,
 			"leaderboards": [
-				{ "name": "Pepa1", "score": 40 },
-				{ "name": "Jirka1", "score": 39 },
-				{ "name": "Honza1", "score": 38 },
-				{ "name": "Honza2", "score": 37 },
-				{ "name": "Honza3", "score": 36 },
-				{ "name": "Honza4", "score": 35 },
-				{ "name": "Honza5", "score": 34 },
-				{ "name": "Honza6", "score": 33 },
-				{ "name": "Honza7", "score": 32 },
-				{ "name": "Honza8", "score": 31 }
+				{
+					"name": "Pepa1",
+					"score": 40
+				},
+				{
+					"name": "Jirka1",
+					"score": 39
+				},
+				{
+					"name": "Honza1",
+					"score": 38
+				},
+				{
+					"name": "Honza2",
+					"score": 37
+				},
+				{
+					"name": "Honza3",
+					"score": 36
+				},
+				{
+					"name": "Honza4",
+					"score": 35
+				},
+				{
+					"name": "Honza5",
+					"score": 34
+				},
+				{
+					"name": "Honza6",
+					"score": 33
+				},
+				{
+					"name": "Honza7",
+					"score": 32
+				},
+				{
+					"name": "Honza8",
+					"score": 31
+				}
 			],
 			"boughtColors": [
-				{ "color": "blue", "bought": false },
-				{ "color": "green", "bought": true },
-				{ "color": "red", "bought": false },
-				{ "color": "yellow", "bought": false},
-				{ "color": "cyan", "bought": true },
-				{ "color": "grey", "bought": false }
+				{
+					"color": "Green",
+					"bought": true
+				},
+				{
+					"color": "Red",
+					"bought": false
+				},
+				{
+					"color": "Yellow",
+					"bought": false
+				},
+				{
+					"color": "Cyan",
+					"bought": true
+				},
+				{
+					"color": "Grey",
+					"bought": false
+				}
 			]
 		}
 	]
