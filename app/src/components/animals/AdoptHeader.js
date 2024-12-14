@@ -1,15 +1,21 @@
 ﻿import React from 'react';
 import { Link, useLocation } from "react-router-dom";
-import { adoption as adopt_icon, blog as blog_icon, arrow_back as home_icon, adminMode as adminModeIcon } from "svg";
+import {
+	adoption as adopt_icon,
+	blog as blog_icon,
+	arrow_back as home_icon,
+	adminMode as adminModeIcon,
+	meeting as meetingIcon
+} from "svg";
 
 function AdoptHeader({ onAdminModeClick, adminMode }) {
 	const location = useLocation();
-	const isHome = location.pathname === '/' || location.pathname === '/blog';
+	const isHome = location.pathname === '/' || location.pathname === '/meetings';
 	let link_back = null;
 	if (location.pathname.startsWith('/animal/')) {
 		link_back = "/";
-	} else if (location.pathname.startsWith('/blog/')) {
-		link_back = "/blog";
+	} else if (location.pathname.startsWith('/meetings/')) {
+		link_back = "/meetings";
 	}
 
 	return (
@@ -29,8 +35,8 @@ function AdoptHeader({ onAdminModeClick, adminMode }) {
 			</div>
 			<h1 className="text-3xl text-center font-Pet_Title text-border">Adopt & Play</h1>
 			<div className="flex">
-				<Link to="/" className="content-center">{adopt_icon()} </Link>
-				<Link to="/blog" className="content-center">{blog_icon()}</Link>
+				<Link to="/" className="content-center mr-4">{adopt_icon()} </Link>
+				<Link to="/meetings" className="content-center">{meetingIcon()}</Link>
 			</div>
 		</header>
 	);

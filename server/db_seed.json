@@ -1,4 +1,128 @@
 {
+  "animals": [
+    {
+      "id": 1,
+      "image": "dog_2",
+      "name": "Věroslav",
+      "text": "Animal 1",
+      "species": "Dog",
+      "age": 6,
+      "sex": "M",
+      "neutered": true
+    },
+    {
+      "id": 2,
+      "image": "cat_2",
+      "name": "Terka",
+      "text": "Animal 2",
+      "species": "Goat",
+      "age": 7,
+      "sex": "F",
+      "neutered": false
+    },
+    {
+      "id": 3,
+      "image": "koteseni",
+      "name": "Kotěšenimír",
+      "text": "Animal 3",
+      "species": "Cat",
+      "age": 5,
+      "sex": "M",
+      "neutered": false
+    },
+    {
+      "id": 4,
+      "image": "cat_3",
+      "name": "Marek",
+      "text": "Animal 4",
+      "species": "Cat",
+      "age": 3,
+      "sex": "M",
+      "neutered": true
+    }
+  ],
+	"favoritedAnimals": [1],
+	"meetings": [
+		{
+			"id": 1,
+			"animalId": 1,
+			"date": "2025-01-01T12:00"
+		},
+		{
+			"id": 2,
+			"animalId": 2,
+			"date": "2025-02-01T12:00"
+		},
+		{
+			"id": 3,
+			"animalId": 3,
+			"date": "2025-03-01T12:00"
+		},
+		{
+			"id": 4,
+			"animalId": 4,
+			"date": "2025-04-01T12:00"
+		}
+	],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the average lifespan of a domestic cat?",
+      "answers": [
+        {
+          "text": "10-15 years",
+          "correct": true
+        },
+        {
+          "text": "5-10 years",
+          "correct": false
+        },
+
+        {
+          "text": "20-25 years",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "Which food is toxic to dogs?",
+      "answers": [
+        {
+          "text": "Chocolate",
+          "correct": true
+        },
+
+        {
+          "text": "Apples",
+          "correct": false
+        },
+        {
+          "text": "Rice",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "How often should a dog be taken for a walk?",
+      "answers": [
+        {
+          "text": "Once week",
+          "correct": false
+        },
+        {
+          "text": "Once a day",
+          "correct": false
+        },
+        {
+          "text": "2-3 times a day",
+          "correct": true
+        }
+
+      ]
+    }
+  ],
 	"animals": [
 		{
 			"id": 1,
