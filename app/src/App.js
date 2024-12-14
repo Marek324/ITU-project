@@ -4,11 +4,10 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import MainPageController from "controllers/MainPageController";
 import AnimalDetailsController from "controllers/AnimalDetailsController";
-import Game from "Pet/FlappyBird/Game";
-import GameHop from "Pet/Hop/Game";
 import Tamagotchi from "Pet/Tamagotchi/tamagotchi";
 import MergeController from "controllers/MergeController";
 import CreateAnimalController from "./controllers/CreateAnimalController";
+import MeetingsController from "./controllers/MeetingsController";
 
 function App() {
 	return (
@@ -19,7 +18,7 @@ function App() {
 				<Route path="/animal/:id/tamagotchi" element={<Tamagotchi />} />
 				<Route path="/animal/:id/merge-a-pet" element={<MergeController />} />
 				<Route path="/animal/newAnimal" element={<CreateAnimalController />} />
-				<Route path="/meetings" element={<Game />} />
+				<Route path="/meetings" element={<MeetingsController/>}/>
 			</Routes>
 		</BrowserRouter>
 	);

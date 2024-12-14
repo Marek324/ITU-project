@@ -4,19 +4,24 @@ const port = 5000;
 export async function GetMeetings() {
 	try {
 		const response = await axios.get(`http://localhost:${port}/api/meetings`);
-		return mapMeetings(response);
+		const data = mapMeetings(response);
+		console.log(data);
+		return data;
+
 	} catch (error) {
 		console.error('Error fetching meetings:', error);
 		return [];
 	}
 }
 
-function mapMeetings(response)
-{
-	console.log(response.data);
+function mapMeetings(response) {
 	return response.data.map(meeting => ({
 		id: meeting.id,
-		animal: meeting.animal,
+		animal: {
+			id: meeting.animalId,
+			name: meeting.animal.name,
+			image: meeting.animal.image
+		},
 		date: meeting.date,
 	}));
 }

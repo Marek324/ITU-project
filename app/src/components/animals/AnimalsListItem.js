@@ -4,9 +4,9 @@ import { heartIcon } from "../../svg";
 
 function AnimalsListItem({ animal, adminMode, favorited, onChangeFavorite }) {
 	return (
-		<div className="relative w-5/6 h-auto bg-Animal_Card_BG flex m-3 justify-start p-4 min-h-custom-img">
+		<div className="relative w-5/6 h-auto bg-Animal_Card_BG flex m-3 justify-start p-4 min-h-custom-img rounded-lg">
 			<Link to={`/animal/${animal.id}`} state={{ adminMode }} className="flex-grow flex items-start">
-				<Image src={animal.image} alt={animal.name} className="w-list-img h-list-img object-cover" />
+				<Image src={animal.image} alt={animal.name} className="w-list-img h-list-img object-cover rounded-lg" />
 				<div className="ml-4 flex flex-col justify-between">
 					<div className="ml-4 flex flex-col">
 						<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>

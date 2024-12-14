@@ -344,13 +344,6 @@ app.get('/api/animals/:id', async (req, res) => {
 	res.send(data);
 });
 
-app.get('/api/articles/:id/chat', async (req, res) => {
-	await db.read();
-	const { id } = req.params;
-	const data = db.data.chat.find(chat => String(chat.article_id) === id);
-	res.send(data);
-});
-
 app.post('/api/animals', async (req, res) => {
 	let new_animal = req.body;
 	await db.read();
@@ -436,6 +429,7 @@ app.delete('/api/favoritedAnimals/:id', async (req, res) => {
 // ================== Meetings ====================
 // ================================================
 
+// POST /api/meetings
 app.post('/api/meetings', async (req, res) => {
 	let new_meeting = req.body;
 	await db.read();
@@ -446,24 +440,24 @@ app.post('/api/meetings', async (req, res) => {
 	let meetings = db.data.meetings;
 	const animals = db.data.animals;
 	const meetingsWithAnimals = meetings.map(meeting => {
-	const animal = animals.find(animal => animal.id === meeting.animal);
+		const animal = animals.find(animal => animal.id === meeting.animalId);
 		return { ...meeting, animal };
 	});
 
 	res.send(meetingsWithAnimals);
-}
-);
+});
 
+// GET /api/meetings
 app.get('/api/meetings', async (req, res) => {
 	await db.read();
 	const meetings = db.data.meetings;
 	const animals = db.data.animals;
 
 	const meetingsWithAnimals = meetings.map(meeting => {
-		const animal = animals.find(animal => animal.id === meeting.animal);
+		const animal = animals.find(animal => animal.id === meeting.animalId);
 		return { ...meeting, animal };
 	});
-
+	console.log(meetingsWithAnimals);
 	res.send(meetingsWithAnimals);
 });
 
