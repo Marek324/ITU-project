@@ -66,7 +66,6 @@ app.post('/api/articles', async (req, res) => {
 	await db.read();
 
 
-
 	const newArticle = {
 		id: genId(),
 		title: req.body.title,
@@ -80,32 +79,32 @@ app.post('/api/articles', async (req, res) => {
 	db.data.articles.push(newArticle);
 
 	await db.write();
-	res.status(200).send({ id: articleId ,message: 'Article added successfully' });
+	res.status(200).send({id: articleId, message: 'Article added successfully'});
 });
 
 //edit
 app.put('/api/articles/:id', async (req, res) => {
 	await db.read();
 
-	const { id } = req.params;
+	const {id} = req.params;
 
 	const updatedArticle = req.body;
 
 	db.data.articles[id] = updatedArticle;
 
 	await db.write();
-	res.status(200).send({ message: 'Article updated successfully' });
+	res.status(200).send({message: 'Article updated successfully'});
 });
 
 //delete
 app.delete("/api/articles/:id", async (req, res) => {
 	await db.read();
-	const { id } = req.params;
+	const {id} = req.params;
 
 	db.data.articles = db.data.articles.find(a => String(a.id) !== id);
 
 	await db.write();
-	res.code(200).send({ message: 'Article deleted successfully' });
+	res.code(200).send({message: 'Article deleted successfully'});
 });
 
 // ================================================
@@ -114,83 +113,83 @@ app.delete("/api/articles/:id", async (req, res) => {
 app.get('/api/pet', async (req, res) => {
 	await db.read();
 	res.send(db.data.pet);
-  });
+});
 
-  app.post('/api/pet/happiness', async (req, res) => {
-	const { petId, change } = req.body;
+app.post('/api/pet/happiness', async (req, res) => {
+	const {petId, change} = req.body;
 	await db.read();
 
 	const pet = db.data.pet.find(p => p.id === petId);
 	if (!pet) {
-	  return res.status(404).send({ error: "Pet not found" });
+		return res.status(404).send({error: "Pet not found"});
 	}
 	pet.happiness = Math.min(100, Math.max(0, (pet.happiness || 0) + change));
 
 	await db.write();
-	res.status(200).send({ message: "Happiness updated successfully", pet });
-  });
+	res.status(200).send({message: "Happiness updated successfully", pet});
+});
 
-  app.post('/api/pet/quiz', async (req, res) => {
-	const { petId } = req.body;
+app.post('/api/pet/quiz', async (req, res) => {
+	const {petId} = req.body;
 
 	try {
-	  await db.read();
-	  const pet = db.data.pet.find(p => p.id === petId);
+		await db.read();
+		const pet = db.data.pet.find(p => p.id === petId);
 
-	  if (!pet) {
-		return res.status(404).send({ error: "Pet not found" });
-	  }
-	  if (pet.happiness <= 0) {
-		return res.status(400).send({ error: "Pet is too unhappy to play the quiz" });
-	  }
-	  const randomHappiness = Math.floor(Math.random() * 11) + 5;
-	  pet.happiness = Math.min(100, Math.max(0, (pet.happiness || 0) - randomHappiness));
+		if (!pet) {
+			return res.status(404).send({error: "Pet not found"});
+		}
+		if (pet.happiness <= 0) {
+			return res.status(400).send({error: "Pet is too unhappy to play the quiz"});
+		}
+		const randomHappiness = Math.floor(Math.random() * 11) + 5;
+		pet.happiness = Math.min(100, Math.max(0, (pet.happiness || 0) - randomHappiness));
 
-	  await db.write();
+		await db.write();
 
-	  res.status(200).send({
-		message: "Quiz can be started",
-		happinessReduced: randomHappiness,
-		remainingHappiness: pet.happiness
-	  });
+		res.status(200).send({
+			message: "Quiz can be started",
+			happinessReduced: randomHappiness,
+			remainingHappiness: pet.happiness
+		});
 	} catch (error) {
-	  console.error('Error processing quiz request:', error);
-	  res.status(500).send({ error: "Internal server error" });
+		console.error('Error processing quiz request:', error);
+		res.status(500).send({error: "Internal server error"});
 	}
-  });
+});
 // ================================================
 // ===================== Inventory ======
 // ================================================
 app.post('/api/inventory', async (req, res) => {
-	const { petId, itemId } = req.body;
+	const {petId, itemId} = req.body;
 	await db.read();
 
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
-	  return res.status(404).send({ error: "Pet not found" });
+		return res.status(404).send({error: "Pet not found"});
 	}
 
 	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (!inventoryItem) {
-	  return res.status(404).send({ error: "Item not found in inventory" });
+		return res.status(404).send({error: "Item not found in inventory"});
 	}
 	if (itemId === 4) {
 		if (inventoryItem.count > 0) {
 			pet.hasHat = !pet.hasHat;
 		} else {
-			return res.status(400).send({ error: "Cannot toggle hat, count is 0" });
+			return res.status(400).send({error: "Cannot toggle hat, count is 0"});
 		}
 	} else {
-	  if (inventoryItem.count > 0) {
-		inventoryItem.count -= 1;
-	  } else {
-		return res.status(400).send({ error: "Item count cannot be less than 0" });
-	  }
+		if (inventoryItem.count > 0) {
+			inventoryItem.count -= 1;
+		} else {
+			return res.status(400).send({error: "Item count cannot be less than 0"});
+		}
 	}
 
 	await db.write();
-	res.status(200).send({ message: "Item updated", pet });
-  });
+	res.status(200).send({message: "Item updated", pet});
+});
 
 
 // ================================================
@@ -198,29 +197,29 @@ app.post('/api/inventory', async (req, res) => {
 // ================================================
 
 app.post('/api/buy', async (req, res) => {
-	const { petId, itemId } = req.body;
+	const {petId, itemId} = req.body;
 	await db.read();
 
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
-		return res.status(404).send({ error: "Pet not found" });
+		return res.status(404).send({error: "Pet not found"});
 	}
 
 	const item = db.data.shop.find((i) => i.id === itemId);
 	if (!item) {
-		return res.status(404).send({ error: "Item not found" });
+		return res.status(404).send({error: "Item not found"});
 	}
 
 	if (itemId === 4) {
 		const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 		if (inventoryItem && inventoryItem.count > 0) {
-			return res.status(400).send({ error: "You already own this item and cannot buy it again" });
+			return res.status(400).send({error: "You already own this item and cannot buy it again"});
 		}
 	}
 
 	const itemPrice = parseInt(item.price.replace('¥', ''));
 	if (pet.money < itemPrice) {
-		return res.status(400).send({ error: "Not enough money" });
+		return res.status(400).send({error: "Not enough money"});
 	}
 
 	pet.money -= itemPrice;
@@ -229,7 +228,7 @@ app.post('/api/buy', async (req, res) => {
 	if (inventoryItem) {
 		inventoryItem.count += 1;
 	} else {
-		pet.inventory.push({ id: item.id, count: 1 });
+		pet.inventory.push({id: item.id, count: 1});
 	}
 
 	await db.write();
@@ -244,70 +243,70 @@ app.post('/api/buy', async (req, res) => {
 app.get('/api/shop', async (req, res) => {
 	await db.read();
 	res.send(db.data.shop);
-  });
+});
 
-  app.get('/api/shop/:id', async (req, res) => {
+app.get('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const item = db.data.shop.find(item => item.id === req.params.id);
 	if (!item) {
-	  res.status(404).send({ message: 'Item not found' });
-	  return;
+		res.status(404).send({message: 'Item not found'});
+		return;
 	}
 	res.send(item);
-  });
+});
 
-  app.post('/api/shop', async (req, res) => {
+app.post('/api/shop', async (req, res) => {
 	await db.read();
 	const newItem = {
-	  id: genId(),
-	  name: req.body.name,
-	  price: req.body.price,
-	  count: req.body.count,
-	  icon: req.body.icon,
+		id: genId(),
+		name: req.body.name,
+		price: req.body.price,
+		count: req.body.count,
+		icon: req.body.icon,
 	};
 	db.data.shop.push(newItem);
 	await db.write();
-	res.status(201).send({ message: 'Item added successfully', item: newItem });
-  });
+	res.status(201).send({message: 'Item added successfully', item: newItem});
+});
 
-  app.put('/api/shop/:id', async (req, res) => {
+app.put('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const index = db.data.shop.findIndex(item => item.id === req.params.id);
 	if (index === -1) {
-	  res.status(404).send({ message: 'Item not found' });
-	  return;
+		res.status(404).send({message: 'Item not found'});
+		return;
 	}
-	db.data.shop[index] = { ...db.data.shop[index], ...req.body };
+	db.data.shop[index] = {...db.data.shop[index], ...req.body};
 	await db.write();
-	res.status(200).send({ message: 'Item updated successfully', item: db.data.shop[index] });
-  });
+	res.status(200).send({message: 'Item updated successfully', item: db.data.shop[index]});
+});
 
-  app.delete('/api/shop/:id', async (req, res) => {
+app.delete('/api/shop/:id', async (req, res) => {
 	await db.read();
 	const index = db.data.shop.findIndex(item => item.id === req.params.id);
 	if (index === -1) {
-	  res.status(404).send({ message: 'Item not found' });
-	  return;
+		res.status(404).send({message: 'Item not found'});
+		return;
 	}
 	db.data.shop.splice(index, 1);
 	await db.write();
-	res.status(200).send({ message: 'Item deleted successfully' });
-  });
+	res.status(200).send({message: 'Item deleted successfully'});
+});
 
-app.get('/api/pet/:id/money', async (req, res) => {
+app.get('/api/animal/:id/money', async (req, res) => {
 	await db.read();
-	const pet = db.data.pet.find(p => p.id === Number(req.params.id));
+	const pet = db.data.animals.find(p => p.id === Number(req.params.id));
 	if (!pet) {
 		return res.status(404).send({error: "Pet not found"});
 	}
 	res.send({money: pet.money});
 });
 
-app.put('/api/pet/:id/money', async (req, res) => {
+app.put('/api/animal/:id/money', async (req, res) => {
 	await db.read();
 	const {id} = req.params;
 	const {money} = req.body;
-	const pet = db.data.pet.find(p => p.id === Number(id));
+	const pet = db.data.animals.find(p => p.id === Number(id));
 
 	if (!pet) {
 		res.status(404).send({message: 'Pet not found'});
@@ -372,7 +371,7 @@ app.put('/api/animals/:id', async (req, res) => {
 		res.code(200).send(data);
 	} catch (err) {
 		console.error(err);
-		res.code(500).send({ error: 'Failed to update the animal' });
+		res.code(500).send({error: 'Failed to update the animal'});
 	}
 });
 
@@ -387,7 +386,7 @@ app.delete('/api/animals/:id', async (req, res) => {
 		res.code(200).send(data);
 	} catch (err) {
 		console.error(err);
-		res.code(500).send({ error: 'Failed to delete the animal' });
+		res.code(500).send({error: 'Failed to delete the animal'});
 	}
 });
 
@@ -402,13 +401,13 @@ app.post('/api/favoritedAnimals/:id', async (req, res) => {
 		if (!db.data.favoritedAnimals.includes(id)) {
 			db.data.favoritedAnimals.push(id);
 			await db.write();
-			res.status(200).send({ message: 'Animal added to favorited animals' });
+			res.status(200).send({message: 'Animal added to favorited animals'});
 		} else {
-			res.status(400).send({ error: 'Animal is already favorited' });
+			res.status(400).send({error: 'Animal is already favorited'});
 		}
 	} catch (err) {
 		console.error(err);
-		res.status(500).send({ error: 'Failed to add the animal to favorited animals' });
+		res.status(500).send({error: 'Failed to add the animal to favorited animals'});
 	}
 });
 
@@ -418,10 +417,10 @@ app.delete('/api/favoritedAnimals/:id', async (req, res) => {
 		await db.read();
 		db.data.favoritedAnimals = db.data.favoritedAnimals.filter(animalId => animalId !== id);
 		await db.write();
-		res.status(200).send({ message: 'Animal removed from favorited animals' });
+		res.status(200).send({message: 'Animal removed from favorited animals'});
 	} catch (err) {
 		console.error(err);
-		res.status(500).send({ error: 'Failed to remove the animal from favorited animals' });
+		res.status(500).send({error: 'Failed to remove the animal from favorited animals'});
 	}
 });
 
@@ -441,7 +440,7 @@ app.post('/api/meetings', async (req, res) => {
 	const animals = db.data.animals;
 	const meetingsWithAnimals = meetings.map(meeting => {
 		const animal = animals.find(animal => animal.id === meeting.animalId);
-		return { ...meeting, animal };
+		return {...meeting, animal};
 	});
 
 	res.send(meetingsWithAnimals);
@@ -455,32 +454,32 @@ app.get('/api/meetings', async (req, res) => {
 
 	const meetingsWithAnimals = meetings.map(meeting => {
 		const animal = animals.find(animal => animal.id === meeting.animalId);
-		return { ...meeting, animal };
+		return {...meeting, animal};
 	});
 
 	res.send(meetingsWithAnimals);
 });
 
 app.delete('/api/meetings/:id', async (req, res) => {
-	let id = Number(req.params.id);
-	try {
-		await db.read();
-		db.data.meetings = db.data.meetings.filter(meeting => meeting.id !== id);
-		await db.write();
-		await db.read();
-		let meetings = db.data.meetings;
-		const animals = db.data.animals;
-		const meetingsWithAnimals = meetings.map(meeting => {
-			const animal = animals.find(animal => animal.id === meeting.animal);
-			return { ...meeting, animal };
-		});
+		let id = Number(req.params.id);
+		try {
+			await db.read();
+			db.data.meetings = db.data.meetings.filter(meeting => meeting.id !== id);
+			await db.write();
+			await db.read();
+			let meetings = db.data.meetings;
+			const animals = db.data.animals;
+			const meetingsWithAnimals = meetings.map(meeting => {
+				const animal = animals.find(animal => animal.id === meeting.animal);
+				return {...meeting, animal};
+			});
 
-		res.send(meetingsWithAnimals);
-	} catch (err) {
-		console.error(err);
-		res.code(500).send({ error: 'Failed to delete the meeting' });
+			res.send(meetingsWithAnimals);
+		} catch (err) {
+			console.error(err);
+			res.code(500).send({error: 'Failed to delete the meeting'});
+		}
 	}
-}
 );
 
 // ================================================
@@ -493,39 +492,39 @@ app.delete('/api/meetings/:id', async (req, res) => {
 app.get('/api/questions', async (req, res) => {
 	await db.read();
 	res.send(db.data.questions);
-  });
+});
 
-  app.post('/api/questions', async (req, res) => {
+app.post('/api/questions', async (req, res) => {
 	await db.read();
 
 	let new_question = {
-	  id: genId(),
-	  question: '',
-	  answers: [],
-	  correctAnswer: req.body.correctAnswer,
-	  user_created: true,
+		id: genId(),
+		question: '',
+		answers: [],
+		correctAnswer: req.body.correctAnswer,
+		user_created: true,
 	};
 
 	Object.assign(new_question, req.body.question);
 	db.data.questions.push(new_question);
 
 	await db.write();
-	res.status(200).send({ message: 'Question added successfully' });
-  });
+	res.status(200).send({message: 'Question added successfully'});
+});
 
-   app.post('/api/quiz/progress', async (req, res) => {
-	const { currentQuestionIndex, selectedAnswerIndex, userAnswer } = req.body;
+app.post('/api/quiz/progress', async (req, res) => {
+	const {currentQuestionIndex, selectedAnswerIndex, userAnswer} = req.body;
 
 	await db.read();
 	const questions = db.data.questions;
 
 	if (!questions || questions.length === 0) {
-	  return res.status(404).send({ error: 'No questions available' });
+		return res.status(404).send({error: 'No questions available'});
 	}
 
 	const currentQuestion = questions[currentQuestionIndex];
 	if (!currentQuestion) {
-	  return res.status(404).send({ error: 'Question not found' });
+		return res.status(404).send({error: 'Question not found'});
 	}
 
 	let isCorrect = false;
@@ -534,27 +533,26 @@ app.get('/api/questions', async (req, res) => {
 		const userAnswerTrimmed = (userAnswer || '').trim().toLowerCase();
 		isCorrect = userAnswerTrimmed === correctAnswerText;
 	} else {
-	  const correctAnswer = currentQuestion.answers.find((ans) => ans.correct);
-	  if (correctAnswer) {
-		isCorrect = selectedAnswerIndex !== null && correctAnswer.text === currentQuestion.answers[selectedAnswerIndex].text;
-	  }
+		const correctAnswer = currentQuestion.answers.find((ans) => ans.correct);
+		if (correctAnswer) {
+			isCorrect = selectedAnswerIndex !== null && correctAnswer.text === currentQuestion.answers[selectedAnswerIndex].text;
+		}
 	}
 
 	res.status(200).send({
-	  isCorrect,
-	  nextQuestionIndex: currentQuestionIndex + 1,
-	  hasMoreQuestions: currentQuestionIndex + 1 < questions.length,
-	  correctAnswersCount: isCorrect ? 1 : 0,
-	  currentQuestion,
+		isCorrect,
+		nextQuestionIndex: currentQuestionIndex + 1,
+		hasMoreQuestions: currentQuestionIndex + 1 < questions.length,
+		correctAnswersCount: isCorrect ? 1 : 0,
+		currentQuestion,
 	});
-  });
-
+});
 
 
 app.delete('/api/questions/:id', async (req, res) => {
 	await db.read();
 
-	const { id } = req.params;
+	const {id} = req.params;
 
 	const questionIndex = db.data.questions.findIndex(q => q.id === id);
 
@@ -566,7 +564,7 @@ app.delete('/api/questions/:id', async (req, res) => {
 	db.data.questions.splice(questionIndex, 1);
 
 	await db.write();
-	res.status(200).send({ message: 'Question deleted successfully' });
+	res.status(200).send({message: 'Question deleted successfully'});
 });
 
 // ================================================
@@ -577,7 +575,7 @@ app.delete('/api/questions/:id', async (req, res) => {
 app.delete('/api/games/:id', async (req, res) => {
 	await db.read();
 
-	const { id } = req.params;
+	const {id} = req.params;
 
 	const gameIndex = db.data.games.findIndex(g => g.id === id);
 
@@ -589,7 +587,7 @@ app.delete('/api/games/:id', async (req, res) => {
 	db.data.games.splice(gameIndex, 1);
 
 	await db.write();
-	res.status(200).send({ message: 'Game deleted successfully' });
+	res.status(200).send({message: 'Game deleted successfully'});
 });
 
 app.get('/api/games', async (req, res) => {
@@ -622,7 +620,7 @@ app.get('/api/games/:id', async (req, res) => {
 app.delete('/api/fp/:id', async (req, res) => {
 	await db.read();
 
-	const { id } = req.params;
+	const {id} = req.params;
 
 	const fpIndex = db.data.fp.findIndex(f => f.id === id);
 
@@ -634,7 +632,7 @@ app.delete('/api/fp/:id', async (req, res) => {
 	db.data.fp.splice(fpIndex, 1);
 
 	await db.write();
-	res.status(200).send({ message: 'FP deleted successfully' });
+	res.status(200).send({message: 'FP deleted successfully'});
 });
 
 app.get('/api/fp/:id', async (req, res) => {
@@ -699,10 +697,10 @@ app.get('/api/fp/:id/leaderboards', async (req, res) => {
 app.post('/api/hop', async (req, res) => {
 	await db.read();
 
-	const { maxHeight } = req.body;
+	const {maxHeight} = req.body;
 
 	if (typeof maxHeight !== 'number') {
-		return res.status(400).send({ error: 'Invalid maxHeight' });
+		return res.status(400).send({error: 'Invalid maxHeight'});
 	}
 
 	const newGame = {
@@ -714,12 +712,12 @@ app.post('/api/hop', async (req, res) => {
 	db.data.hop.push(newGame);
 
 	await db.write();
-	res.status(200).send({ message: 'Game saved successfully', id: newGame.id });
+	res.status(200).send({message: 'Game saved successfully', id: newGame.id});
 });
 
 app.get('/api/hop/highest', async (req, res) => {
 	await db.read();
-	const highestGame = db.data.hop.reduce((max, game) => game.height > max.height ? game : max, { height: 0 });
+	const highestGame = db.data.hop.reduce((max, game) => game.height > max.height ? game : max, {height: 0});
 	res.status(200).send(highestGame);
 });
 
@@ -732,15 +730,15 @@ app.get('/api/hop/scores', async (req, res) => {
 app.put('/api/fp/:id', async (req, res) => {
 	await db.read();
 
-	const { id } = req.params;
+	const {id} = req.params;
 	const index = db.data.fp.findIndex(fp => fp.id === Number(id));
 
 	if (index === -1) {
-		res.status(404).send({ message: 'FP not found' });
+		res.status(404).send({message: 'FP not found'});
 		return;
 	}
 
-	db.data.fp[index] = { ...db.data.fp[index], ...req.body };
+	db.data.fp[index] = {...db.data.fp[index], ...req.body};
 	await db.write();
-	res.status(200).send({ message: 'FP updated successfully' });
+	res.status(200).send({message: 'FP updated successfully'});
 });

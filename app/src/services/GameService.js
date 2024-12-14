@@ -53,7 +53,7 @@ export async function GetGame(gameId) {
 
 export async function GetMoney(id) {
 	try {
-		const response = await axios.get(`http://localhost:${port}/api/pet/${id}/money`);
+		const response = await axios.get(`http://localhost:${port}/api/animal/${id}/money`);
 		return response.data.money;
 	} catch (error) {
 		console.error('Error fetching money:', error);
@@ -63,7 +63,7 @@ export async function GetMoney(id) {
 
 export async function UpdatePetMoney(id, money) {
 	try {
-		const response = await axios.put(`http://localhost:${port}/api/pet/${id}/money`, {money});
+		const response = await axios.put(`http://localhost:${port}/api/animal/${id}/money`, {money});
 		return response.data;
 	} catch (error) {
 		console.error('Error updating pet money:', error);

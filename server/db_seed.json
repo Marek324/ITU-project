@@ -125,6 +125,7 @@
 	"animals": [
 		{
 			"id": 1,
+			"money": 1000,
 			"image": "dog_2",
 			"name": "Věroslav",
 			"text": "Animal 1",
@@ -135,6 +136,7 @@
 		},
 		{
 			"id": 2,
+			"money": 200,
 			"image": "cat_2",
 			"name": "Terka",
 			"text": "Animal 2",
@@ -145,6 +147,7 @@
 		},
 		{
 			"id": 3,
+			"money": 300,
 			"image": "koteseni",
 			"name": "Kotěšenimír",
 			"text": "Animal 3",
@@ -155,6 +158,7 @@
 		},
 		{
 			"id": 4,
+			"money": 400,
 			"image": "cat_3",
 			"name": "Marek",
 			"text": "Animal 4",
@@ -403,7 +407,6 @@
 	"pet": [
 		{
 			"id": 1,
-			"money": 900,
 			"hasHat": false,
 			"happiness": 8,
 			"inventory": [
@@ -520,7 +523,7 @@
 					"bought": false
 				},
 				{
-					"color": "Red",
+					"color": "Pink",
 					"bought": false
 				},
 				{
@@ -588,7 +591,7 @@
 					"bought": false
 				},
 				{
-					"color": "Red",
+					"color": "Pink",
 					"bought": false
 				},
 				{
@@ -656,7 +659,7 @@
 					"bought": true
 				},
 				{
-					"color": "Red",
+					"color": "Pink",
 					"bought": true
 				},
 				{
@@ -724,7 +727,7 @@
 					"bought": true
 				},
 				{
-					"color": "Red",
+					"color": "Pink",
 					"bought": false
 				},
 				{
