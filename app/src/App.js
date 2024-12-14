@@ -19,6 +19,7 @@ function App() {
 				<Route path="/animal/:id/tamagotchi" element={<Tamagotchi />} />
 				<Route path="/animal/:id/merge-a-pet" element={<MergeController />} />
 				<Route path="/animal/newAnimal" element={<CreateAnimalController />} />
+				<Route path="/meetings" element={<Game />} />
 			</Routes>
 		</BrowserRouter>
 	);

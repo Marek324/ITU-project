@@ -305,9 +305,7 @@ app.get('/api/animals', async (req, res) => {
 		favorited: favoritedAnimalIds.includes(animal.id)
 	}));
 
-	let data = db.data.animals;
-
-	res.send(data);
+	res.send(animalsWithFavorited);
 });
 
 app.get('/api/animals/:id', async (req, res) => {
@@ -380,12 +378,16 @@ app.post('/api/favoritedAnimals/:id', async (req, res) => {
 	let id = Number(req.params.id);
 	try {
 		await db.read();
-		db.data.favoritedAnimals.push(id);
-		await db.write();
-		res.code(200).send({ message: 'Animal added to favorited animals' });
+		if (!db.data.favoritedAnimals.includes(id)) {
+			db.data.favoritedAnimals.push(id);
+			await db.write();
+			res.status(200).send({ message: 'Animal added to favorited animals' });
+		} else {
+			res.status(400).send({ error: 'Animal is already favorited' });
+		}
 	} catch (err) {
 		console.error(err);
-		res.code(500).send({ error: 'Failed to add the animal to favorited animals' });
+		res.status(500).send({ error: 'Failed to add the animal to favorited animals' });
 	}
 });
 
@@ -395,13 +397,69 @@ app.delete('/api/favoritedAnimals/:id', async (req, res) => {
 		await db.read();
 		db.data.favoritedAnimals = db.data.favoritedAnimals.filter(animalId => animalId !== id);
 		await db.write();
-		res.code(200).send({ message: 'Animal removed from favorited animals' });
-	}
-	catch (err) {
+		res.status(200).send({ message: 'Animal removed from favorited animals' });
+	} catch (err) {
 		console.error(err);
-		res.code(500).send({ error: 'Failed to remove the animal from favorited animals' });
+		res.status(500).send({ error: 'Failed to remove the animal from favorited animals' });
 	}
 });
+
+// ================================================
+// ================== Meetings ====================
+// ================================================
+
+app.post('/api/meetings', async (req, res) => {
+	let new_meeting = req.body;
+	await db.read();
+	new_meeting.id = db.data.meetings.length + 1;
+	db.data.meetings.push(new_meeting);
+	await db.write();
+	await db.read();
+	let meetings = db.data.meetings;
+	const animals = db.data.animals;
+	const meetingsWithAnimals = meetings.map(meeting => {
+	const animal = animals.find(animal => animal.id === meeting.animal);
+		return { ...meeting, animal };
+	});
+
+	res.send(meetingsWithAnimals);
+}
+);
+
+app.get('/api/meetings', async (req, res) => {
+	await db.read();
+	const meetings = db.data.meetings;
+	const animals = db.data.animals;
+
+	const meetingsWithAnimals = meetings.map(meeting => {
+		const animal = animals.find(animal => animal.id === meeting.animal);
+		return { ...meeting, animal };
+	});
+
+	res.send(meetingsWithAnimals);
+});
+
+app.delete('/api/meetings/:id', async (req, res) => {
+	let id = Number(req.params.id);
+	try {
+		await db.read();
+		db.data.meetings = db.data.meetings.filter(meeting => meeting.id !== id);
+		await db.write();
+		await db.read();
+		let meetings = db.data.meetings;
+		const animals = db.data.animals;
+		const meetingsWithAnimals = meetings.map(meeting => {
+			const animal = animals.find(animal => animal.id === meeting.animal);
+			return { ...meeting, animal };
+		});
+
+		res.send(meetingsWithAnimals);
+	} catch (err) {
+		console.error(err);
+		res.code(500).send({ error: 'Failed to delete the meeting' });
+	}
+}
+);
 
 // ================================================
 // ===================== Petra ====================
