@@ -407,6 +407,7 @@
 	"pet": [
 		{
 			"id": 1,
+			"money": 100,
 			"hasHat": false,
 			"happiness": 8,
 			"inventory": [
