@@ -4,6 +4,7 @@ import FPModel from "../FPModel.js";
 import {useParams} from "react-router-dom";
 
 const FPController = () => {
+	//Setting references and states
 	const animalId = useParams().id;
 	const [model, setModel] = useState(new FPModel(animalId));
 	const [showPopup, setShowPopup] = useState(model.showPopup);
@@ -22,7 +23,7 @@ const FPController = () => {
 	model.topBarRef = useRef(null);
 	model.downBarRef = useRef(null);
 
-	//Načtení highscore
+	//Initialization
 	useEffect(() => {
 		model.init().then(() => {
 			setHighScore(model.highScore);
@@ -33,7 +34,7 @@ const FPController = () => {
 	}, [model]);
 
 
-	//Volání skoku / startu hry
+	//Starting game / jumping on spacebar or arrow up
 	useEffect(() => {
 		const handleKeyDown = (event) => {
 			if (event.code === 'Space' || event.code === 'ArrowUp') {
@@ -49,7 +50,7 @@ const FPController = () => {
 		};
 	}, [gameStarted, model]);
 
-	//Zakázání scrollování
+	//Turning off scrollbar
 	useEffect(() => {
 		document.body.style.overflow = 'hidden';
 		return () => {
@@ -57,7 +58,7 @@ const FPController = () => {
 		};
 	}, []);
 
-	//Nastavení pozice topBaru a downBaru
+	//Top bar and down bar height
 	useEffect(() => {
 		if (model.topBarRef.current) {
 			model.setTopPos(model.topBarRef.current.clientHeight);
@@ -67,7 +68,7 @@ const FPController = () => {
 		}
 	}, [model.topBarRef, model.downBarRef, model]);
 
-	//Pohyb a kolize
+	//Moving the ball and checking for collision
 	useEffect(() => {
 		if (!gameStarted) return;
 		const interval = setInterval(() => {
@@ -82,7 +83,7 @@ const FPController = () => {
 		return () => clearInterval(interval);
 	}, [gameStarted, model]);
 
-	//Spawnování překážek
+	//Creating new obstacles
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (!gameStarted) return;
@@ -94,7 +95,9 @@ const FPController = () => {
 	}, [gameStarted, model]);
 
 
+	//Stopping the game
 	const stopGame = async () => {
+		//Updating high score if user has beaten the old one
 		if (model.score > model.highScore) {
 			await model.updateHighScore();
 			setHighScore(model.highScore);
@@ -103,31 +106,38 @@ const FPController = () => {
 		updateState();
 	};
 
+
+	//Showing/hiding shop
 	const toggleShop = () => {
 		model.toggleShop();
 		updateState();
 	};
 
+	//Showing/hiding leaderboard
 	const toggleLeaderboard = () => {
 		model.toggleLeaderboard();
 		updateState();
 	};
 
+	//Starting the game
 	const startGame = () => {
 		model.startGame();
 		updateState();
 	};
 
+	//Buying a color
 	const buyColor = (color) => {
 		model.buyColor(color);
 		updateState();
 	}
 
+	//Selecting a color for the ball
 	const selectColor = (color) => {
 		model.selectColor(color);
 		updateState();
 	}
 
+	//Updating states to update the view
 	const updateState = () => {
 		setShowPopup(model.showPopup);
 		setGameStarted(model.gameStarted);

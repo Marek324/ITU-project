@@ -18,8 +18,10 @@ const GameView = ({
 					  onColorSelect
 				  }) => {
 
+	//Gettting animal id from the url
 	const {id} = useParams();
 
+	//Function to get the filter for colloring the ball
 	const getFilter = (color) => {
 		switch (color) {
 			case 'Pink':

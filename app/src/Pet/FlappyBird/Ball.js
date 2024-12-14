@@ -1,7 +1,8 @@
-import React, { forwardRef } from "react";
+import React, {forwardRef} from "react";
 import ballImg from "./Assets/ball.png";
 
-const Ball = forwardRef(({ top, leftPos, filter }, ref) => {
+//Ball component
+const Ball = forwardRef(({top, leftPos, filter}, ref) => {
 	return (
 		<div
 			ref={ref}
