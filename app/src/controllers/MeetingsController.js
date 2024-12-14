@@ -1,6 +1,6 @@
 // File: src/controllers/MeetingsController.js
 import React, { useEffect, useState } from 'react';
-import {GetMeetings} from "../services/MeetingsService";
+import {GetMeetings, RemoveMeeting} from "../services/MeetingsService";
 import Meetings from "../components/animals/Meetings";
 
 function MeetingsController() {
@@ -23,6 +23,15 @@ function MeetingsController() {
 		getMeetings();
 	}, []);
 
+	const deleteMeeting = async (id) => {
+		try {
+			await RemoveMeeting(id);
+			setMeetings((prevMeetings) => prevMeetings.filter((meeting) => meeting.id !== id));
+		} catch (error) {
+			setError(error.message);
+		}
+	};
+
 	if (loading) {
 		return <div>Loading...</div>;
 	}
@@ -31,7 +40,7 @@ function MeetingsController() {
 		return <div>Error: {error}</div>;
 	}
 
-	return <Meetings meetings={meetings} />;
+	return <Meetings meetings={meetings} deleteMeeting={deleteMeeting}/>;
 }
 
 export default MeetingsController;
