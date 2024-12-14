@@ -129,7 +129,35 @@ app.get('/api/pet', async (req, res) => {
 	await db.write();
 	res.status(200).send({ message: "Happiness updated successfully", pet });
   });
-
+  
+  app.post('/api/pet/quiz', async (req, res) => {
+	const { petId } = req.body;
+	
+	try {
+	  await db.read();
+	  const pet = db.data.pet.find(p => p.id === petId);
+	  
+	  if (!pet) {
+		return res.status(404).send({ error: "Pet not found" });
+	  }
+	  if (pet.happiness <= 0) {
+		return res.status(400).send({ error: "Pet is too unhappy to play the quiz" });
+	  }
+	  const randomHappiness = Math.floor(Math.random() * 11) + 5;
+	  pet.happiness = Math.min(100, Math.max(0, (pet.happiness || 0) - randomHappiness));
+	  
+	  await db.write();
+	  
+	  res.status(200).send({ 
+		message: "Quiz can be started", 
+		happinessReduced: randomHappiness,
+		remainingHappiness: pet.happiness
+	  });
+	} catch (error) {
+	  console.error('Error processing quiz request:', error);
+	  res.status(500).send({ error: "Internal server error" });
+	}
+  });
 // ================================================
 // ===================== Inventory ======
 // ================================================

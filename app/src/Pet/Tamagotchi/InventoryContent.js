@@ -122,7 +122,6 @@ const InventoryContent = ({ setHappiness }) => {
           }}
         />
 
-        {/* Inventory grid */}
         <div className="grid grid-cols-3 gap-x-36 gap-y-12 mt-30">
           {items.map((item, index) => {
             const IconComponent = iconMap[item.icon];

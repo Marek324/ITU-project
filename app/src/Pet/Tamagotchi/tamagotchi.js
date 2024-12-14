@@ -109,7 +109,7 @@ function Tamagotchi() {
 
       <header className="App-header flex-1 flex justify-center items-center">
         {showGame ? (
-          <GameContent setShowGame={setShowGame} setHappiness={setHappiness} />
+          <GameContent setShowGame={setShowGame} setHappiness={setHappiness}  />
         ) : showMarket ? (
           <MarketContent />
         ) : showInventory ? (
