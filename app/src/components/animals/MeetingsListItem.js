@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from "./Image";
 
-function MeetingsListItem({ meeting }) {
+function MeetingsListItem({ meeting, handleDelete }) {
 	const { date, animal } = meeting;
 	const { name, image } = animal;
 	const formattedDate = new Date(date).toLocaleString();
