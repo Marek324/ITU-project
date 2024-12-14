@@ -9,9 +9,11 @@ const HighScores = ({scores, topBar, downBar}) => {
 					style={{textShadow: '2px 2px 0 black', marginTop: '-10px'}}>High Scores</h2>
 				<ul>
 					{scores.map((score, index) => (
-						<li key={index} className="text-subtext text-sm" style={{textShadow: '2px 2px 0 black'}}>
-							{score.name}: <span className="text-yellow-500">{score.score}</span>
-							<hr className="my-2 border-black"/>
+						<li key={index} className="text-subtext text-sm flex justify-between items-center"
+							style={{textShadow: '2px 2px 0 black'}}>
+							<span className="flex-1 text-left">{score.name}</span>
+							<hr className="my-2 border-black w-full mx-2"/>
+							<span className="flex-1 text-right text-yellow-500">{score.score}</span>
 						</li>
 					))}
 				</ul>

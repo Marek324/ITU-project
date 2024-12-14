@@ -129,14 +129,14 @@ app.get('/api/pet', async (req, res) => {
 	await db.write();
 	res.status(200).send({ message: "Happiness updated successfully", pet });
   });
-  
+
   app.post('/api/pet/quiz', async (req, res) => {
 	const { petId } = req.body;
-	
+
 	try {
 	  await db.read();
 	  const pet = db.data.pet.find(p => p.id === petId);
-	  
+
 	  if (!pet) {
 		return res.status(404).send({ error: "Pet not found" });
 	  }
@@ -145,11 +145,11 @@ app.get('/api/pet', async (req, res) => {
 	  }
 	  const randomHappiness = Math.floor(Math.random() * 11) + 5;
 	  pet.happiness = Math.min(100, Math.max(0, (pet.happiness || 0) - randomHappiness));
-	  
+
 	  await db.write();
-	  
-	  res.status(200).send({ 
-		message: "Quiz can be started", 
+
+	  res.status(200).send({
+		message: "Quiz can be started",
 		happinessReduced: randomHappiness,
 		remainingHappiness: pet.happiness
 	  });
@@ -457,7 +457,7 @@ app.get('/api/meetings', async (req, res) => {
 		const animal = animals.find(animal => animal.id === meeting.animalId);
 		return { ...meeting, animal };
 	});
-	console.log(meetingsWithAnimals);
+
 	res.send(meetingsWithAnimals);
 });
 
@@ -639,17 +639,15 @@ app.delete('/api/fp/:id', async (req, res) => {
 
 app.get('/api/fp/:id', async (req, res) => {
 	await db.read();
+	const {id} = req.params;
+	const fpEntry = db.data.fp.find(fp => fp.id === Number(id));
 
-	const game = db.data.fp.find(id => id.id === Number(req.params.id));
-
-	if (!game) {
-		res.status(404).send('FP not found');
+	if (!fpEntry) {
+		res.status(404).send({message: 'FP entry not found'});
 		return;
 	}
 
-	res.send(game);
-
-	res.status(200).send(game);
+	res.status(200).send(fpEntry);
 });
 
 app.get('/api/fp', async (req, res) => {
@@ -669,20 +667,20 @@ app.get('/api/pet/:id/colors', async (req, res) => {
 	res.send({boughtColors: pet.boughtColors});
 });
 
-app.put('/api/pet/:id/colors', async (req, res) => {
+app.put('/api/fp/:id/colors', async (req, res) => {
 	await db.read();
 	const {id} = req.params;
-	const {colors} = req.body;
-	const pet = db.data.pet.find(p => p.id === Number(id));
+	const colors = req.body;
+	const fpEntry = db.data.fp.find(fp => fp.id === Number(id));
 
-	if (!pet) {
-		res.status(404).send({message: 'Pet not found'});
+	if (!fpEntry) {
+		res.status(404).send({message: 'FP entry not found'});
 		return;
 	}
 
-	pet.boughtColors = colors;
+	fpEntry.boughtColors = colors;
 	await db.write();
-	res.status(200).send({message: 'Pet colors updated successfully', pet});
+	res.status(200).send({message: 'FP colors updated successfully', fpEntry});
 });
 
 app.get('/api/fp/:id/leaderboards', async (req, res) => {

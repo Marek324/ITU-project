@@ -44,6 +44,7 @@ class FPModel {
 		this.scores = data.leaderboards;
 		this.highScore = data.highscore;
 		this.colors = data.boughtColors;
+		console.log(data.boughtColors);
 		this.money = await GetMoney(data.id);
 	}
 

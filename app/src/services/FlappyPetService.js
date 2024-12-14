@@ -72,7 +72,7 @@ export async function GetPetColors(id) {
 
 export async function UpdatePetColors(id, colors) {
 	try {
-		const response = await axios.put(`http://localhost:${port}/api/pet/${id}/colors`, colors);
+		const response = await axios.put(`http://localhost:${port}/api/fp/${id}/colors`, colors);
 		return response.data;
 	} catch (error) {
 		console.error('Error updating pet colors:', error);

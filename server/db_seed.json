@@ -1,47 +1,49 @@
 {
-  "animals": [
-    {
-      "id": 1,
-      "image": "dog_2",
-      "name": "Věroslav",
-      "text": "Animal 1",
-      "species": "Dog",
-      "age": 6,
-      "sex": "M",
-      "neutered": true
-    },
-    {
-      "id": 2,
-      "image": "cat_2",
-      "name": "Terka",
-      "text": "Animal 2",
-      "species": "Goat",
-      "age": 7,
-      "sex": "F",
-      "neutered": false
-    },
-    {
-      "id": 3,
-      "image": "koteseni",
-      "name": "Kotěšenimír",
-      "text": "Animal 3",
-      "species": "Cat",
-      "age": 5,
-      "sex": "M",
-      "neutered": false
-    },
-    {
-      "id": 4,
-      "image": "cat_3",
-      "name": "Marek",
-      "text": "Animal 4",
-      "species": "Cat",
-      "age": 3,
-      "sex": "M",
-      "neutered": true
-    }
-  ],
-	"favoritedAnimals": [1],
+	"animals": [
+		{
+			"id": 1,
+			"image": "dog_2",
+			"name": "Věroslav",
+			"text": "Animal 1",
+			"species": "Dog",
+			"age": 6,
+			"sex": "M",
+			"neutered": true
+		},
+		{
+			"id": 2,
+			"image": "cat_2",
+			"name": "Terka",
+			"text": "Animal 2",
+			"species": "Goat",
+			"age": 7,
+			"sex": "F",
+			"neutered": false
+		},
+		{
+			"id": 3,
+			"image": "koteseni",
+			"name": "Kotěšenimír",
+			"text": "Animal 3",
+			"species": "Cat",
+			"age": 5,
+			"sex": "M",
+			"neutered": false
+		},
+		{
+			"id": 4,
+			"image": "cat_3",
+			"name": "Marek",
+			"text": "Animal 4",
+			"species": "Cat",
+			"age": 3,
+			"sex": "M",
+			"neutered": true
+		}
+	],
+	"favoritedAnimals": [
+		1
+	],
 	"meetings": [
 		{
 			"id": 1,
@@ -64,65 +66,62 @@
 			"date": "2025-04-01T12:00"
 		}
 	],
-  "questions": [
-    {
-      "id": 1,
-      "question": "What is the average lifespan of a domestic cat?",
-      "answers": [
-        {
-          "text": "10-15 years",
-          "correct": true
-        },
-        {
-          "text": "5-10 years",
-          "correct": false
-        },
-
-        {
-          "text": "20-25 years",
-          "correct": false
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "question": "Which food is toxic to dogs?",
-      "answers": [
-        {
-          "text": "Chocolate",
-          "correct": true
-        },
-
-        {
-          "text": "Apples",
-          "correct": false
-        },
-        {
-          "text": "Rice",
-          "correct": false
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "question": "How often should a dog be taken for a walk?",
-      "answers": [
-        {
-          "text": "Once week",
-          "correct": false
-        },
-        {
-          "text": "Once a day",
-          "correct": false
-        },
-        {
-          "text": "2-3 times a day",
-          "correct": true
-        }
-
-      ]
-    }
-  ],
+	"questions": [
+		{
+			"id": 1,
+			"question": "What is the average lifespan of a domestic cat?",
+			"answers": [
+				{
+					"text": "10-15 years",
+					"correct": true
+				},
+				{
+					"text": "5-10 years",
+					"correct": false
+				},
+				{
+					"text": "20-25 years",
+					"correct": false
+				}
+			]
+		},
+		{
+			"id": 2,
+			"question": "Which food is toxic to dogs?",
+			"answers": [
+				{
+					"text": "Chocolate",
+					"correct": true
+				},
+				{
+					"text": "Apples",
+					"correct": false
+				},
+				{
+					"text": "Rice",
+					"correct": false
+				}
+			]
+		},
+		{
+			"id": 3,
+			"question": "How often should a dog be taken for a walk?",
+			"answers": [
+				{
+					"text": "Once week",
+					"correct": false
+				},
+				{
+					"text": "Once a day",
+					"correct": false
+				},
+				{
+					"text": "2-3 times a day",
+					"correct": true
+				}
+			]
+		}
+	],
 	"animals": [
 		{
 			"id": 1,
@@ -475,43 +474,43 @@
 			"highscore": 0,
 			"leaderboards": [
 				{
-					"name": "Pepa1",
+					"name": "Alice",
 					"score": 10
 				},
 				{
-					"name": "Jirka1",
+					"name": "Bob",
 					"score": 9
 				},
 				{
-					"name": "Honza1",
+					"name": "Charlie",
 					"score": 8
 				},
 				{
-					"name": "Honza2",
+					"name": "David",
 					"score": 7
 				},
 				{
-					"name": "Honza3",
+					"name": "Eve",
 					"score": 6
 				},
 				{
-					"name": "Honza4",
+					"name": "Frank",
 					"score": 5
 				},
 				{
-					"name": "Honza5",
+					"name": "Grace",
 					"score": 4
 				},
 				{
-					"name": "Honza6",
+					"name": "Hannah",
 					"score": 3
 				},
 				{
-					"name": "Honza7",
+					"name": "Ivy",
 					"score": 2
 				},
 				{
-					"name": "Honza8",
+					"name": "Jack",
 					"score": 1
 				}
 			],
@@ -543,43 +542,43 @@
 			"highscore": 10,
 			"leaderboards": [
 				{
-					"name": "Pepa1",
+					"name": "Alice",
 					"score": 20
 				},
 				{
-					"name": "Jirka1",
+					"name": "Bob",
 					"score": 19
 				},
 				{
-					"name": "Honza1",
+					"name": "Charlie",
 					"score": 18
 				},
 				{
-					"name": "Honza2",
+					"name": "David",
 					"score": 17
 				},
 				{
-					"name": "Honza3",
+					"name": "Eve",
 					"score": 16
 				},
 				{
-					"name": "Honza4",
+					"name": "Frank",
 					"score": 15
 				},
 				{
-					"name": "Honza5",
+					"name": "Grace",
 					"score": 14
 				},
 				{
-					"name": "Honza6",
+					"name": "Hannah",
 					"score": 13
 				},
 				{
-					"name": "Honza7",
+					"name": "Ivy",
 					"score": 12
 				},
 				{
-					"name": "Honza8",
+					"name": "Jack",
 					"score": 11
 				}
 			],
@@ -611,43 +610,43 @@
 			"highscore": 20,
 			"leaderboards": [
 				{
-					"name": "Pepa1",
+					"name": "Alice",
 					"score": 30
 				},
 				{
-					"name": "Jirka1",
+					"name": "Bob",
 					"score": 29
 				},
 				{
-					"name": "Honza1",
+					"name": "Charlie",
 					"score": 28
 				},
 				{
-					"name": "Honza2",
+					"name": "David",
 					"score": 27
 				},
 				{
-					"name": "Honza3",
+					"name": "Eve",
 					"score": 26
 				},
 				{
-					"name": "Honza4",
+					"name": "Frank",
 					"score": 25
 				},
 				{
-					"name": "Honza5",
+					"name": "Grace",
 					"score": 24
 				},
 				{
-					"name": "Honza6",
+					"name": "Hannah",
 					"score": 23
 				},
 				{
-					"name": "Honza7",
+					"name": "Ivy",
 					"score": 22
 				},
 				{
-					"name": "Honza8",
+					"name": "Jack",
 					"score": 21
 				}
 			],
@@ -679,43 +678,43 @@
 			"highscore": 30,
 			"leaderboards": [
 				{
-					"name": "Pepa1",
+					"name": "Alice",
 					"score": 40
 				},
 				{
-					"name": "Jirka1",
+					"name": "Bob",
 					"score": 39
 				},
 				{
-					"name": "Honza1",
+					"name": "Charlie",
 					"score": 38
 				},
 				{
-					"name": "Honza2",
+					"name": "David",
 					"score": 37
 				},
 				{
-					"name": "Honza3",
+					"name": "Eve",
 					"score": 36
 				},
 				{
-					"name": "Honza4",
+					"name": "Frank",
 					"score": 35
 				},
 				{
-					"name": "Honza5",
+					"name": "Grace",
 					"score": 34
 				},
 				{
-					"name": "Honza6",
+					"name": "Hannah",
 					"score": 33
 				},
 				{
-					"name": "Honza7",
+					"name": "Ivy",
 					"score": 32
 				},
 				{
-					"name": "Honza8",
+					"name": "Jack",
 					"score": 31
 				}
 			],

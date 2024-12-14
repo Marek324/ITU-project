@@ -9,6 +9,7 @@ import HighScores from '../Pet/FlappyBird/HighScores';
 import bGImage from '../Pet/FlappyBird/Assets/bg.jpg';
 import {homeB, leaderboard, shop} from "../svg";
 import Shop from "../Pet/FlappyBird/Shop";
+import {useParams} from "react-router-dom";
 
 const GameView = ({
 					  gameStarted, showPopup, title, subtitle, highScore, startGame, topPos, downBarOffset,
@@ -16,6 +17,8 @@ const GameView = ({
 					  topBarRef, downBarRef, scores, toggleShop, showShop, colors, currentColor, coins, onColorBuy,
 					  onColorSelect
 				  }) => {
+
+	const {id} = useParams();
 
 	const getFilter = (color) => {
 		switch (color) {
@@ -42,8 +45,8 @@ const GameView = ({
 
 			<TopBar ref={topBarRef} title="Flappy Pet"/>
 
-			<DownBar ref={downBarRef} firstIcon={leaderboard()} secondIcon={homeB()} thirdIcon={shop()}
-					 onFirstClick={toggleLeaderboard} onThirdClick={toggleShop}/>
+			<DownBar ref={downBarRef} firstIcon={leaderboard()} secondIcon={shop()}
+					 onFirstClick={toggleLeaderboard} onSecondClick={toggleShop} linkBack={`/animal/${id}/tamagotchi`}/>
 
 			{showPopup && <GamePopup title={title} subtitle={subtitle} topScore={highScore} onStart={startGame}
 									 topBarSize={topPos} bottomPos={downBarOffset}/>}
