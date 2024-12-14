@@ -1,7 +1,7 @@
 ﻿import AnimalsListItem from "./AnimalsListItem";
 import { deleteCross } from "svg";
 
-function RectangleList({ animals, adminMode, handleRemoveAnimal }) {
+function AnimalList({ animals, adminMode, handleRemoveAnimal, handleChangeFavorite }) {
 	return (
 		<div className="flex flex-col items-center justify-center m-2">
 			{animals.map((animal, index) => (
@@ -11,11 +11,11 @@ function RectangleList({ animals, adminMode, handleRemoveAnimal }) {
 							{deleteCross()}
 						</button>
 					)}
-					<AnimalsListItem animal={animal} adminMode={adminMode} />
+					<AnimalsListItem animal={animal} adminMode={adminMode} favorited={animal.favorited} onChangeFavorite={handleChangeFavorite}/>
 				</div>
 			))}
 		</div>
 	);
 }
 
-export default RectangleList;
+export default AnimalList;

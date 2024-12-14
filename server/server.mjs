@@ -136,19 +136,19 @@ app.get('/api/pet', async (req, res) => {
 app.post('/api/inventory', async (req, res) => {
 	const { petId, itemId } = req.body;
 	await db.read();
-  
+
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
 	  return res.status(404).send({ error: "Pet not found" });
 	}
-  
+
 	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (!inventoryItem) {
 	  return res.status(404).send({ error: "Item not found in inventory" });
 	}
 	if (itemId === 4) {
 		if (inventoryItem.count > 0) {
-			pet.hasHat = !pet.hasHat;  
+			pet.hasHat = !pet.hasHat;
 		} else {
 			return res.status(400).send({ error: "Cannot toggle hat, count is 0" });
 		}
@@ -159,11 +159,11 @@ app.post('/api/inventory', async (req, res) => {
 		return res.status(400).send({ error: "Item count cannot be less than 0" });
 	  }
 	}
-  
+
 	await db.write();
 	res.status(200).send({ message: "Item updated", pet });
   });
-  
+
 
 // ================================================
 // ===================== BUY ITEM ==================
@@ -208,7 +208,7 @@ app.post('/api/buy', async (req, res) => {
 	res.send(pet);
 });
 
-  
+
 // ================================================
 // ===================== SHOP =====================
 // ================================================
@@ -272,10 +272,15 @@ app.get('/api/shop', async (req, res) => {
 
 app.get('/api/animals', async (req, res) => {
 	await db.read();
+	const animals = db.data.animals;
+	const favoritedAnimalIds = db.data.favoritedAnimals;
+	console.log(favoritedAnimalIds);
+	const animalsWithFavorited = animals.map(animal => ({
+		...animal,
+		favorited: favoritedAnimalIds.includes(animal.id)
+	}));
 
-	let data = db.data.animals;
-
-	res.send(data);
+	res.send(animalsWithFavorited);
 });
 
 app.get('/api/animals/:id', async (req, res) => {
@@ -344,30 +349,35 @@ app.delete('/api/animals/:id', async (req, res) => {
 // ============== Favorited animals ===============
 // ================================================
 
+// Add an animal to favorited animals
 app.post('/api/favoritedAnimals/:id', async (req, res) => {
 	let id = Number(req.params.id);
 	try {
 		await db.read();
-		db.data.favoritedAnimals.push(id);
-		await db.write();
-		res.code(200).send({ message: 'Animal added to favorited animals' });
+		if (!db.data.favoritedAnimals.includes(id)) {
+			db.data.favoritedAnimals.push(id);
+			await db.write();
+			res.status(200).send({ message: 'Animal added to favorited animals' });
+		} else {
+			res.status(400).send({ error: 'Animal is already favorited' });
+		}
 	} catch (err) {
 		console.error(err);
-		res.code(500).send({ error: 'Failed to add the animal to favorited animals' });
+		res.status(500).send({ error: 'Failed to add the animal to favorited animals' });
 	}
 });
 
+// Remove an animal from favorited animals
 app.delete('/api/favoritedAnimals/:id', async (req, res) => {
 	let id = Number(req.params.id);
 	try {
 		await db.read();
 		db.data.favoritedAnimals = db.data.favoritedAnimals.filter(animalId => animalId !== id);
 		await db.write();
-		res.code(200).send({ message: 'Animal removed from favorited animals' });
-	}
-	catch (err) {
+		res.status(200).send({ message: 'Animal removed from favorited animals' });
+	} catch (err) {
 		console.error(err);
-		res.code(500).send({ error: 'Failed to remove the animal from favorited animals' });
+		res.status(500).send({ error: 'Failed to remove the animal from favorited animals' });
 	}
 });
 
@@ -382,40 +392,40 @@ app.get('/api/questions', async (req, res) => {
 	await db.read();
 	res.send(db.data.questions);
   });
-  
+
   app.post('/api/questions', async (req, res) => {
 	await db.read();
-	
+
 	let new_question = {
 	  id: genId(),
 	  question: '',
 	  answers: [],
-	  correctAnswer: req.body.correctAnswer, 
+	  correctAnswer: req.body.correctAnswer,
 	  user_created: true,
 	};
-  
+
 	Object.assign(new_question, req.body.question);
 	db.data.questions.push(new_question);
-  
+
 	await db.write();
 	res.status(200).send({ message: 'Question added successfully' });
   });
-  
+
    app.post('/api/quiz/progress', async (req, res) => {
 	const { currentQuestionIndex, selectedAnswerIndex, userAnswer } = req.body;
-  
+
 	await db.read();
 	const questions = db.data.questions;
-  
+
 	if (!questions || questions.length === 0) {
 	  return res.status(404).send({ error: 'No questions available' });
 	}
-  
+
 	const currentQuestion = questions[currentQuestionIndex];
 	if (!currentQuestion) {
 	  return res.status(404).send({ error: 'Question not found' });
 	}
-  
+
 	let isCorrect = false;
 	if (currentQuestion.user_created) {
 		const correctAnswerText = currentQuestion.correctAnswer?.trim().toLowerCase() || '';
@@ -427,7 +437,7 @@ app.get('/api/questions', async (req, res) => {
 		isCorrect = selectedAnswerIndex !== null && correctAnswer.text === currentQuestion.answers[selectedAnswerIndex].text;
 	  }
 	}
-  
+
 	res.status(200).send({
 	  isCorrect,
 	  nextQuestionIndex: currentQuestionIndex + 1,

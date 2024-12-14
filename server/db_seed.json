@@ -41,11 +41,7 @@
       "neutered": true
     }
   ],
-	"favoritedAnimals": [
-		{
-			"id": 1
-		}
-	],
+	"favoritedAnimals": [1],
   "articles": [
     {
       "id": 1,

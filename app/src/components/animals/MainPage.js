@@ -1,11 +1,11 @@
 ﻿import AdoptHeader from "./AdoptHeader";
 import { filter, list, tiles } from "../../svg";
-import RectangleList from "./RectangleList";
+import AnimalList from "./AnimalList";
 import { Link } from "react-router-dom";
 import AnimalFilterWindow from "./AnimalFilter";
 import FilterForm from "./AnimalFilterForm";
 
-function MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, speciesList, maxAge, filteredAnimals, setIsFilterOpen, filterCriteria, setFilterCriteria, filterActive, isFilterOpen, removeFilter) {
+function MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, handleChangeFavorite, speciesList, maxAge, filteredAnimals, setIsFilterOpen, filterCriteria, setFilterCriteria, filterActive, isFilterOpen, removeFilter) {
 	return (
 		<div className="bg-Main_BG min-h-screen flex flex-col flex-grow">
 			<header className="">
@@ -50,7 +50,7 @@ function MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, speciesLi
 					</div>
 				)}
 				<div className="mt-12">
-					<RectangleList animals={filteredAnimals} adminMode={adminMode} handleRemoveAnimal={handleRemoveAnimal} />
+					<AnimalList animals={filteredAnimals} adminMode={adminMode} handleRemoveAnimal={handleRemoveAnimal} handleChangeFavorite={handleChangeFavorite} />
 				</div>
 				{adminMode && (
 					<div className="flex justify-center w-full mt-4">

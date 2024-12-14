@@ -1,4 +1,4 @@
-﻿import { GetAnimals, RemoveAnimal } from "../services/AnimalsService";
+﻿import { GetAnimals, RemoveAnimal, FavoriteAnimal, UnfavoriteAnimal } from "../services/AnimalsService";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import MainPage from "../components/animals/MainPage";
@@ -21,6 +21,17 @@ function MainPageController() {
 		setAnimals(updatedAnimals);
 	};
 
+	const handleChangeFavorite = async (id) => {
+		if (animals.find(animal => animal.id === id).favorited) {
+			await UnfavoriteAnimal(id);
+		}
+		else {
+			await FavoriteAnimal(id);
+		}
+
+		const updatedAnimals = await GetAnimals();
+		setAnimals(updatedAnimals);
+	}
 	useEffect(() => {
 		async function fetchAnimals() {
 			const fetchedAnimals = await GetAnimals();
@@ -72,7 +83,7 @@ function MainPageController() {
 	const speciesList = [...new Set(animals.map(animal => animal.species))];
 
 	return (
-		MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, speciesList, maxAge, filteredAnimals, setIsFilterOpen, filterCriteria, setFilterCriteria, filterActive, isFilterOpen, removeFilter)
+		MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, handleChangeFavorite, speciesList, maxAge, filteredAnimals, setIsFilterOpen, filterCriteria, setFilterCriteria, filterActive, isFilterOpen, removeFilter)
 	);
 }
 
