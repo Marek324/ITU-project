@@ -68,13 +68,13 @@ class FPModel {
 	toggleLeaderboard() {
 		this.showLeaderboard = !this.showLeaderboard;
 		this.showStore = false;
-		this.showPopup = !this.showPopup;
+		this.showPopup = !this.showStore && !this.showLeaderboard;
 	}
 
 	toggleShop() {
 		this.showStore = !this.showStore;
 		this.showLeaderboard = false;
-		this.showPopup = !this.showPopup;
+		this.showPopup = !this.showStore && !this.showLeaderboard;
 	}
 
 	buyColor(color) {
