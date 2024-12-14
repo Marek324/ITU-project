@@ -10,7 +10,7 @@ import HighScores from "./HighScores";
 import { GetFP, UpdateFP } from "../../services/FlappyPetService";
 import ScoreCounter from "./ScoreCounter";
 
-function Game() {
+/*function Game() {
 	const consts = {
 		timeInterval: 10,
 		gravity: 5,
@@ -251,4 +251,4 @@ function Game() {
 	);
 }
 
-export default Game;
+export default Game;*/

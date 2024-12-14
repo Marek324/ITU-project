@@ -98,6 +98,15 @@ function Tamagotchi() {
 <Bar label="Happiness" value={happiness} color="#B957CE" labelColor="#B9E9E9" />
   </div>
 
+		<DownBar
+			onFirstClick={iconsClick.onFirstClick}
+			onSecondClick={iconsClick.onSecondClick}
+			onThirdClick={iconsClick.onThirdClick}
+			firstIcon={icons.firstIcon}
+			secondIcon={icons.secondIcon}
+			thirdIcon={icons.thirdIcon}
+		/>
+
       <header className="App-header flex-1 flex justify-center items-center">
         {showGame ? (
           <GameContent setShowGame={setShowGame} setHappiness={setHappiness} />
@@ -108,15 +117,6 @@ function Tamagotchi() {
           <MainPage />
         )}
       </header>
-
-      <DownBar
-        onFirstClick={iconsClick.onFirstClick}
-        onSecondClick={iconsClick.onSecondClick}
-        onThirdClick={iconsClick.onThirdClick}
-        firstIcon={icons.firstIcon}
-        secondIcon={icons.secondIcon}
-        thirdIcon={icons.thirdIcon}
-      />
     </div>
   );
 }

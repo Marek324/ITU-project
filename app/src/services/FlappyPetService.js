@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const port = 5000;
 
 export async function DeleteFP(id) {
@@ -19,8 +20,7 @@ export async function GetFPs() {
 			leaderboards: fp.leaderboards,
 			boughtColors: fp.boughtColors
 		}));
-	}
-	catch (error) {
+	} catch (error) {
 		console.error('Error fetching games:', error);
 		return [];
 	}
@@ -47,5 +47,34 @@ export async function UpdateFP(id, fp) {
 		await axios.put(`http://localhost:${port}/api/fp/${id}`, fp);
 	} catch (error) {
 		console.error('Error updating game:', error);
+	}
+}
+
+export async function GetLeaderboards(id) {
+	try {
+		const response = await axios.get(`http://localhost:${port}/api/fp/${id}/leaderboards`);
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching bought colors:', error);
+		return [];
+	}
+}
+
+export async function GetPetColors(id) {
+	try {
+		const response = await axios.get(`http://localhost:${port}/api/pet/${id}/colors`);
+		return response.data.boughtColors;
+	} catch (error) {
+		console.error('Error fetching pet colors:', error);
+		return [];
+	}
+}
+
+export async function UpdatePetColors(id, colors) {
+	try {
+		const response = await axios.put(`http://localhost:${port}/api/pet/${id}/colors`, colors);
+		return response.data;
+	} catch (error) {
+		console.error('Error updating pet colors:', error);
 	}
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { moneyS } from '../../svg.js';
 import Quiz from './quiz.js';
-import Game from '../FlappyBird/Game.js';
+import FPGame from '../../controllers/FPController.js';
 import GameHop from '../Hop/Game.js';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -105,7 +105,7 @@ const GameContent = ({ setShowGame }) => {
       ) : currentGame === 'Quiz' ? (
         <Quiz setShowGame={setShowGame} />
       ) : currentGame === 'FlappyPet' ? (
-        <Game setShowGame={setShowGame} />
+        <FPGame setShowGame={setShowGame} />
       ) : currentGame === 'GameHop' ? (
         <GameHop setShowGame={setShowGame} />
       ) : (

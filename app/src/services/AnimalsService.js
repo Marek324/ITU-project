@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 const port = 5000;
 
 export async function GetAnimals() {
@@ -76,15 +76,15 @@ export async function UpdateAnimal(updated_animal) {
 	const response = await axios.put(`http://localhost:${port}/api/animals/${updated_animal.id}`, updated_animal);
 	if(response.status === 200) {
 		return response.data.map(animal => ({
-					id: animal.id,
-					image: animal.image,
-					name: animal.name,
-					text: animal.text,
-					species: animal.species,
-					age: animal
-				}
-			)
-		)
+			id: animal.id,
+			image: animal.image,
+			name: animal.name,
+			text: animal.text,
+			species: animal.species,
+			age: animal
+		}
+	)
+)
 	}
 }
 

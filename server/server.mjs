@@ -9,7 +9,7 @@ import {v4 as genId} from 'uuid';
 
 const seed = process.argv[2] === 'seed';
 
-const app = fastify({ logger: true });
+const app = fastify({logger: true});
 const port = 5000;
 
 app.register(cors, {
@@ -115,21 +115,21 @@ app.get('/api/pet', async (req, res) => {
 	await db.read();
 	res.send(db.data.pet);
   });
-  
+
   app.post('/api/pet/happiness', async (req, res) => {
-	const { petId, change } = req.body; 
+	const { petId, change } = req.body;
 	await db.read();
-  
+
 	const pet = db.data.pet.find(p => p.id === petId);
 	if (!pet) {
 	  return res.status(404).send({ error: "Pet not found" });
 	}
-	pet.happiness = Math.min(100, Math.max(0, (pet.happiness || 0) + change)); 
-  
+	pet.happiness = Math.min(100, Math.max(0, (pet.happiness || 0) + change));
+
 	await db.write();
 	res.status(200).send({ message: "Happiness updated successfully", pet });
   });
-  
+
 // ================================================
 // ===================== Inventory ======
 // ================================================
@@ -266,6 +266,31 @@ app.get('/api/shop', async (req, res) => {
 	res.status(200).send({ message: 'Item deleted successfully' });
   });
 
+app.get('/api/pet/:id/money', async (req, res) => {
+	await db.read();
+	const pet = db.data.pet.find(p => p.id === Number(req.params.id));
+	if (!pet) {
+		return res.status(404).send({error: "Pet not found"});
+	}
+	res.send({money: pet.money});
+});
+
+app.put('/api/pet/:id/money', async (req, res) => {
+	await db.read();
+	const {id} = req.params;
+	const {money} = req.body;
+	const pet = db.data.pet.find(p => p.id === Number(id));
+
+	if (!pet) {
+		res.status(404).send({message: 'Pet not found'});
+		return;
+	}
+
+	pet.money = money;
+	await db.write();
+	res.status(200).send({message: 'Pet money updated successfully', pet});
+});
+
 // ================================================
 // ===================== Animals ==================
 // ================================================
@@ -280,7 +305,9 @@ app.get('/api/animals', async (req, res) => {
 		favorited: favoritedAnimalIds.includes(animal.id)
 	}));
 
-	res.send(animalsWithFavorited);
+	let data = db.data.animals;
+
+	res.send(data);
 });
 
 app.get('/api/animals/:id', async (req, res) => {
@@ -349,35 +376,30 @@ app.delete('/api/animals/:id', async (req, res) => {
 // ============== Favorited animals ===============
 // ================================================
 
-// Add an animal to favorited animals
 app.post('/api/favoritedAnimals/:id', async (req, res) => {
 	let id = Number(req.params.id);
 	try {
 		await db.read();
-		if (!db.data.favoritedAnimals.includes(id)) {
-			db.data.favoritedAnimals.push(id);
-			await db.write();
-			res.status(200).send({ message: 'Animal added to favorited animals' });
-		} else {
-			res.status(400).send({ error: 'Animal is already favorited' });
-		}
+		db.data.favoritedAnimals.push(id);
+		await db.write();
+		res.code(200).send({ message: 'Animal added to favorited animals' });
 	} catch (err) {
 		console.error(err);
-		res.status(500).send({ error: 'Failed to add the animal to favorited animals' });
+		res.code(500).send({ error: 'Failed to add the animal to favorited animals' });
 	}
 });
 
-// Remove an animal from favorited animals
 app.delete('/api/favoritedAnimals/:id', async (req, res) => {
 	let id = Number(req.params.id);
 	try {
 		await db.read();
 		db.data.favoritedAnimals = db.data.favoritedAnimals.filter(animalId => animalId !== id);
 		await db.write();
-		res.status(200).send({ message: 'Animal removed from favorited animals' });
-	} catch (err) {
+		res.code(200).send({ message: 'Animal removed from favorited animals' });
+	}
+	catch (err) {
 		console.error(err);
-		res.status(500).send({ error: 'Failed to remove the animal from favorited animals' });
+		res.code(500).send({ error: 'Failed to remove the animal from favorited animals' });
 	}
 });
 
@@ -558,6 +580,42 @@ app.get('/api/fp', async (req, res) => {
 	res.send(games);
 });
 
+app.get('/api/pet/:id/colors', async (req, res) => {
+	await db.read();
+	const pet = db.data.pet.find(p => p.id === Number(req.params.id));
+	if (!pet) {
+		return res.status(404).send({error: "Pet not found"});
+	}
+	res.send({boughtColors: pet.boughtColors});
+});
+
+app.put('/api/pet/:id/colors', async (req, res) => {
+	await db.read();
+	const {id} = req.params;
+	const {colors} = req.body;
+	const pet = db.data.pet.find(p => p.id === Number(id));
+
+	if (!pet) {
+		res.status(404).send({message: 'Pet not found'});
+		return;
+	}
+
+	pet.boughtColors = colors;
+	await db.write();
+	res.status(200).send({message: 'Pet colors updated successfully', pet});
+});
+
+app.get('/api/fp/:id/leaderboards', async (req, res) => {
+	await db.read();
+	const {id} = req.params;
+	const fpEntry = db.data.fp.find(fp => fp.id === Number(id));
+
+	if (!fpEntry) {
+		return res.status(404).send({message: 'FP entry not found'});
+	}
+
+	res.send(fpEntry.leaderboards);
+});
 
 
 app.post('/api/hop', async (req, res) => {

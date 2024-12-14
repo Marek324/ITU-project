@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import ballImg from "./Assets/ball.png";
 
-const Ball = forwardRef(({ top, leftPos }, ref) => {
+const Ball = forwardRef(({ top, leftPos, filter }, ref) => {
 	return (
 		<div
 			ref={ref}
@@ -14,6 +14,7 @@ const Ball = forwardRef(({ top, leftPos }, ref) => {
 				backgroundImage: `url(${ballImg})`,
 				backgroundSize: "cover",
 				backgroundPosition: "center",
+				filter: filter,
 			}}
 		/>
 	);
