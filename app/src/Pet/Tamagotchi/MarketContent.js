@@ -35,6 +35,24 @@ const MarketContent = () => {
   }, []);
 
   useEffect(() => {
+    const fetchHat = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/pet');
+        const data = await response.json();
+        if (data.length > 0) {
+          setHasHat(data[0].hasHat || false); 
+        } else {
+          console.error('No data found');
+        }
+      } catch (error) {
+        console.error('Error fetching money:', error);
+      }
+    };
+  
+    fetchHat();
+  }, []);
+
+  useEffect(() => {
     const fetchShopMoney = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/animal/1/money'); 
