@@ -195,46 +195,50 @@ app.post('/api/inventory', async (req, res) => {
 // ================================================
 // ===================== BUY ITEM ==================
 // ================================================
-
 app.post('/api/buy', async (req, res) => {
-	const {petId, itemId} = req.body;
+	const { petId, itemId } = req.body;
 	await db.read();
-
-	const pet = db.data.pet.find((p) => p.id === petId);
-	if (!pet) {
-		return res.status(404).send({error: "Pet not found"});
+  
+	const animal = db.data.animals.find((a) => a.id === petId);
+	if (!animal) {
+	  return res.status(404).send({ error: "Animal not found" });
 	}
-
 	const item = db.data.shop.find((i) => i.id === itemId);
 	if (!item) {
-		return res.status(404).send({error: "Item not found"});
+	  return res.status(404).send({ error: "Item not found" });
 	}
-
+  
+	const itemPrice = parseInt(item.price.replace('¥', ''));
+	if (animal.money < itemPrice) {
+	  return res.status(400).send({ error: "Not enough money" });
+	}
+  
+	animal.money -= itemPrice;
+  
+	const pet = db.data.pet.find((p) => p.id === petId);
+	if (!pet) {
+	  return res.status(404).send({ error: "Pet not found" });
+	}
+  
+	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (itemId === 4) {
 		const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 		if (inventoryItem && inventoryItem.count > 0) {
 			return res.status(400).send({error: "You already own this item and cannot buy it again"});
 		}
 	}
-
-	const itemPrice = parseInt(item.price.replace('¥', ''));
-	if (pet.money < itemPrice) {
-		return res.status(400).send({error: "Not enough money"});
-	}
-
-	pet.money -= itemPrice;
-
-	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (inventoryItem) {
-		inventoryItem.count += 1;
+	  inventoryItem.count += 1;
 	} else {
-		pet.inventory.push({id: item.id, count: 1});
+	  pet.inventory.push({ id: item.id, count: 1 });
 	}
-
 	await db.write();
-	res.send(pet);
-});
-
+	res.send({
+	  money: animal.money,
+	  inventory: pet.inventory,
+	});
+  });
+  
 
 // ================================================
 // ===================== SHOP =====================

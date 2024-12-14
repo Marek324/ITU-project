@@ -9,7 +9,6 @@ import {useParams} from "react-router-dom";
 
 const GameContent = ({ setShowGame, setHappiness }) => {
   const [currentGame, setCurrentGame] = useState(null);
-  const [money, setMoney] = useState(0);
 
   const handleKozaHopClick = () => setCurrentGame('GameHop');
   const handleQuizClick = async () => {
@@ -37,7 +36,6 @@ const GameContent = ({ setShowGame, setHappiness }) => {
       alert('An error occurred while trying to start the quiz');
     }
   };
-  const handleFlappyPetClick = () => setCurrentGame('FlappyPet');
 
   const { id } = useParams();
 
@@ -49,32 +47,13 @@ const GameContent = ({ setShowGame, setHappiness }) => {
 		}
 	};
 
-	useEffect(() => {
-		const fetchShopMoney = async () => {
-			try {
-				const response = await fetch('http://localhost:5000/api/pet');
-				const data = await response.json();
-				if (data.length > 0) {
-					setMoney(data[0].money);
-				} else {
-					console.error('No data found');
-				}
-			} catch (error) {
-				console.error('Error fetching money:', error);
-			}
-		};
-
-		fetchShopMoney();
-	}, []);
+	
 	return (
 		<div
 			className={`flex flex-1 justify-center items-center text-white ${currentGame === 'FlappyPet' ? 'absolute inset-0' : ''}`}>
 			{currentGame !== 'FlappyPet' && (
 				<div className="absolute top-20 left-2 flex items-center">
-					<div className="flex items-center space-x-1">
-						{moneyS()}
-						<span className="text-2xl text-outline text-[#B957CE]">{money}</span>
-					</div>
+				
 				</div>
 			)}
 

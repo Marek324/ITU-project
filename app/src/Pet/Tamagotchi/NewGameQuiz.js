@@ -15,7 +15,6 @@ const NewGameQuiz = ({ setShowGame, setHappiness }) => {
   const [noMoreQuestions, setNoMoreQuestions] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
   const [userAnswer, setUserAnswer] = useState('');
-const [money, setMoney] = useState(0);
 
 useEffect(() => {
   if (noMoreQuestions) {
@@ -40,23 +39,6 @@ useEffect(() => {
 
 
   useEffect(() => {
-    const fetchShopMoney = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/pet');
-        const data = await response.json();
-        if (data.length > 0) {
-          setMoney(data[0].money); 
-        } else {
-          console.error('No data found');
-        }
-      } catch (error) {
-        console.error('Error fetching money:', error);
-      }
-    };
-  
-    fetchShopMoney();
-  }, []);
-  useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/questions');
@@ -68,6 +50,7 @@ useEffect(() => {
 
     fetchQuestions();
   }, []);
+
   const handleNextClick = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/quiz/progress', {
@@ -75,12 +58,22 @@ useEffect(() => {
         selectedAnswerIndex,
         userAnswer,
       });
-
+  
       const data = response.data;
       if (data.isCorrect) {
         setCorrectAnswersCount((prev) => prev + 1);
       }
-
+  
+      const currentQuestion = questions[currentQuestionIndex];
+      const answerStatus = {
+        question: currentQuestion.question,
+        selectedAnswer: currentQuestion.answers[selectedAnswerIndex]?.text || userAnswer,
+        isCorrect: data.isCorrect,
+        user_created: currentQuestion.user_created,
+      };
+      
+      setUserAnswers((prev) => [...prev, answerStatus]);
+  
       if (data.hasMoreQuestions) {
         setCurrentQuestionIndex(data.nextQuestionIndex);
         setSelectedAnswerIndex(null);
@@ -92,6 +85,7 @@ useEffect(() => {
       console.error('Error submitting answer:', error);
     }
   };
+  
 
   const handlePreviousClick = () => {
     if (currentQuestionIndex > 0) {
@@ -106,10 +100,10 @@ useEffect(() => {
   ) : (
     <div className="flex flex-1 text-white justify-center">
       <div className="absolute top-20 left-2 flex">
-        <div className="flex items-center space-x-1">
+        {/* <div className="flex items-center space-x-1">
           {moneyS()}
           <span className="text-2xl text-outline text-[#B957CE]">{money}</span>
-        </div>
+        </div> */}
       </div>
 
       <div
@@ -161,31 +155,32 @@ useEffect(() => {
 
 
         <div className="mt-10 text-center">
-          {noMoreQuestions ? (
-            <div>
-              <h1 className="text-2xl mb-8 pt-12 text-pet text-[#B957CE]">
-                You answered {correctAnswersCount} correct answers!
-              </h1>
-              <div className="text-left">
-                {userAnswers.map((answer, index) => (
-                  <div key={index} className="mb-4">
-                    <h2 className="text-xl text-[#B957CE]">{answer.question}</h2>
-                    <p
-                      className={`text-lg ${
-                        answer.isCorrect ? 'text-green-500' : 'text-red-500'
-                      }`}
-                    >
-                      You {answer.user_created ? 'typed' : 'selected'}: "{answer.selectedAnswer}" - {answer.isCorrect ? 'Correct' : 'Incorrect'}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <h1 className="text-2xl mb-8 pt-12 text-pet text-[#B957CE]">
-              {currentQuestion?.question || 'No question available'}
-            </h1>
-          )}
+        {noMoreQuestions ? (
+  <div>
+    <h1 className="text-2xl mb-8 pt-12 text-pet text-[#B957CE]">
+      You answered {correctAnswersCount} correct answers!
+    </h1>
+    <div className="text-left">
+      {userAnswers.map((answer, index) => (
+        <div key={index} className="mb-4">
+          <h2 className="text-xl text-[#B957CE]">{answer.question}</h2>
+          <p
+            className={`text-lg ${
+              answer.isCorrect ? 'text-green-500' : 'text-red-500'
+            }`}
+          >
+            You {answer.user_created ? 'typed' : 'selected'}: "{answer.selectedAnswer}" - {answer.isCorrect ? 'Correct' : 'Incorrect'}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+) : (
+  <h1 className="text-2xl mb-8 pt-12 text-pet text-[#B957CE]">
+    {currentQuestion?.question || 'No question available'}
+  </h1>
+)}
+
         </div>
 
         {!noMoreQuestions && (
