@@ -19,6 +19,7 @@ function GameHop() {
 	const [gameOver, setGameOver] = useState(false);
 	const [highestMaxHeight, setHighestMaxHeight] = useState(0);
 	const [gameStarted, setGameStarted] = useState(false);
+	const [hasFirstInput, setHasFirstInput] = useState(false);
 	const playerRef = useRef(null);
 
 	const gravity = 0.5;
@@ -55,8 +56,10 @@ function GameHop() {
 		const handleKeyDown = (event) => {
 			if (event.key === "ArrowLeft") {
 				setMoveLeft(true);
+				setHasFirstInput(true);
 			} else if (event.key === "ArrowRight") {
 				setMoveRight(true);
+				setHasFirstInput(true);
 			}
 		};
 
@@ -80,6 +83,8 @@ function GameHop() {
 		if (!gameStarted || gameOver) return;
 
 		const gameLoop = setInterval(() => {
+			if (!hasFirstInput) return;
+
 			setPlayerPosition((prevPosition) => {
 				let newTop = prevPosition.top + velocity;
 				let newLeft = prevPosition.left;
@@ -91,17 +96,22 @@ function GameHop() {
 					newLeft += moveSpeed;
 				}
 
-				if (newTop >= 647 && !isJumping) { // Adjusted for the game container height
-					setGameOver(true); // End the game
+				if (newTop >= 647 && !isJumping) {
+					setGameOver(true);
 					return prevPosition;
 				}
 
 				if (newTop < screenScrollThreshold) {
-					setScreenOffset((prevOffset) => prevOffset + (screenScrollThreshold - newTop));
+					setScreenOffset(prevOffset => {
+						const diff = screenScrollThreshold - newTop;
+						const newOffset = prevOffset + diff;
+						setMaxHeight(Math.floor(newOffset));
+						return newOffset;
+					});
 					newTop = screenScrollThreshold;
 				}
 
-				return { ...prevPosition, top: newTop, left: newLeft };
+				return { top: newTop, left: newLeft };
 			});
 
 			setVelocity((prevVelocity) => {
@@ -135,7 +145,7 @@ function GameHop() {
 		}, 30);
 
 		return () => clearInterval(gameLoop);
-	}, [velocity, screenOffset, moveLeft, moveRight, isJumping, gameStarted, gameOver]);
+	}, [velocity, screenOffset, moveLeft, moveRight, isJumping, gameStarted, gameOver, hasFirstInput]);
 
 	useEffect(() => {
 		if (gameOver) {
@@ -190,6 +200,7 @@ function GameHop() {
 		setMaxHeight(0);
 		setVelocity(0);
 		setScreenOffset(0);
+		setHasFirstInput(false);
 		setPlayerPosition({
 			top: 607,
 			left: 187.5,
@@ -252,7 +263,7 @@ function GameHop() {
 								color: "black",
 							}}
 						>
-							Height: {maxHeight + screenOffset} {/* Updated to include screenOffset */}
+							Height: {maxHeight}
 						</div>
 						{gameOver && (
 							<div
@@ -269,7 +280,7 @@ function GameHop() {
 								}}
 							>
 								<h1>Game Over</h1>
-								<p>Height Reached: {maxHeight + screenOffset} {/* Updated to include screenOffset */}</p>
+								<p>Height Reached: {maxHeight}</p>
 								<p>Highest Max Height: {highestMaxHeight}</p>
 								<button onClick={() => window.location.reload()}>Restart</button>
 							</div>
