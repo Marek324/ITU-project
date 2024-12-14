@@ -10,25 +10,8 @@ const Quiz = ({ setShowGame }) => {
   const [mainPage, setMainPage] = useState(false);
   const [newGame, setNewGame] = useState(false);
   const [questionPool, setQuestionPool] = useState(false);
-  const  [money, setMoney] = useState(0);
 
-  useEffect(() => {
-    const fetchShopMoney = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/pet');
-        const data = await response.json();
-        if (data.length > 0) {
-          setMoney(data[0].money); 
-        } else {
-          console.error('No data found');
-        }
-      } catch (error) {
-        console.error('Error fetching money:', error);
-      }
-    };
-  
-    fetchShopMoney();
-  }, []);
+ 
   
   const handleCrossClick = () => {
     if (mainPage || (!newGame && !questionPool)) {
@@ -55,11 +38,7 @@ const Quiz = ({ setShowGame }) => {
     <QuestionPool setShowGame={setShowGame} />
   ) : (
     <div className="flex flex-col justify-center items-center text-white">
-      <div className="flex absolute top-20 left-2 items-center space-x-1">
-        {moneyS()}
-        <span className="text-2xl text-outline text-[#B957CE]">{money}</span>
-      </div>
-
+  
       <div
         className="relative flex flex-col justify-center items-center"
         style={{

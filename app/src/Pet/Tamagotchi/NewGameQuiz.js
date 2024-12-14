@@ -15,7 +15,6 @@ const NewGameQuiz = ({ setShowGame, setHappiness }) => {
   const [noMoreQuestions, setNoMoreQuestions] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
   const [userAnswer, setUserAnswer] = useState('');
-const [money, setMoney] = useState(0);
 
 useEffect(() => {
   if (noMoreQuestions) {
@@ -39,23 +38,6 @@ useEffect(() => {
 }, [noMoreQuestions, setHappiness]);
 
 
-  useEffect(() => {
-    const fetchShopMoney = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/pet');
-        const data = await response.json();
-        if (data.length > 0) {
-          setMoney(data[0].money); 
-        } else {
-          console.error('No data found');
-        }
-      } catch (error) {
-        console.error('Error fetching money:', error);
-      }
-    };
-  
-    fetchShopMoney();
-  }, []);
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -106,10 +88,10 @@ useEffect(() => {
   ) : (
     <div className="flex flex-1 text-white justify-center">
       <div className="absolute top-20 left-2 flex">
-        <div className="flex items-center space-x-1">
+        {/* <div className="flex items-center space-x-1">
           {moneyS()}
           <span className="text-2xl text-outline text-[#B957CE]">{money}</span>
-        </div>
+        </div> */}
       </div>
 
       <div

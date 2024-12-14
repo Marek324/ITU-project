@@ -37,13 +37,12 @@ const MarketContent = () => {
   useEffect(() => {
     const fetchShopMoney = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/pet');
+        const response = await fetch('http://localhost:5000/api/animal/1/money'); 
         const data = await response.json();
-        if (data.length > 0) {
-          setMoney(data[0].money); 
-          setHasHat(data[0].hasHat || false); 
+        if (data && data.money !== undefined) {
+          setMoney(data.money);
         } else {
-          console.error('No data found');
+          console.error('No money data found');
         }
       } catch (error) {
         console.error('Error fetching money:', error);
@@ -52,6 +51,7 @@ const MarketContent = () => {
   
     fetchShopMoney();
   }, []);
+  
 
   const handleBuyItem = async (itemId, itemPrice) => {
     try {
@@ -65,13 +65,14 @@ const MarketContent = () => {
           itemId,  
         }),
       });
-
+  
       if (!response.ok) {
         const error = await response.json();
         alert(error.error); 
       } else {
-        const updatedPet = await response.json();
-        setMoney(updatedPet.money);
+        const updatedData = await response.json();
+        console.log(updatedData);
+        setMoney(updatedData.money); 
         setTempPrice(itemPrice);
         setShowPriceAnimation(true);
         setTimeout(() => {
@@ -83,6 +84,8 @@ const MarketContent = () => {
       console.error('Error buying item:', error);
     }
   };
+  
+  
 
   return (
     <div className="flex flex-1 justify-center items-start text-white">

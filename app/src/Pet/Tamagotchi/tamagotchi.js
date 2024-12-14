@@ -40,7 +40,7 @@ function Tamagotchi() {
     };
     fetchPetData();
   }, []);
-
+  
   const handleGameClick = () => {
     setShowGame(true);
     setShowMarket(false);

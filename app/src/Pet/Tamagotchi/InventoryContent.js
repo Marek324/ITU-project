@@ -17,7 +17,6 @@ const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
   const [items, setItems] = useState([]);
   const [money, setMoney] = useState(0);
   const [inventory, setInventory] = useState([]);
-  // const [hasHat, setHasHat] = useState(false);
 
   useEffect(() => {
     const fetchShopItems = async () => {
@@ -33,12 +32,29 @@ const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
   }, []);
 
   useEffect(() => {
+    const fetchShopMoney = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/animal/1/money');
+        const data = await response.json();
+        if (data && data.money !== undefined) {
+          setMoney(data.money); 
+        } else {
+          console.error('No money data found');
+        }
+      } catch (error) {
+        console.error('Error fetching money:', error);
+      }
+    };
+  
+    fetchShopMoney();
+  }, []);
+  
+  useEffect(() => {
     const fetchPetData = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/pet');
         const data = await response.json();
         if (data.length > 0) {
-          setMoney(data[0].money);
           setInventory(data[0].inventory);
           setHasHat(data[0].hasHat || false); 
         } else {
@@ -80,7 +96,7 @@ const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
           },
           body: JSON.stringify({ petId: 1, change: randomHappiness }),
         });
-        setHappiness((prevHappiness) => prevHappiness + randomHappiness); 
+        setHappiness((prevHappiness) => Math.min(100, prevHappiness + randomHappiness));
 
       } else {
         setHasHat(!hasHat);
