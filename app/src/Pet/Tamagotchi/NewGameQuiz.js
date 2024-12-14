@@ -64,7 +64,6 @@ useEffect(() => {
         setCorrectAnswersCount((prev) => prev + 1);
       }
   
-      // Store the user's answer along with its correctness
       const currentQuestion = questions[currentQuestionIndex];
       const answerStatus = {
         question: currentQuestion.question,
