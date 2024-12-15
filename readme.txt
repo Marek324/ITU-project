@@ -12,3 +12,8 @@ xhricma00:
 	Controller: app/src/controllers/MergeController.js
 	Models: app/src/controllers/ClickContext.js, app/src/MergeModel.js
 	Components: app/src/components/merge-a-pet/*
+xjasek18:
+	Model: app/src/KozaHopModel.js
+	View: app/src/views/KozaHopView.js
+	Controller: app/src/controllers/KozaHopController.js
+	Other: app/src/Pet/Hop/*
