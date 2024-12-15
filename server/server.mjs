@@ -6,6 +6,7 @@
  * Author: Tobiáš Adamčík xadamc08
  */
 
+// xhricma00 - start
 import fastify from 'fastify';
 import cors from '@fastify/cors';
 import {Low, Memory} from 'lowdb';
@@ -50,9 +51,12 @@ let db_seed;
 	}
 })();
 
+// xhricma00 - end
+
 // ================================================
 // ===================== PET ======================
 // ================================================
+
 app.get('/api/pet', async (req, res) => {
 	await db.read();
 	res.send(db.data.pet);
