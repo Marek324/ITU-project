@@ -18,7 +18,7 @@ function CreateAnimalController() {
 		setAnimal({
 			name: '',
 			species: '',
-			sex: '',
+			sex: 'M',
 			age: 0,
 			money: 0,
 			neutered: false,
