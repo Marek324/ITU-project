@@ -2,6 +2,7 @@ import fastify from 'fastify';
 import cors from '@fastify/cors';
 import {Low, Memory} from 'lowdb';
 import {JSONFilePreset} from 'lowdb/node';
+import fs from 'fs';
 import {db_model} from './data_model.mjs';
 import fastifyStatic from '@fastify/static';
 import path from 'path';
@@ -385,6 +386,8 @@ app.delete('/api/animals/:id', async (req, res) => {
 	try {
 		await db.read();
 		db.data.animals = db.data.animals.filter(animal => animal.id !== id);
+		db.data.favoritedAnimals = db.data.favoritedAnimals.filter(animalId => animalId !== id);
+		db.data.meetings = db.data.meetings.filter(meeting => meeting.animalId !== id);
 		await db.write();
 		let data = db.data.animals;
 		res.code(200).send(data);
@@ -435,6 +438,7 @@ app.delete('/api/favoritedAnimals/:id', async (req, res) => {
 // POST /api/meetings
 app.post('/api/meetings', async (req, res) => {
 	let new_meeting = req.body;
+	console.log(new_meeting);
 	await db.read();
 	new_meeting.id = db.data.meetings.length + 1;
 	db.data.meetings.push(new_meeting);
@@ -745,4 +749,15 @@ app.put('/api/fp/:id', async (req, res) => {
 	db.data.fp[index] = {...db.data.fp[index], ...req.body};
 	await db.write();
 	res.status(200).send({message: 'FP updated successfully'});
+});
+
+app.get('/api/images', async (req, res) => {
+	const directoryPath = path.join(process.cwd(), 'public', 'imgs');
+	try {
+		const files = await fs.promises.readdir(directoryPath);
+		const fileNamesWithoutExtension = files.map(file => file.replace('.jpg', ''));
+		res.send(fileNamesWithoutExtension);
+	} catch (err) {
+		res.status(500).send({ error: 'Unable to scan directory' });
+	}
 });

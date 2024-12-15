@@ -39,7 +39,8 @@ export async function GetAnimal(id) {
 			species: animal.species,
 			age: animal.age,
 			sex: animal.sex,
-			neutered: animal.neutered
+			neutered: animal.neutered,
+			money: animal.money
 		}
 		} catch (error) {
 			console.error('Error fetching animal:', error);

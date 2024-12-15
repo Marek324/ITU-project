@@ -1,46 +1,4 @@
 {
-	"animals": [
-		{
-			"id": 1,
-			"image": "dog_2",
-			"name": "Věroslav",
-			"text": "Animal 1",
-			"species": "Dog",
-			"age": 6,
-			"sex": "M",
-			"neutered": true
-		},
-		{
-			"id": 2,
-			"image": "cat_2",
-			"name": "Terka",
-			"text": "Animal 2",
-			"species": "Goat",
-			"age": 7,
-			"sex": "F",
-			"neutered": false
-		},
-		{
-			"id": 3,
-			"image": "koteseni",
-			"name": "Kotěšenimír",
-			"text": "Animal 3",
-			"species": "Cat",
-			"age": 5,
-			"sex": "M",
-			"neutered": false
-		},
-		{
-			"id": 4,
-			"image": "cat_3",
-			"name": "Marek",
-			"text": "Animal 4",
-			"species": "Cat",
-			"age": 3,
-			"sex": "M",
-			"neutered": true
-		}
-	],
 	"favoritedAnimals": [
 		1
 	],

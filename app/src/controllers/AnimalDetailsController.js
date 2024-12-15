@@ -3,6 +3,10 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { CreateAnimal, GetAnimal, UpdateAnimal } from '../services/AnimalsService';
 import AnimalDetail from "../components/animals/AnimalDetail";
 import AnimalEdit from "../components/animals/AnimalEdit";
+import ScheduleMeeting from "../components/animals/ScheduleMeeting";
+import DonateModal from "../components/animals/Donate";
+import { UpdatePetMoney } from "../services/GameService";
+import {GetImageNames} from "../services/FileService";
 
 function AnimalDetailsController() {
 	const { id } = useParams();
@@ -10,24 +14,37 @@ function AnimalDetailsController() {
 	const [animal, setAnimal] = useState(null);
 	const [adminMode, setAdminMode] = useState(location.state?.adminMode || false);
 	const [editableAnimal, setEditableAnimal] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isDonateOpen, setIsDonateOpen] = useState(false);
+	const [images, setImages] = useState([]);
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		async function fetchAnimal() {
-			try {
-				const fetchedAnimal = await GetAnimal(id);
-				setAnimal(fetchedAnimal);
-				setEditableAnimal(fetchedAnimal);
-			} catch (error) {
-				console.error('Error fetching animal:', error);
-			}
+	const fetchAnimal = async () => {
+		try {
+			const fetchedAnimal = await GetAnimal(id);
+			setAnimal(fetchedAnimal);
+			setEditableAnimal(fetchedAnimal);
+			const imagesData = await GetImageNames();
+			console.log(imagesData);
+			setImages(imagesData);
+		} catch (error) {
+			console.error('Error fetching animal:', error);
 		}
+	};
+
+	useEffect(() => {
 		fetchAnimal();
 	}, [id]);
 
 	if (!animal) {
 		return <div>Animal not found</div>;
 	}
+
+	const handleDonate = async (amount) => {
+		await UpdatePetMoney(id, parseInt(animal.money) + parseInt(amount));
+		await fetchAnimal(); // Refetch the animal data after donation
+		handleCloseDonateModal();
+	};
 
 	const handleGameClicked = () => {
 		navigate(`/animal/${id}/tamagotchi`);
@@ -43,11 +60,27 @@ function AnimalDetailsController() {
 		setAdminMode(false);
 	};
 
+	const handleOpenModal = () => {
+		setIsModalOpen(true);
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+	};
+
+	const handleOpenDonateModal = () => {
+		setIsDonateOpen(true);
+	};
+
+	const handleCloseDonateModal = () => {
+		setIsDonateOpen(false);
+	};
 	return (
 		<div>
 			{adminMode ? (
 				<AnimalEdit
 					animal={editableAnimal}
+					images={images}
 					toggleAdminMode={toggleAdminMode}
 					adminMode={adminMode}
 					handleSave={handleSave}
@@ -59,8 +92,12 @@ function AnimalDetailsController() {
 					adminMode={adminMode}
 					toggleAdminMode={toggleAdminMode}
 					handleGameClicked={handleGameClicked}
+					handleOpenMeetModal={handleOpenModal}
+					handleDonateOpen={handleOpenDonateModal}
 				/>
 			)}
+			<ScheduleMeeting isOpen={isModalOpen} onClose={handleCloseModal} animalId={id} />
+			<DonateModal isOpen={isDonateOpen} onClose={handleCloseDonateModal} handleDonate={handleDonate} />
 		</div>
 	);
 }

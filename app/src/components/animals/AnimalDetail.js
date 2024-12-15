@@ -1,48 +1,69 @@
-﻿import AdoptHeader from "./AdoptHeader";
+﻿import React from "react";
+import AdoptHeader from "./AdoptHeader";
 import Image from "./Image";
-import {adminMode, gamepad} from "../../svg";
-import React from "react";
+import { gamepad, donate } from "../../svg";
 
-function AnimalDetail({animal, handleGameClicked, toggleAdminMode}) {
-
+function AnimalDetail({ animal, handleGameClicked, toggleAdminMode, isMeetOpen, onMeetClose, handleOpenMeetModal, isDonateOpen, onDonateClose, handleDonateOpen }) {
 	return (
 		<div className="bg-white min-h-screen flex flex-col flex-grow">
 			<header>
 				<AdoptHeader onAdminModeClick={toggleAdminMode} adminMode={false} />
 			</header>
-			<div className="flex-grow flex items-start m-3 justify-center align-middle relative p-4 min-h-custom-img">
-				<Image src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover mt-10"/>
-				<div className="ml-16 flex flex-col">
-
-					<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
-					<p className="mt-2 text-black">Species: {animal.species}</p>
-					<p className="mt-2 text-black">Age: {animal.age}</p>
-					<p className="mt-2 text-black">Sex: {animal.sex}</p>
-
-					<p className="mt-2 text-black">Neutered: {animal.neutered ? 'Yes' : 'No'}</p>
-					<div className="text-box mt-2 text-black">
-						<p>{animal.text}</p>
+			<div className="flex-grow flex flex-col items-center m-3 align-middle relative p-4 min-h-custom-img">
+				<div className="flex flex-row ">
+					<div className="flex flex-col">
+						<Image src={animal.image} alt={animal.name} className="h-main-img w-main-img object-cover rounded-lg" />
+						<div className="ml-4 flex flex-col">
+							<div className="mt-4 flex flex-wrap">
+								<div className="rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+									Species: {animal.species}
+								</div>
+								<div className="rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+									Age: {animal.age}
+								</div>
+								<div className="rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+									Sex: {animal.sex}
+								</div>
+								<div className="rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+									Neutered: {animal.neutered ? 'Yes' : 'No'}
+								</div>
+							</div>
+						</div>
 					</div>
-					<div className="flex justify-center mt-4">
-						<button className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller">
-							Meet
-						</button>
+					<div className="ml-8 flex flex-col justify-start">
+						<div className="flex items-center justify-between">
+							<span className="text-3xl font-Pet_Title text-border">{animal.name}</span>
+							<div className="flex flex-row items-center justify-end">
+								<div className="text-Pet_Text text-pet font-Pet_Title text-2xl"
+									 style={{textShadow: '2px 2px 0 black'}}>
+									<span className="text-yellow-500">{animal.money}¥</span>
+								</div>
+								<button onClick={handleGameClicked} style={{marginLeft: '16px'}}>
+									{gamepad()}
+								</button>
+							</div>
+						</div>
+							<div className="text-box mt-2 text-black">
+								<p>{animal.text}</p>
+							</div>
+
+							<div className="flex justify-between mt-4">
+								<div className="flex justify-center w-full">
+									<button
+										className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller"
+										onClick={handleOpenMeetModal}>
+										Meet
+									</button>
+								</div>
+								<button onClick={handleDonateOpen} className="ml-4">
+									{donate()}
+								</button>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div className="flex justify-center">
-					<button className="-ml-12" onClick={handleGameClicked}>
-						{gamepad()}
-					</button>
 				</div>
 			</div>
+			);
+			}
 
-			<footer className="bg-pink-50 p-4 y-">
-				<div className="flex justify-center items-center">
-					<p>Footer Content</p>
-				</div>
-			</footer>
-		</div>
-	);
-}
-
-export default AnimalDetail
+			export default AnimalDetail;

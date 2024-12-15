@@ -14,7 +14,7 @@ function MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, handleCha
 			<div className="flex-grow justify-center m-2 items-center relative">
 				{!adminMode && (
 					<div className="absolute right-0 m-2 items-start justify-start flex space-x-4">
-						{filterCriteria.species && (
+						{filterCriteria.species.length > 0 && (
 							<div className="bg-gray-200 border border-gray-300 rounded-lg px-3 py-1 m-1 flex items-center">
 								Species: {filterCriteria.species.join(', ')}
 								<button onClick={() => removeFilter('species')} className="text-red-500 ml-2">x</button>
@@ -38,12 +38,12 @@ function MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, handleCha
 								<button onClick={() => removeFilter('sex')} className="text-red-500 ml-2">x</button>
 							</div>
 						)}
-						<button id="Tiles" className="m-1">
-							{tiles()}
-						</button>
-						<button id="List" className="m-1">
-							{list()}
-						</button>
+						{filterCriteria.favorited && (
+							<div className="bg-gray-200 border border-gray-300 rounded-lg px-3 py-1 m-1 flex items-center">
+								Favorited
+								<button onClick={() => removeFilter('favorited')} className="text-red-500 ml-2">x</button>
+							</div>
+						)}
 						<button id="Filter" onClick={() => setIsFilterOpen(true)} className="m-1">
 							{filter()}
 						</button>
@@ -60,11 +60,7 @@ function MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, handleCha
 					</div>
 				)}
 			</div>
-			<footer className="bg-pink-50 p-4">
-				<div className="flex justify-center items-center">
-					<p>Footer Content</p>
-				</div>
-			</footer>
+
 			<AnimalFilterWindow isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)}>
 				<h2 className="text-2xl font-Pet_Title text-border-smaller">Filter</h2>
 				<FilterForm filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} speciesList={speciesList} maxAge={maxAge} />

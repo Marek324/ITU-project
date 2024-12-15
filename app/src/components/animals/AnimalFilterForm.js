@@ -7,6 +7,7 @@ function FilterForm({ filterCriteria, setFilterCriteria, speciesList, maxAge }) 
 	const [isAgeCollapsed, setIsAgeCollapsed] = useState(true);
 	const [isNeuteredCollapsed, setIsNeuteredCollapsed] = useState(true);
 	const [isSexCollapsed, setIsSexCollapsed] = useState(true);
+	const [isFavoritedCollapsed, setIsFavoritedCollapsed] = useState(true);
 	const neuteredRef = useRef(null);
 
 	const handleAgeChange = (value) => {
@@ -48,6 +49,13 @@ function FilterForm({ filterCriteria, setFilterCriteria, speciesList, maxAge }) 
 		}));
 	};
 
+	const handleFavoritedChange = (e) => {
+		setFilterCriteria((prevCriteria) => ({
+			...prevCriteria,
+			favorited: e.target.checked,
+		}));
+	};
+
 	useEffect(() => {
 		if (neuteredRef.current) {
 			if (filterCriteria.neutered === '') {
@@ -58,11 +66,11 @@ function FilterForm({ filterCriteria, setFilterCriteria, speciesList, maxAge }) 
 				neuteredRef.current.checked = filterCriteria.neutered === 'true';
 			}
 		}
-	}, [filterCriteria.neutered]);
+	}, [filterCriteria.neutered, isNeuteredCollapsed]);
 
 	return (
 		<form className="flex flex-col space-y-4">
-			<div className="border-b pb-4">
+			<div className="border-b mt-4 pb-4">
 				<label className="flex justify-between items-center text-black">
 					Species:
 					<button
@@ -158,6 +166,29 @@ function FilterForm({ filterCriteria, setFilterCriteria, speciesList, maxAge }) 
 						<option value="M">M</option>
 						<option value="F">F</option>
 					</select>
+				)}
+			</div>
+
+			<div className="">
+				<label className="flex justify-between items-center text-black">
+					Favorited:
+					<button
+						type="button"
+						onClick={() => setIsFavoritedCollapsed(!isFavoritedCollapsed)}
+						className="ml-2 text-black"
+					>
+						{isFavoritedCollapsed ? '▼' : '▲'}
+					</button>
+				</label>
+				{!isFavoritedCollapsed && (
+					<label className="flex items-center space-x-2 mt-2 text-black">
+						<input
+							type="checkbox"
+							checked={filterCriteria.favorited}
+							onChange={handleFavoritedChange}
+							className="custom-checkbox"
+						/>
+					</label>
 				)}
 			</div>
 		</form>
