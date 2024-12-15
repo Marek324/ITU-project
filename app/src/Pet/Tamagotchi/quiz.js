@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { money } from '../../svg.js'; 
+import { moneyS
+ } from '../../svg.js'; 
 import MainPage from '../../Pet/components/MainPage.js';
 import NewGameQuiz from './NewGameQuiz.js';
 import QuestionPool from './QuestionPool.js';
+import { useEffect } from 'react';
 
 const Quiz = ({ setShowGame }) => { 
   const [mainPage, setMainPage] = useState(false);
   const [newGame, setNewGame] = useState(false);
   const [questionPool, setQuestionPool] = useState(false);
 
+ 
+  
   const handleCrossClick = () => {
     if (mainPage || (!newGame && !questionPool)) {
       setShowGame(false);
@@ -34,11 +38,7 @@ const Quiz = ({ setShowGame }) => {
     <QuestionPool setShowGame={setShowGame} />
   ) : (
     <div className="flex flex-col justify-center items-center text-white">
-      <div className="flex absolute top-20 left-2 items-center space-x-1">
-        {money()}
-        <span className="text-2xl text-outline text-[#B957CE]">1200</span>
-      </div>
-
+  
       <div
         className="relative flex flex-col justify-center items-center"
         style={{

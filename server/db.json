@@ -1,9 +1,11 @@
 {
   "animals": [],
+	"favoritedAnimals": [],
   "articles": [],
   "questions": [],
 	"games": [],
 	"fp": [],
 	"hop": [],
-  "shop": []
+  "shop": [],
+  "pet": []
 }

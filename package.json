@@ -1,0 +1,9 @@
+{
+	"name": "itu",
+	"scripts": {
+		"start": "concurrently \"npm start --prefix app\" \"npm run devs --prefix server\""
+	},
+	"devDependencies": {
+		"concurrently": "^9.1.0"
+	}
+}

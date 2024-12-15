@@ -1,17 +1,13 @@
-﻿import { shop, user, filter, list, tiles } from "../svg";
-import {GetAnimals, RemoveAnimal} from "../services/AnimalsService";
-import AnimalFilterWindow from "../components/animals/AnimalFilter";
+﻿import { GetAnimals, RemoveAnimal, FavoriteAnimal, UnfavoriteAnimal } from "../services/AnimalsService";
 import { useEffect, useState } from "react";
-import FilterForm from "../components/animals/AnimalFilterForm";
-import AdoptHeader from "../components/animals/AdoptHeader";
-import RectangleList from "../components/animals/RectangleList";
-import {Link, useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import MainPage from "../components/animals/MainPage";
 
 function MainPageController() {
 	const location = useLocation();
 	const [animals, setAnimals] = useState([]);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	const [filterCriteria, setFilterCriteria] = useState({ species: '', ageFrom: 0, ageTo: 0, neutered: '' });
+	const [filterCriteria, setFilterCriteria] = useState({ species: '', ageFrom: 0, ageTo: 0, neutered: '', sex: '', favorited: false });
 	const [filterActive, setFilterActive] = useState(false);
 	const [maxAge, setMaxAge] = useState(0);
 	const [adminMode, setAdminMode] = useState(location.state?.adminMode || false);
@@ -20,8 +16,19 @@ function MainPageController() {
 		setAdminMode(prevAdminMode => !prevAdminMode);
 	};
 
-	const handleRemoveAnimal = async  (id) => {
+	const handleRemoveAnimal = async (id) => {
 		const updatedAnimals = await RemoveAnimal(id);
+		setAnimals(updatedAnimals);
+	};
+
+	const handleChangeFavorite = async (id) => {
+		if (animals.find(animal => animal.id === id).favorited) {
+			await UnfavoriteAnimal(id);
+		} else {
+			await FavoriteAnimal(id);
+		}
+
+		const updatedAnimals = await GetAnimals();
 		setAnimals(updatedAnimals);
 	};
 
@@ -35,73 +42,52 @@ function MainPageController() {
 				species: prev.species,
 				ageFrom: prev.ageFrom,
 				ageTo: calculatedMaxAge,
-				neutered: prev.neutered
+				neutered: '',
+				sex: prev.sex,
+				favorited: prev.favorited
 			}));
 		}
 		fetchAnimals();
 	}, []);
 
+	useEffect(() => {
+		const isFilterActive = filterCriteria.species.length > 0 || filterCriteria.ageFrom > 0 || filterCriteria.ageTo < maxAge || filterCriteria.neutered !== '' || filterCriteria.sex !== '' || filterCriteria.favorited;
+		setFilterActive(isFilterActive);
+	}, [filterCriteria, maxAge]);
+
 	const filteredAnimals = animals.filter((animal) => {
 		return (
 			(filterCriteria.species.length === 0 || filterCriteria.species.includes(animal.species)) &&
 			(animal.age >= filterCriteria.ageFrom && animal.age <= filterCriteria.ageTo) &&
-			(filterCriteria.neutered === '' || animal.neutered === (filterCriteria.neutered === 'true'))
+			(filterCriteria.neutered === '' || animal.neutered === (filterCriteria.neutered === 'true')) &&
+			(filterCriteria.sex === '' || animal.sex === filterCriteria.sex) &&
+			(!filterCriteria.favorited || animal.favorited)
 		);
 	});
 
-	const resetFilters = () => {
-		setFilterCriteria({ species: '', ageFrom: 0, ageTo: maxAge, neutered: '' });
+	const removeFilter = (filterName) => {
+		setFilterCriteria((prevCriteria) => {
+			const newCriteria = { ...prevCriteria };
+			if (filterName === 'species') {
+				newCriteria.species = '';
+			} else if (filterName === 'age') {
+				newCriteria.ageFrom = 0;
+				newCriteria.ageTo = maxAge;
+			} else if (filterName === 'neutered') {
+				newCriteria.neutered = '';
+			} else if (filterName === 'sex') {
+				newCriteria.sex = '';
+			} else if (filterName === 'favorited') {
+				newCriteria.favorited = false;
+			}
+			return newCriteria;
+		});
 	};
 
 	const speciesList = [...new Set(animals.map(animal => animal.species))];
 
 	return (
-		<div className="bg-Main_BG min-h-screen flex flex-col flex-grow">
-			<header className="">
-				<AdoptHeader isHome={true} onAdminModeClick={handleAdminModeClick} adminMode={adminMode}/>
-			</header>
-			<div className="flex-grow justify-center m-2 items-center relative" >
-				{!adminMode && (
-				<div className="absolute right-0 m-2 items-start justify-start flex space-x-4">
-
-					{filterActive && (
-						<button onClick={resetFilters} className="text-red-500 mr-10">
-							Remove Filters
-						</button>
-					)}
-
-					<button id="Tiles">
-						{tiles()}
-					</button>
-					<button id="List">
-						{list()}
-					</button>
-					<button id="Filter" onClick={() => setIsFilterOpen(true)}>
-						{filter()}
-					</button>
-
-				</div>
-				)}
-				<div className="mt-12">
-					<RectangleList animals={filteredAnimals} adminMode={adminMode} handleRemoveAnimal={handleRemoveAnimal} />
-
-				</div>
-				<div className="flex justify-center w-full mt-4">
-					<Link to={`/animal/newAnimal`} className="bg-pink-500 text-white p-2 rounded">
-						Add Animal
-					</Link>
-				</div>
-			</div>
-			<footer className="bg-pink-50 p-4">
-				<div className="flex justify-center items-center">
-					<p>Footer Content</p>
-				</div>
-			</footer>
-			<AnimalFilterWindow isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)}>
-				<h2 className="text-2xl font-Pet_Title text-border-smaller">Filter</h2>
-				<FilterForm filterCriteria={filterCriteria} setFilterCriteria={setFilterCriteria} speciesList={speciesList} maxAge={maxAge} />
-			</AnimalFilterWindow>
-		</div>
+		MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, handleChangeFavorite, speciesList, maxAge, filteredAnimals, setIsFilterOpen, filterCriteria, setFilterCriteria, filterActive, isFilterOpen, removeFilter)
 	);
 }
 

@@ -1,8 +1,12 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: Obstacle.js
+//Description: Component for rendering obstacles in Flappy Bird game
+
+
 import React from "react";
 
-function Obstacle ({ topPos, topHeight, bottomPos, bottomHeight, left, widthNum })
-{
-
+//Obstacle component
+function Obstacle({topPos, topHeight, bottomPos, bottomHeight, left, widthNum}) {
 	return (
 		<div>
 			<div

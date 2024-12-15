@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { money, user } from '../../svg.js';
 import Quiz from './quiz.js';
 
 const port = 5000;
@@ -47,6 +46,7 @@ const QuestionPool = ({ setShowGame }) => {
       try {
         const q = {
           question: newQuestion,
+          correctAnswer: newAnswer, 
           answers: [
             {
               text: newAnswer,
@@ -55,18 +55,8 @@ const QuestionPool = ({ setShowGame }) => {
           ],
         };
         await axios.post(`http://localhost:${port}/api/questions`, { question: q });
-
         const updatedQuestions = await axios.get(`http://localhost:${port}/api/questions`);
-        const questionsWithCorrectAnswers = updatedQuestions.data.filter(q =>
-          q.answers.some(a => a.correct === true)
-        ).map(q => ({
-          id: q.id,
-          question: q.question,
-          answers: q.answers,
-          user_created: q.user_created,
-        }));
-
-        setQuestions(questionsWithCorrectAnswers);
+        setQuestions(updatedQuestions.data);
         setNewQuestion('');
         setNewAnswer('');
         setShowNewQuestionInput(false);
@@ -75,12 +65,11 @@ const QuestionPool = ({ setShowGame }) => {
       }
     }
   };
+  
 
   const handleDeleteQuestion = async (questionId) => {
-    console.log("Deleting question with ID:", questionId);
     const updatedQuestions = questions.filter(q => q.id !== questionId);
     setQuestions(updatedQuestions);
-
     try {
       await axios.delete(`http://localhost:${port}/api/questions/${questionId}`);
     } catch (error) {
@@ -137,6 +126,7 @@ const QuestionPool = ({ setShowGame }) => {
             width: '100%',
             height: '1px',
             backgroundColor: '#B957CE',
+            left: 0,
           }}
         />
         <div className="flex flex-col space-y-4 pt-16 text-left">

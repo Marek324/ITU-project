@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 const port = 5000;
 
 export async function GetAnimals() {
@@ -13,6 +13,7 @@ export async function GetAnimals() {
 
 function mapAnimals(response)
 {
+	console.log(response.data);
 	return response.data.map(animal => ({
 		id: animal.id,
 		image: animal.image,
@@ -21,7 +22,8 @@ function mapAnimals(response)
 		species: animal.species,
 		age: animal.age,
 		sex: animal.sex,
-		neutered: animal.neutered
+		neutered: animal.neutered,
+		favorited: animal.favorited
 	}));
 }
 
@@ -37,7 +39,8 @@ export async function GetAnimal(id) {
 			species: animal.species,
 			age: animal.age,
 			sex: animal.sex,
-			neutered: animal.neutered
+			neutered: animal.neutered,
+			money: animal.money
 		}
 		} catch (error) {
 			console.error('Error fetching animal:', error);
@@ -83,6 +86,24 @@ export async function UpdateAnimal(updated_animal) {
 		}
 	)
 )
+	}
+}
+
+export async function FavoriteAnimal(id) {
+	try {
+		const response = await axios.post(`http://localhost:${port}/api/favoritedAnimals/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error favoriting animal:', error);
+	}
+}
+
+export async function UnfavoriteAnimal(id) {
+	try {
+		const response = await axios.delete(`http://localhost:${port}/api/favoritedAnimals/${id}`);
+		return response.data;
+	} catch (error) {
+		console.error('Error unfavoriting animal:', error);
 	}
 }
 
