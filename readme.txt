@@ -2,7 +2,7 @@ xpisek02:
 	Model: app/src/FPModel.js
 	View: app/src/views/FPView.js
 	Controller: app/src/controllers/FPController.js
-	Ostatní komponenty: app/src/controllers/FPController.js
+	Components: app/src/controllers/FPController.js
 xadamc08:
 	Views: app/src/components/animals/MainPage.js, app/src/components/animals/AnimalDetail.js, app/src/components/animals/AnimalEdit.js, app/src/components/animals/Meetings.js
     Controllers: app/src/controllers/AnimalDetailsController.js, app/src/controllers/CreateAnimalController.js, app/src/controllers/MainPageController.js, app/src/controllers/MeetingsController.js
