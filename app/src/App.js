@@ -9,7 +9,6 @@ import {Route, Routes, BrowserRouter} from 'react-router-dom';
 import MainPageController from "controllers/MainPageController";
 import AnimalDetailsController from "controllers/AnimalDetailsController";
 import FPGame from "controllers/FPController";
-import GameHop from "Pet/Hop/Game";
 import Tamagotchi from "Pet/Tamagotchi/tamagotchi";
 import MergeController from "controllers/MergeController";
 import CreateAnimalController from "./controllers/CreateAnimalController";
