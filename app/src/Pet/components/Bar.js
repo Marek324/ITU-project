@@ -1,3 +1,7 @@
+/**
+ * Bar.js
+ * Author: Petra Simonova xsimon30
+ */
 import React from 'react';
 
 const Bar = ({ value, label, color, labelColor }) => {

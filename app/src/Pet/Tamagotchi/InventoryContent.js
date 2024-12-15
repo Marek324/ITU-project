@@ -1,3 +1,7 @@
+/**
+ * InventoryContent.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, { useState, useEffect } from 'react';
 import { hatS, food_01, food_02, background, pallete, hat_02, ball, toy, food_03, moneyS } from '../../svg.js';
 

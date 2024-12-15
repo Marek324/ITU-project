@@ -1,3 +1,7 @@
+/**
+ * QuestionPool.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Quiz from './quiz.js';

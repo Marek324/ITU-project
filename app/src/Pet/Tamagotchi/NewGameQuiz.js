@@ -1,3 +1,7 @@
+/**
+ * NewGameQuiz.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, { useState, useEffect } from 'react';
 import { moneyS } from '../../svg.js';
 import Quiz from './quiz';

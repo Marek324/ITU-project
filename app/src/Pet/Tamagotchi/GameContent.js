@@ -1,9 +1,11 @@
+/**
+ * GameContent.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, {useState} from 'react';
-import {moneyS} from '../../svg.js';
 import Quiz from './quiz.js';
 import FPGame from '../../controllers/FPController.js';
 import GameHop from '../Hop/Game.js';
-import {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {useParams} from "react-router-dom";
 
@@ -12,6 +14,8 @@ const GameContent = ({ setShowGame, setHappiness }) => {
 
   const handleKozaHopClick = () => setCurrentGame('GameHop');
   const handleQuizClick = async () => {
+    if (!happinessCheck()) return;
+
     try {
       const response = await fetch('http://localhost:5000/api/pet/quiz', {
         method: 'POST',
@@ -35,6 +39,19 @@ const GameContent = ({ setShowGame, setHappiness }) => {
       console.error('Error starting quiz:', error);
       alert('An error occurred while trying to start the quiz');
     }
+  };
+
+  const happinessCheck = () => {
+    if (typeof setHappiness !== 'function') {
+      console.error("Missing 'setHappiness' prop.");
+      return false;
+    }
+
+    if (setHappiness.currentHappiness === 0) {
+      alert('Your happiness is too low to start this game!');
+      return false;
+    }
+    return true;
   };
 
   const { id } = useParams();

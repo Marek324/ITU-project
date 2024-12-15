@@ -1,10 +1,11 @@
+/**
+ * tamagotchi.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, { useState } from 'react';
-// import './App.css';
-// import './index.css';
 import GameContent from 'Pet/Tamagotchi/GameContent.js';
 import DownBar from 'Pet/components/DownBar.js';
 import TopBar from 'Pet/components/TopBar.js';
-import MainPage from 'Pet/components/MainPage.js';
 import MarketContent from 'Pet/Tamagotchi/MarketContent.js';
 import InventoryContent from 'Pet/Tamagotchi/InventoryContent.js';
 import Bar from 'Pet/components/Bar.js';
@@ -40,7 +41,7 @@ function Tamagotchi() {
     };
     fetchPetData();
   }, []);
-  
+
   const handleGameClick = () => {
     setShowGame(true);
     setShowMarket(false);
@@ -114,17 +115,19 @@ function Tamagotchi() {
 			thirdIcon={icons.thirdIcon}
 		/>
 
-      <header className="App-header flex-1 flex justify-center items-center">
-        {showGame ? (
-          <GameContent setShowGame={setShowGame} setHappiness={setHappiness}  />
-        ) : showMarket ? (
-          <MarketContent />
-        ) : showInventory ? (
-          <InventoryContent setHappiness={setHappiness} hasHat={hasHat} setHasHat={handleHatChange} />
-        ) : (
-          <MainPage />
-        )}
-      </header>
+    <header className="App-header flex-1 flex justify-center items-center">
+      {showGame ? (
+        <GameContent setShowGame={setShowGame} setHappiness={setHappiness} />
+      ) : showMarket ? (
+        <MarketContent />
+      ) : showInventory ? (
+        <InventoryContent
+          setHappiness={setHappiness}
+          hasHat={hasHat}
+          setHasHat={handleHatChange}
+        />
+      ) : null}
+    </header>
     </div>
   );
 }

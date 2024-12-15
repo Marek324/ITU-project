@@ -1,7 +1,7 @@
 /**
  * server.mjs
  * Author: Marek Hric xhricma00
- * Author:
+ * Author: Petra Simonova xsimon30
  * Author:
  * Author:
  */
@@ -135,13 +135,13 @@ app.post('/api/inventory', async (req, res) => {
 	res.status(200).send({message: "Item updated", pet});
 });
 
-// ================================================
+
 // ===================== BUY ITEM ==================
 // ================================================
 app.post('/api/buy', async (req, res) => {
 	const { petId, itemId } = req.body;
 	await db.read();
-
+  
 	const animal = db.data.animals.find((a) => a.id === petId);
 	if (!animal) {
 	  return res.status(404).send({ error: "Animal not found" });
@@ -150,19 +150,19 @@ app.post('/api/buy', async (req, res) => {
 	if (!item) {
 	  return res.status(404).send({ error: "Item not found" });
 	}
-
+  
 	const itemPrice = parseInt(item.price.replace('¥', ''));
 	if (animal.money < itemPrice) {
 	  return res.status(400).send({ error: "Not enough money" });
 	}
-
+  
 	animal.money -= itemPrice;
-
+  
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
 	  return res.status(404).send({ error: "Pet not found" });
 	}
-
+  
 	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (itemId === 4) {
 		const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
@@ -176,14 +176,11 @@ app.post('/api/buy', async (req, res) => {
 	  pet.inventory.push({ id: item.id, count: 1 });
 	}
 	await db.write();
-	// res.send(pet);
-
 	res.send({
-	  	money: animal.money,
-	  	inventory: pet.inventory,
+	  money: animal.money,
+	  inventory: pet.inventory,
 	});
-
-});
+  });
 
 
 // ================================================

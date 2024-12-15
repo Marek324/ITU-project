@@ -1,3 +1,7 @@
+/**
+ * MarketContent.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, { useEffect, useState } from 'react';
 import { moneyS, hatS, food_01, food_02, background, pallete, hat_02, ball, toy, food_03 } from '../../svg.js';
 
