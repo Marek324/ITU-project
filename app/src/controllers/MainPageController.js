@@ -1,6 +1,10 @@
-﻿import { GetAnimals, RemoveAnimal, FavoriteAnimal, UnfavoriteAnimal } from "../services/AnimalsService";
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: MainPageController.js
+//Description: Controller for displaying the main page with animals and listing them
+
+import { GetAnimals, RemoveAnimal, FavoriteAnimal, UnfavoriteAnimal } from "../services/AnimalsService";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import MainPage from "../components/animals/MainPage";
 
 function MainPageController() {
@@ -16,11 +20,6 @@ function MainPageController() {
 		setAdminMode(prevAdminMode => !prevAdminMode);
 	};
 
-	const handleRemoveAnimal = async (id) => {
-		const updatedAnimals = await RemoveAnimal(id);
-		setAnimals(updatedAnimals);
-	};
-
 	const handleChangeFavorite = async (id) => {
 		if (animals.find(animal => animal.id === id).favorited) {
 			await UnfavoriteAnimal(id);
@@ -32,29 +31,38 @@ function MainPageController() {
 		setAnimals(updatedAnimals);
 	};
 
+	const fetchAnimals = async () => {
+		const fetchedAnimals = await GetAnimals();
+		setAnimals(fetchedAnimals);
+		// Calculate the maximum age of the animals for the filter
+		const calculatedMaxAge = fetchedAnimals.reduce((max, animal) => (animal.age > max ? animal.age : max), 0);
+		setMaxAge(calculatedMaxAge);
+		setFilterCriteria(prev => ({
+			species: prev.species,
+			ageFrom: prev.ageFrom,
+			ageTo: calculatedMaxAge,
+			neutered: '',
+			sex: prev.sex,
+			favorited: prev.favorited
+		}));
+	}
+
 	useEffect(() => {
-		async function fetchAnimals() {
-			const fetchedAnimals = await GetAnimals();
-			setAnimals(fetchedAnimals);
-			const calculatedMaxAge = fetchedAnimals.reduce((max, animal) => (animal.age > max ? animal.age : max), 0);
-			setMaxAge(calculatedMaxAge);
-			setFilterCriteria(prev => ({
-				species: prev.species,
-				ageFrom: prev.ageFrom,
-				ageTo: calculatedMaxAge,
-				neutered: '',
-				sex: prev.sex,
-				favorited: prev.favorited
-			}));
-		}
 		fetchAnimals();
 	}, []);
 
+	const handleRemoveAnimal = async (id) => {
+		await RemoveAnimal(id);
+		await fetchAnimals();
+	};
+
+	// Update the filterActive state when the filter criteria change
 	useEffect(() => {
 		const isFilterActive = filterCriteria.species.length > 0 || filterCriteria.ageFrom > 0 || filterCriteria.ageTo < maxAge || filterCriteria.neutered !== '' || filterCriteria.sex !== '' || filterCriteria.favorited;
 		setFilterActive(isFilterActive);
 	}, [filterCriteria, maxAge]);
 
+	// Filter the animals based on the filter criteria
 	const filteredAnimals = animals.filter((animal) => {
 		return (
 			(filterCriteria.species.length === 0 || filterCriteria.species.includes(animal.species)) &&
@@ -65,6 +73,7 @@ function MainPageController() {
 		);
 	});
 
+	// Remove a filter from the filter criteria (sets the filter to its default value)
 	const removeFilter = (filterName) => {
 		setFilterCriteria((prevCriteria) => {
 			const newCriteria = { ...prevCriteria };
@@ -84,6 +93,7 @@ function MainPageController() {
 		});
 	};
 
+	// Return a list of unique species from the animals
 	const speciesList = [...new Set(animals.map(animal => animal.species))];
 
 	return (

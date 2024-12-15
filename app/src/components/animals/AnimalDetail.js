@@ -1,4 +1,8 @@
-﻿import React from "react";
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: AnimalDetail.js
+//Description: View for displaying animal details and user interactions
+
+import React from "react";
 import AdoptHeader from "./AdoptHeader";
 import Image from "./Image";
 import { gamepad, donate } from "../../svg";

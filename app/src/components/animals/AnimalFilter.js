@@ -1,8 +1,11 @@
-﻿import React from 'react';
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: AnimalFilter.js
+//Description: A different kind of modal for the purposes of the filter window
+
+import React from 'react';
 
 function AnimalFilterWindow({ isOpen, onClose, children }) {
 	if (!isOpen) return null;
-
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
 			<div className="bg-white p-4 rounded shadow-lg w-1/2 relative">

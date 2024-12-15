@@ -1,4 +1,8 @@
-﻿import { Link } from "react-router-dom";
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: AnimalListItem.js
+//Description: View for displaying a single animal in the list of animals
+
+import { Link } from "react-router-dom";
 import Image from "./Image";
 import { heartIcon } from "../../svg";
 

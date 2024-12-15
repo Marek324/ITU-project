@@ -171,3 +171,17 @@
 	margin-top: 10px; /* Space above the box */
 	text-align: center /* Text color */
 }
+
+.donate-button {
+	border: 2px solid #963FB4; /* Border color */
+	width: 20vw;
+	height: 5vh;
+	background-color: #C6D3FF; /* Background color */
+	border-radius: 5px; /* Rounded corners */
+	margin-top: 10px; /* Space above the box */
+	text-align: center /* Text color */
+}
+
+.date-time-input::-webkit-calendar-picker-indicator {
+	filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(290deg);
+}

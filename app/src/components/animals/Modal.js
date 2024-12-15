@@ -1,4 +1,6 @@
-﻿// File: src/components/animals/Modal.js
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: Modal.js
+//Description: Modal component for displaying a modal window
 
 import React from 'react';
 

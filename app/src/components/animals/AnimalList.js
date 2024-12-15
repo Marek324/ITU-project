@@ -1,4 +1,8 @@
-﻿import AnimalsListItem from "./AnimalsListItem";
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: AnimalList.js
+//Description: Component for displaying a list of animals
+
+import AnimalsListItem from "./AnimalsListItem";
 import { deleteCross } from "svg";
 
 function AnimalList({ animals, adminMode, handleRemoveAnimal, handleChangeFavorite }) {

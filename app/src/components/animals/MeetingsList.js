@@ -1,3 +1,7 @@
+//Author: Tobiáš Adamčík (xadamc08)
+//File: MeetingsList.js
+//Description: Component for displaying a list of meetings with animals
+
 import React from 'react';
 import MeetingsListItem from './MeetingsListItem';
 

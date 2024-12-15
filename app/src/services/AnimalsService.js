@@ -1,3 +1,7 @@
+//Author: Tobiáš Adamčík (xadamc08)
+//File: AnimalService.js
+//Description: Service for managing animals in the shelter
+
 import axios from 'axios';
 const port = 5000;
 
@@ -13,7 +17,6 @@ export async function GetAnimals() {
 
 function mapAnimals(response)
 {
-	console.log(response.data);
 	return response.data.map(animal => ({
 		id: animal.id,
 		image: animal.image,
@@ -51,7 +54,6 @@ export async function GetAnimal(id) {
 export async function CreateAnimal(new_animal) {
 	try {
 		const response = await axios.post(`http://localhost:${port}/api/animals`, new_animal);
-		console.log(response.data);
 	} catch (error) {
 		console.error('Error adding animal:', error);
 	}
@@ -59,33 +61,15 @@ export async function CreateAnimal(new_animal) {
 
 export async function RemoveAnimal(id) {
 	const response = await axios.delete(`http://localhost:${port}/api/animals/${id}`);
-	if(response.status === 200) {
-		return response.data.map(animal => ({
-			id: animal.id,
-			image: animal.image,
-			name: animal.name,
-			text: animal.text,
-			species: animal.species,
-			age: animal.age,
-			sex: animal.sex,
-			neutered: animal.neutered
-		}));
+	if(response.status !== 200) {
+		console.error('Error updating animal:', response);
 	}
 }
 
 export async function UpdateAnimal(updated_animal) {
 	const response = await axios.put(`http://localhost:${port}/api/animals/${updated_animal.id}`, updated_animal);
-	if(response.status === 200) {
-		return response.data.map(animal => ({
-			id: animal.id,
-			image: animal.image,
-			name: animal.name,
-			text: animal.text,
-			species: animal.species,
-			age: animal
-		}
-	)
-)
+	if(response.status !== 200) {
+		console.error('Error updating animal:', response);
 	}
 }
 

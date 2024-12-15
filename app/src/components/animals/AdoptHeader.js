@@ -1,8 +1,11 @@
-﻿import React from 'react';
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: AdoptHeader.js
+//Description: Header for the shelter pages
+
+import React from 'react';
 import { Link, useLocation } from "react-router-dom";
 import {
 	adoption as adopt_icon,
-	blog as blog_icon,
 	arrow_back as home_icon,
 	adminMode as adminModeIcon,
 	meeting as meetingIcon
@@ -14,8 +17,6 @@ function AdoptHeader({ onAdminModeClick, adminMode }) {
 	let link_back = null;
 	if (location.pathname.startsWith('/animal/')) {
 		link_back = "/";
-	} else if (location.pathname.startsWith('/meetings/')) {
-		link_back = "/meetings";
 	}
 
 	return (
