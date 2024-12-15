@@ -73,7 +73,6 @@ const MarketContent = () => {
   
     fetchShopMoney();
   }, []);
-  
 
   const handleBuyItem = async (itemId, itemPrice) => {
     try {
@@ -83,7 +82,7 @@ const MarketContent = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          petId: 1,  // Hardcoded petId
+          petId: 1,  
           itemId,  
         }),
       });
@@ -93,7 +92,6 @@ const MarketContent = () => {
         alert(error.error); 
       } else {
         const updatedData = await response.json();
-        console.log(updatedData);
         setMoney(updatedData.money); 
         setTempPrice(itemPrice);
         setShowPriceAnimation(true);
@@ -107,8 +105,6 @@ const MarketContent = () => {
     }
   };
   
-  
-
   return (
     <div className="flex flex-1 justify-center items-start text-white">
       <div className="absolute top-20 left-2 flex items-center">

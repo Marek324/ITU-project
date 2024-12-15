@@ -3,12 +3,9 @@
  * Author: Petra Simonova xsimon30
  */
 import React, { useState, useEffect } from 'react';
-import { moneyS } from '../../svg.js';
 import Quiz from './quiz';
 import axios from 'axios';
 import '../../App.css';
-
-const port = 5000;
 
 const NewGameQuiz = ({ setShowGame, setHappiness }) => {
   const [showQuiz, setShowQuiz] = useState(false);
@@ -90,13 +87,6 @@ useEffect(() => {
     }
   };
   
-
-  const handlePreviousClick = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  };
-
   const currentQuestion = questions[currentQuestionIndex];
 
   return showQuiz ? (
@@ -104,12 +94,7 @@ useEffect(() => {
   ) : (
     <div className="flex flex-1 text-white justify-center">
       <div className="absolute top-20 left-2 flex">
-        {/* <div className="flex items-center space-x-1">
-          {moneyS()}
-          <span className="text-2xl text-outline text-[#B957CE]">{money}</span>
-        </div> */}
       </div>
-
       <div
   className="relative flex flex-col justify-center"
   style={{
@@ -155,9 +140,6 @@ useEffect(() => {
       left: 0,
     }}
   />
-
-
-
         <div className="mt-10 text-center">
         {noMoreQuestions ? (
   <div>
@@ -184,9 +166,7 @@ useEffect(() => {
     {currentQuestion?.question || 'No question available'}
   </h1>
 )}
-
         </div>
-
         {!noMoreQuestions && (
           <div className="flex flex-col space-y-12 pt-8 text-left">
             {currentQuestion?.user_created ? (
@@ -208,7 +188,6 @@ useEffect(() => {
                   
                 />
               </div>
-              
             ) : (
               currentQuestion?.answers?.map((answer, index) => (
                 <h1
@@ -227,13 +206,6 @@ useEffect(() => {
 
         {!noMoreQuestions && (
           <div className="flex items-center justify-center mt-16 space-x-4">
-            {/* <button
-              className="px-4 py-2 rounded hover:text-[#9c3eb2] text-3xl text-[#B9E9E9]"
-              style={{ fontFamily: 'Pixelify Sans' }}
-              onClick={handlePreviousClick}
-            >
-              Previous
-            </button> */}
             <button
               className="px-4 py-2 rounded hover:text-[#9c3eb2] text-3xl text-[#B9E9E9]"
               style={{ fontFamily: 'Pixelify Sans' }}

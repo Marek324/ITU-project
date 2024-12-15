@@ -9,7 +9,7 @@ import TopBar from 'Pet/components/TopBar.js';
 import MarketContent from 'Pet/Tamagotchi/MarketContent.js';
 import InventoryContent from 'Pet/Tamagotchi/InventoryContent.js';
 import Bar from 'Pet/components/Bar.js';
-import { game, food, shop, hat, home, gameP, homeB, shopping_cart, hatB } from 'svg.js';
+import { game, shop, hat, home, gameP, homeB, shopping_cart, hatB } from 'svg.js';
 import { useEffect } from 'react';
 
 function Tamagotchi() {
