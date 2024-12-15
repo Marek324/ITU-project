@@ -1,8 +1,8 @@
 import React from 'react';
-import KozaHopModel from './KozaHopModel';
-import KozaHopView from './KozaHopView';
-import { getHighestScore, saveScore } from '../../services/HopService';
-import { GetMoney, UpdatePetMoney } from '../../services/GameService';
+import KozaHopModel from '../KozaHopModel';
+import KozaHopView from '../views/KozaHopView';
+import { getHighestScore, saveScore } from '../services/HopService';
+import { GetMoney, UpdatePetMoney } from '../services/GameService';
 
 class GameHop extends React.Component {
     constructor(props) {

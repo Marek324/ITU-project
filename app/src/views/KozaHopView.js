@@ -1,13 +1,13 @@
 import React from 'react';
-import './KozaHop.css';
-import dogImage from './Assets/pes.png';
-import kozeImage from './Assets/koza.png';
-import birdImage from './Assets/kozabhat.png';
-import bg1Image from './Assets/bg.jpg';
-import bg2Image from './Assets/bg1.jpg';
-import bg3Image from './Assets/bg2.jpg';
-import bg4Image from './Assets/bg3.jpg';
-import { Shop } from './Shop';
+import '../Pet/Hop/KozaHop.css';
+import dogImage from '../Pet/Hop/Assets/pes.png';
+import kozeImage from '../Pet/Hop/Assets/koza.png';
+import birdImage from '../Pet/Hop/Assets/kozabhat.png';
+import bg1Image from '../Pet/Hop/Assets/bg.jpg';
+import bg2Image from '../Pet/Hop/Assets/bg1.jpg';
+import bg3Image from '../Pet/Hop/Assets/bg2.jpg';
+import bg4Image from '../Pet/Hop/Assets/bg3.jpg';
+import { Shop } from '../Pet/Hop/Shop';
 
 class KozaHopView extends React.Component {
     getPlayerImage = (id) => {
