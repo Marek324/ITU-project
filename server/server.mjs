@@ -2,8 +2,8 @@
  * server.mjs
  * Author: Marek Hric xhricma00
  * Author: Petra Simonova xsimon30
- * Author:
- * Author:
+ * Author: Lukáš Píšek xpisek02
+ * Author: Tobiáš Adamčík xadamc08
  */
 
 import fastify from 'fastify';
@@ -135,34 +135,34 @@ app.post('/api/inventory', async (req, res) => {
 	res.status(200).send({message: "Item updated", pet});
 });
 
-
+// ================================================
 // ===================== BUY ITEM ==================
 // ================================================
 app.post('/api/buy', async (req, res) => {
-	const { petId, itemId } = req.body;
+	const {petId, itemId} = req.body;
 	await db.read();
-  
+
 	const animal = db.data.animals.find((a) => a.id === petId);
 	if (!animal) {
-	  return res.status(404).send({ error: "Animal not found" });
+		return res.status(404).send({error: "Animal not found"});
 	}
 	const item = db.data.shop.find((i) => i.id === itemId);
 	if (!item) {
-	  return res.status(404).send({ error: "Item not found" });
+		return res.status(404).send({error: "Item not found"});
 	}
-  
+
 	const itemPrice = parseInt(item.price.replace('¥', ''));
 	if (animal.money < itemPrice) {
-	  return res.status(400).send({ error: "Not enough money" });
+		return res.status(400).send({error: "Not enough money"});
 	}
-  
+
 	animal.money -= itemPrice;
-  
+
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
-	  return res.status(404).send({ error: "Pet not found" });
+		return res.status(404).send({error: "Pet not found"});
 	}
-  
+
 	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (itemId === 4) {
 		const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
@@ -171,16 +171,19 @@ app.post('/api/buy', async (req, res) => {
 		}
 	}
 	if (inventoryItem) {
-	  inventoryItem.count += 1;
+		inventoryItem.count += 1;
 	} else {
-	  pet.inventory.push({ id: item.id, count: 1 });
+		pet.inventory.push({id: item.id, count: 1});
 	}
 	await db.write();
+	// res.send(pet);
+
 	res.send({
-	  money: animal.money,
-	  inventory: pet.inventory,
+		money: animal.money,
+		inventory: pet.inventory,
 	});
-  });
+
+});
 
 
 // ================================================
@@ -696,6 +699,6 @@ app.get('/api/images', async (req, res) => {
 		const fileNamesWithoutExtension = files.map(file => file.replace('.jpg', ''));
 		res.send(fileNamesWithoutExtension);
 	} catch (err) {
-		res.status(500).send({ error: 'Unable to scan directory' });
+		res.status(500).send({error: 'Unable to scan directory'});
 	}
 });
