@@ -28,18 +28,7 @@ export async function UpdateFP(id, fp) {
 	try {
 		await axios.put(`http://localhost:${port}/api/fp/${id}`, fp);
 	} catch (error) {
-		console.error('Error updating game:', error);
-	}
-}
-
-//Getting leaderboard of a flappy pet
-export async function GetLeaderboards(id) {
-	try {
-		const response = await axios.get(`http://localhost:${port}/api/fp/${id}/leaderboards`);
-		return response.data;
-	} catch (error) {
-		console.error('Error fetching bought colors:', error);
-		return [];
+		console.error('Error updating fp:', error);
 	}
 }
 
