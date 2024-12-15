@@ -17,3 +17,7 @@ xjasek18:
 	View: app/src/views/KozaHopView.js
 	Controller: app/src/controllers/KozaHopController.js
 	Other: app/src/Pet/Hop/*
+xsimon30:
+    Views: app/src/Pet/Tamagotchi
+    Controllers: app/src/Pet/Tamagotchi/Controllers
+    Components: app/src/Pet/Components
