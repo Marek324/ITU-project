@@ -1,3 +1,7 @@
+//Author: Tobiáš Adamčík (xadamc08)
+//File: App.js
+//Description: Main application component that handles routing
+
 import 'App.css';
 
 import {Route, Routes, BrowserRouter} from 'react-router-dom';

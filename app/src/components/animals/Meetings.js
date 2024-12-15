@@ -1,3 +1,7 @@
+//Author: Tobiáš Adamčík (xadamc08)
+//File: Meetings.js
+//Description: View for displaying a list of meetings with animals
+
 import React from 'react';
 import MeetingsList from './MeetingsList';
 import AdoptHeader from './AdoptHeader';

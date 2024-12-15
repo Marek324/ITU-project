@@ -1,5 +1,9 @@
-﻿import AdoptHeader from "./AdoptHeader";
-import { filter, list, tiles } from "../../svg";
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: MainPage.js
+//Description: View for displaying the main page with animals and filter criteria
+
+import AdoptHeader from "./AdoptHeader";
+import {addAnimal, filter} from "../../svg";
 import AnimalList from "./AnimalList";
 import { Link } from "react-router-dom";
 import AnimalFilterWindow from "./AnimalFilter";
@@ -54,8 +58,8 @@ function MainPage(handleAdminModeClick, adminMode, handleRemoveAnimal, handleCha
 				</div>
 				{adminMode && (
 					<div className="flex justify-center w-full mt-4">
-						<Link to={`/animal/newAnimal`} className="bg-pink-500 text-white p-2 rounded">
-							Add Animal
+						<Link to={`/animal/newAnimal`}>
+							{addAnimal()}
 						</Link>
 					</div>
 				)}

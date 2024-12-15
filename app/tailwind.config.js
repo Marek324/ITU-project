@@ -39,10 +39,6 @@ module.exports = {
 			  'list-img': '12rem',
 			  'main-img': '25rem'// Custom height for images
 		  },
-		  minHeight: {
-			  'list-img': '13rem',
-			  'main-img': '25rem'// Custom minimum height for images
-		  },
 		  colors: {
 				Pet_Header_BG: '#5994CE',
 				Pet_Text: '#B957CE',
@@ -77,7 +73,10 @@ module.exports = {
 	},
 	plugins: [
 		require('daisyui'),
+		require('@tailwindcss/line-clamp'),
+		require('@tailwindcss/aspect-ratio'),
 		require('react-custom-scrollbars-2')
+
 	],
   }
 

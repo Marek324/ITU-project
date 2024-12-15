@@ -1,6 +1,10 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: AnimalDetailsController.js
+//Description: Controller for displaying animal details and managing them
+
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { CreateAnimal, GetAnimal, UpdateAnimal } from '../services/AnimalsService';
+import { GetAnimal, UpdateAnimal } from '../services/AnimalsService';
 import AnimalDetail from "../components/animals/AnimalDetail";
 import AnimalEdit from "../components/animals/AnimalEdit";
 import ScheduleMeeting from "../components/animals/ScheduleMeeting";
@@ -25,7 +29,6 @@ function AnimalDetailsController() {
 			setAnimal(fetchedAnimal);
 			setEditableAnimal(fetchedAnimal);
 			const imagesData = await GetImageNames();
-			console.log(imagesData);
 			setImages(imagesData);
 		} catch (error) {
 			console.error('Error fetching animal:', error);
@@ -55,8 +58,9 @@ function AnimalDetailsController() {
 	};
 
 	const handleSave = async () => {
+		// Saves the edited animal and refetches the animal data
 		await UpdateAnimal(editableAnimal);
-		setAnimal(editableAnimal);
+		await fetchAnimal();
 		setAdminMode(false);
 	};
 

@@ -1,3 +1,8 @@
+/**
+ * MergeView.js
+ * Author: Marek Hric xhricma00
+ */
+
 import React from "react";
 import Board from "components/merge-a-pet/Board";
 import ScorePanel from "components/merge-a-pet/ScorePanel";

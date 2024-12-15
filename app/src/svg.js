@@ -253,9 +253,9 @@ export const shop = () => {
 export const pallete = () => {
 	return (<svg viewBox="0 0 24 24" width="38" // Adjust width as needed
 				 height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
-		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-		<g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-		   stroke-linejoin="round" stroke="#b9e9e9" stroke-width="1.536">
+		<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+		<g id="SVGRepo_tracerCarrier" strokeLinecap="round"
+		   strokeLinejoin="round" stroke="#b9e9e9" strokeWidth="1.536">
 			<path fill-rule="evenodd" clip-rule="evenodd"
 				  d="M10.8468 21.9342C5.86713 21.3624 2 17.1328 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.1565 18.7173 16.7325 15.9135 16.3703C14.2964 16.1614 12.8386 15.9731 12.2619 16.888C11.8674 17.5136 12.2938 18.2938 12.8168 18.8168C13.4703 19.4703 13.4703 20.5297 12.8168 21.1832C12.2938 21.7062 11.5816 22.0186 10.8468 21.9342ZM11.085 6.99976C11.085 7.82818 10.4134 8.49976 9.585 8.49976C8.75658 8.49976 8.085 7.82818 8.085 6.99976C8.085 6.17133 8.75658 5.49976 9.585 5.49976C10.4134 5.49976 11.085 6.17133 11.085 6.99976ZM6.5 13C7.32843 13 8 12.3284 8 11.5C8 10.6716 7.32843 9.99998 6.5 9.99998C5.67157 9.99998 5 10.6716 5 11.5C5 12.3284 5.67157 13 6.5 13ZM17.5 13C18.3284 13 19 12.3284 19 11.5C19 10.6716 18.3284 9.99998 17.5 9.99998C16.6716 9.99998 16 10.6716 16 11.5C16 12.3284 16.6716 13 17.5 13ZM14.5 8.49998C15.3284 8.49998 16 7.82841 16 6.99998C16 6.17156 15.3284 5.49998 14.5 5.49998C13.6716 5.49998 13 6.17156 13 6.99998C13 7.82841 13.6716 8.49998 14.5 8.49998Z"
 				  fill="#B957CE"></path>
@@ -272,9 +272,9 @@ export const ball = () => {
 	return (
 		<svg fill="#b957ce" width="38px" height="38px" viewBox="-1.92 -1.92 27.84 27.84" id="Layer_1"
 			 data-name="Layer 1" xmlns="http://www.w3.org/2000/svg">
-			<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#b9e9e9"
-			   stroke-width="1.7759999999999998">
+			<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+			<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#b9e9e9"
+			   strokeWidth="1.7759999999999998">
 				<path
 					d="M20.485,3.515a11.994,11.994,0,1,0,0,16.97A12.013,12.013,0,0,0,20.485,3.515Zm1.449,7.417a7.964,7.964,0,0,1-8.865-8.866,9.961,9.961,0,0,1,8.865,8.866ZM2.066,13.068a7.964,7.964,0,0,1,8.865,8.866,9.961,9.961,0,0,1-8.865-8.866Zm17.005,6a9.947,9.947,0,0,1-6.127,2.879,9.971,9.971,0,0,0-10.9-10.894A9.979,9.979,0,0,1,11.056,2.05,9.986,9.986,0,0,0,21,13c.317,0,.635-.016.953-.046A9.951,9.951,0,0,1,19.071,19.071Z"></path>
 			</g>
@@ -291,8 +291,8 @@ export const hat_02 = () => {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" fill="#b957ce" width="38px" height="38px"
 			 viewBox="0 0 24 24" stroke="#b9e9e9"
-			 stroke-width="1">
-			<path stroke-linecap="round" stroke-linejoin="round"
+			 strokeWidth="1">
+			<path strokeLinecap="round" strokeLinejoin="round"
 				  d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/>
 		</svg>
 
@@ -305,9 +305,9 @@ export const toy = () => {
 			 viewBox="-9.78 -9.78 215.21 215.21"
 			 stroke="#b957ce">
 			<g id="SVGRepo_bgCarrier"
-			   stroke-width="0"></g>
-			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
-			   stroke="#b9e9e9" stroke-width="11.347641999999999">
+			   strokeWidth="0"></g>
+			<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"
+			   stroke="#b9e9e9" strokeWidth="11.347641999999999">
 				<g>
 					<g>
 						<path
@@ -364,9 +364,9 @@ export const food_01 = () => {
 	return (<svg fill="#b957ce" width="38" // Adjust width as needed
 				 height="38" viewBox="0 0 14 14" role="img" focusable="false" aria-hidden="true"
 				 xmlns="http://www.w3.org/2000/svg">
-		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#b9e9e9"
-		   stroke-width="0.784">
+		<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+		<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#b9e9e9"
+		   strokeWidth="0.784">
 			<path
 				d="m 11.219592,3.3235446 -1.5624491,0.55347 c 0.066122,0.18123 0.1053061,0.37225 0.1053061,0.57062 0,0.90367 -0.7322449,1.64816 -1.6481633,1.64816 -0.7248979,0 -1.3420408,-0.4751 -1.562449,-1.12408 L 1,6.9137546 l 12,0 c 0,-1.3151 -0.646531,-2.54204 -1.780408,-3.59021 z m -3.5804083,0.0563 c -0.3991837,0.18122 -0.6857143,0.5902 -0.6857143,1.05796 0,0.63918 0.5240816,1.16082 1.1608163,1.16082 0.6367347,0 1.1608163,-0.52409 1.1608163,-1.16082 0,-0.63674 -0.5142857,-1.16082 -1.1608163,-1.16082 -0.3036735,-0.91347 -1.2391837,-1.70449 -1.2857143,-1.74367 -0.1053061,-0.0857 -0.2571428,-0.0759 -0.3428571,0.0294 -0.085714,0.1053 -0.075918,0.25714 0.029388,0.34285 0.2669388,0.21796 0.8938776,0.84735 1.1240817,1.47429 z M 1,10.200285 l 12,0 0,2.32408 -12,0 z m 0,-2.8016304 12,0 0,2.32408 -12,0 z"></path>
 		</g>
@@ -381,9 +381,9 @@ export const food_03 = () => {
 	return (<svg fill="#b957ce" height="38px"
 				 width="38px" version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
 				 viewBox="-25.6 -25.6 307.20 307.20">
-		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#b9e9e9"
-		   stroke-width="14.847999999999999">
+		<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+		<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#b9e9e9"
+		   strokeWidth="14.847999999999999">
 			<path id="XMLID_3_"
 				  d="M198.5,127h56.8c-3.1,51.4-36.3,94.5-82.3,111.7V256H83v-17.3C37,221.5,3.8,178.4,0.7,127h155.1l87.5-68.1 c3.5-2.7,8.5-2.1,11.2,1.4s2.1,8.5-1.4,11.2c-0.1,0.1-0.3,0.2-0.4,0.3l-81,55.1l73-36.2c4-2,8.8-0.3,10.7,3.6c2,4,0.3,8.8-3.6,10.7 c-0.2,0.1-0.3,0.2-0.5,0.2L198.5,127z M163.6,79.4c0,7.8,3.2,12,5.7,15.3c0.7,1,1.4,1.9,2,2.8c0.9,1.4,2.3,2.1,3.8,2.1 c0.8,0,1.6-0.2,2.4-0.7c2.1-1.3,2.8-4.1,1.5-6.2c-0.8-1.3-1.7-2.4-2.5-3.5c-2.2-3-3.9-5.1-3.9-9.9c0-4.8,1.6-6.9,3.9-9.9 c2.5-3.3,5.7-7.5,5.7-15.3s-3.2-12-5.7-15.3l-0.5-0.6c-1.5-2-4.3-2.4-6.3-0.9c-2,1.5-2.4,4.3-0.9,6.3l0.5,0.6c2.2,3,3.9,5.1,3.9,9.9 c0,4.8-1.6,6.9-3.9,9.9C166.7,67.4,163.6,71.6,163.6,79.4z M115.7,71c0,11.2,4.4,16.9,8.3,22c1.2,1.5,2.2,2.9,3.2,4.5 c0.9,1.4,2.3,2.1,3.8,2.1c0.8,0,1.6-0.2,2.4-0.7c2.1-1.3,2.8-4.1,1.5-6.2c-1.2-1.9-2.5-3.6-3.7-5.2c-3.4-4.5-6.4-8.4-6.4-16.5 s3-12,6.4-16.5c3.9-5.1,8.3-10.8,8.3-22c0-11.1-4.4-16.9-8.3-22l-0.7-0.9c-1.5-2-4.3-2.4-6.3-0.9c-2,1.5-2.4,4.3-0.9,6.3l0.7,1 c3.4,4.5,6.4,8.4,6.4,16.5c0,8.1-3,12-6.4,16.5C120.1,54.1,115.7,59.9,115.7,71z M72.9,79.4c0,7.8,3.2,12,5.7,15.3 c0.7,1,1.4,1.9,2,2.8c0.9,1.4,2.3,2.1,3.8,2.1c0.8,0,1.6-0.2,2.4-0.7c2.1-1.3,2.8-4.1,1.5-6.2c-0.8-1.3-1.7-2.4-2.5-3.5 c-2.2-3-3.9-5.1-3.9-9.9c0-4.8,1.6-6.9,3.9-9.9c2.5-3.3,5.7-7.5,5.7-15.3c0-7.8-3.2-12-5.7-15.3l-0.5-0.6c-1.5-2-4.3-2.4-6.3-0.9 c-2,1.5-2.4,4.3-0.9,6.3l0.5,0.6c2.2,3,3.9,5.1,3.9,9.9c0,4.8-1.6,6.9-3.9,9.9C76.1,67.4,72.9,71.6,72.9,79.4z"></path>
 		</g>
@@ -396,9 +396,9 @@ export const food_03 = () => {
 export const hatS = () => {
 	return (<svg fill="#b957ce" width="42" // Adjust width as needed
 				 height="42" viewBox="-51.2 -51.2 742.40 742.40" xmlns="http://www.w3.org/2000/svg" stroke="#b957ce">
-		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#b9e9e9"
-		   stroke-width="37.12">
+		<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+		<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#b9e9e9"
+		   strokeWidth="37.12">
 			<path
 				d="M490 296.9C480.51 239.51 450.51 64 392.3 64c-14 0-26.49 5.93-37 14a58.21 58.21 0 0 1-70.58 0c-10.51-8-23-14-37-14-58.2 0-88.2 175.47-97.71 232.88C188.81 309.47 243.73 320 320 320s131.23-10.51 170-23.1zm142.9-37.18a16 16 0 0 0-19.75 1.5c-1 .9-101.27 90.78-293.16 90.78-190.82 0-292.22-89.94-293.24-90.84A16 16 0 0 0 1 278.53C1.73 280.55 78.32 480 320 480s318.27-199.45 319-201.47a16 16 0 0 0-6.09-18.81z"></path>
 		</g>
@@ -428,9 +428,9 @@ export const shopping_cart = () => {
 export const background = () => {
 	return (<svg viewBox="0 0 16 16" width="38" // Adjust width as needed
 				 height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
-		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#b9e9e9"
-		   stroke-width="1.408">
+		<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+		<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#b9e9e9"
+		   strokeWidth="1.408">
 			<path fill-rule="evenodd" clip-rule="evenodd"
 				  d="M1 1H15V15H1V1ZM6 9L8 11L13 6V13H3V12L6 9ZM6.5 7C7.32843 7 8 6.32843 8 5.5C8 4.67157 7.32843 4 6.5 4C5.67157 4 5 4.67157 5 5.5C5 6.32843 5.67157 7 6.5 7Z"
 				  fill="#b957ce"></path>
@@ -725,10 +725,10 @@ export const edit = (props) => (
 
 export const adminMode = () => (
 	<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#b9e9e9">
-		<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-		<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+		<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+		<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
 		<g id="SVGRepo_iconCarrier">
-			<path fill="none" stroke="#b9e9e9" stroke-width="2"
+			<path fill="none" stroke="#b9e9e9" strokeWidth="2"
 				  d="M18.0003,20.9998 C16.3453,20.9998 15.0003,19.6538 15.0003,17.9998 C15.0003,16.3458 16.3453,14.9998 18.0003,14.9998 C19.6543,14.9998 21.0003,16.3458 21.0003,17.9998 C21.0003,19.6538 19.6543,20.9998 18.0003,20.9998 L18.0003,20.9998 Z M24.0003,17.9998 L21.0003,17.9998 L24.0003,17.9998 Z M20.1213,20.1218 L22.2423,22.2428 L20.1213,20.1218 Z M18.0003,23.9998 L18.0003,20.9998 L18.0003,23.9998 Z M13.7573,22.2428 L15.8783,20.1208 L13.7573,22.2428 Z M12.0003,17.9998 L15.0003,17.9998 L12.0003,17.9998 Z M15.8783,15.8788 L13.7573,13.7578 L15.8783,15.8788 Z M18.0003,14.9998 L18.0003,11.9998 L18.0003,14.9998 Z M20.1213,15.8788 L22.2423,13.7578 L20.1213,15.8788 Z M12.5,12.5 C11.2660678,11.4458897 9.77508483,11 8,11 C4.13400675,11 1,13.0294373 1,18 L1,23 L11,23 M8,11 C10.7614237,11 13,8.76142375 13,6 C13,3.23857625 10.7614237,1 8,1 C5.23857625,1 3,3.23857625 3,6 C3,8.76142375 5.23857625,11 8,11 Z"></path>
 		</g>
 	</svg>
@@ -861,7 +861,7 @@ export const deleteCross = () =>
 			<defs>
 
 			</defs>
-			<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" type="MSPage">
+			<g id="Page-1" stroke="none" strokeWidth="1" fill="none" fill-rule="evenodd" type="MSPage">
 				<g id="Icon-Set" type="MSLayerGroup" transform="translate(-568.000000, -1087.000000)" fill="#000000">
 					<path
 						d="M584,1117 C576.268,1117 570,1110.73 570,1103 C570,1095.27 576.268,1089 584,1089 C591.732,1089 598,1095.27 598,1103 C598,1110.73 591.732,1117 584,1117 L584,1117 Z M584,1087 C575.163,1087 568,1094.16 568,1103 C568,1111.84 575.163,1119 584,1119 C592.837,1119 600,1111.84 600,1103 C600,1094.16 592.837,1087 584,1087 L584,1087 Z M589.717,1097.28 C589.323,1096.89 588.686,1096.89 588.292,1097.28 L583.994,1101.58 L579.758,1097.34 C579.367,1096.95 578.733,1096.95 578.344,1097.34 C577.953,1097.73 577.953,1098.37 578.344,1098.76 L582.58,1102.99 L578.314,1107.26 C577.921,1107.65 577.921,1108.29 578.314,1108.69 C578.708,1109.08 579.346,1109.08 579.74,1108.69 L584.006,1104.42 L588.242,1108.66 C588.633,1109.05 589.267,1109.05 589.657,1108.66 C590.048,1108.27 590.048,1107.63 589.657,1107.24 L585.42,1103.01 L589.717,1098.71 C590.11,1098.31 590.11,1097.68 589.717,1097.28 L589.717,1097.28 Z"
@@ -931,5 +931,31 @@ export const donate = () => (
 	<svg fill="#000000" width="60px" height="60px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 		<path
 			d="M17.726 13.02 14 16H9v-1h4.065a.5.5 0 0 0 .416-.777l-.888-1.332A1.995 1.995 0 0 0 10.93 12H3a1 1 0 0 0-1 1v6a2 2 0 0 0 2 2h9.639a3 3 0 0 0 2.258-1.024L22 13l-1.452-.484a2.998 2.998 0 0 0-2.822.504zm1.532-5.63c.451-.465.73-1.108.73-1.818s-.279-1.353-.73-1.818A2.447 2.447 0 0 0 17.494 3S16.25 2.997 15 4.286C13.75 2.997 12.506 3 12.506 3a2.45 2.45 0 0 0-1.764.753c-.451.466-.73 1.108-.73 1.818s.279 1.354.73 1.818L15 12l4.258-4.61z"/>
+	</svg>
+);
+
+export const addAnimal = () => (
+	<svg width="100px" height="100px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+
+		<title/>
+
+		<g id="Complete">
+
+			<g id="add-square">
+
+				<g>
+
+					<rect data-name="--Rectangle" fill="none" height="20" id="_--Rectangle" rx="2" ry="2" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" width="20" x="2" y="2"/>
+
+					<line fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" x1="15.5" x2="8.5" y1="12" y2="12"/>
+
+					<line fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" x1="12" x2="12" y1="15.5" y2="8.5"/>
+
+				</g>
+
+			</g>
+
+		</g>
+
 	</svg>
 );

@@ -1,5 +1,9 @@
+//Author: Tobiáš Adamčík (xadamc08)
+//File: MeetingsListItem.js
+//Description: Component for displaying a single meeting with an animal
+
 import React from 'react';
-import Image from "./Image";
+import Image from "../Image";
 
 function MeetingsListItem({ meeting, handleDelete }) {
 	const { id, date, animal } = meeting;

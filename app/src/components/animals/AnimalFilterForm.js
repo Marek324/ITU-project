@@ -1,4 +1,8 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: AnimalFilterForm.js
+//Description: Component for displaying a form for filtering animals
+
+import React, { useState, useEffect, useRef } from 'react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -158,7 +162,7 @@ function FilterForm({ filterCriteria, setFilterCriteria, speciesList, maxAge }) 
 				</label>
 				{!isSexCollapsed && (
 					<select
-						className="mt-2 ml-2 text-black bg-Main_BG"
+						className="mt-2 ml-2 text-black bg-Main_BG rounded-lg outline-Main_Header_Border ring-1 ring-Main_Header_Border"
 						value={filterCriteria.sex}
 						onChange={handleSexChange}
 					>

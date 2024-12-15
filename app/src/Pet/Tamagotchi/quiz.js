@@ -1,20 +1,19 @@
+/**
+ * quiz.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, { useState } from 'react';
-import { moneyS
- } from '../../svg.js'; 
-import MainPage from '../../Pet/components/MainPage.js';
 import NewGameQuiz from './NewGameQuiz.js';
 import QuestionPool from './QuestionPool.js';
-import { useEffect } from 'react';
 
 const Quiz = ({ setShowGame }) => { 
-  const [mainPage, setMainPage] = useState(false);
   const [newGame, setNewGame] = useState(false);
   const [questionPool, setQuestionPool] = useState(false);
 
  
   
   const handleCrossClick = () => {
-    if (mainPage || (!newGame && !questionPool)) {
+    if ((!newGame && !questionPool)) {
       setShowGame(false);
     } else {
       setNewGame(false);
@@ -30,9 +29,7 @@ const Quiz = ({ setShowGame }) => {
     setQuestionPool(true);
   };
 
-  return mainPage ? (
-    <MainPage setShowGame={setShowGame} />
-  ) : newGame ? (
+  return newGame ? (
     <NewGameQuiz setShowGame={setShowGame} />
   ) : questionPool ? (
     <QuestionPool setShowGame={setShowGame} />

@@ -1,3 +1,7 @@
+/**
+ * topBar.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, { forwardRef } from 'react';
 
 const TopBar = forwardRef(({ title }, ref) => {

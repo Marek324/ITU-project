@@ -1,3 +1,13 @@
+/**
+ * server.mjs
+ * Author: Marek Hric xhricma00
+ * Author: Petra Simonova xsimon30
+ * Author: Lukáš Píšek xpisek02
+ * Author: Tobiáš Adamčík xadamc08
+ * Author: Matouš Jašek xjasek18
+ */
+
+// xhricma00 - start
 import fastify from 'fastify';
 import cors from '@fastify/cors';
 import {Low, Memory} from 'lowdb';
@@ -42,75 +52,12 @@ let db_seed;
 	}
 })();
 
-// ================================================
-// ===================== Blog =====================
-// ================================================
-
-app.get('/api/articles', async (req, res) => {
-	await db.read();
-
-	let data = db.data.articles;
-
-	res.send(data);
-});
-
-app.get('/api/articles/:id', async (req, res) => {
-	await db.read();
-
-	let data = db.data.articles.find(article => String(article.id) === req.params.id);
-
-	res.send(data);
-});
-
-//new
-app.post('/api/articles', async (req, res) => {
-	await db.read();
-
-
-	const newArticle = {
-		id: genId(),
-		title: req.body.title,
-		author: req.body.author,
-		date: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString(),
-		content: req.body.content,
-		image: req.body.image,
-	};
-	console.log(newArticle);
-
-	db.data.articles.push(newArticle);
-
-	await db.write();
-	res.status(200).send({id: articleId, message: 'Article added successfully'});
-});
-
-//edit
-app.put('/api/articles/:id', async (req, res) => {
-	await db.read();
-
-	const {id} = req.params;
-
-	const updatedArticle = req.body;
-
-	db.data.articles[id] = updatedArticle;
-
-	await db.write();
-	res.status(200).send({message: 'Article updated successfully'});
-});
-
-//delete
-app.delete("/api/articles/:id", async (req, res) => {
-	await db.read();
-	const {id} = req.params;
-
-	db.data.articles = db.data.articles.find(a => String(a.id) !== id);
-
-	await db.write();
-	res.code(200).send({message: 'Article deleted successfully'});
-});
+// xhricma00 - end
 
 // ================================================
-// ===================== PET =====================
+// ===================== PET ======================
 // ================================================
+
 app.get('/api/pet', async (req, res) => {
 	await db.read();
 	res.send(db.data.pet);
@@ -159,8 +106,9 @@ app.post('/api/pet/quiz', async (req, res) => {
 	}
 });
 // ================================================
-// ===================== Inventory ======
+// =================== Inventory ==================
 // ================================================
+
 app.post('/api/inventory', async (req, res) => {
 	const {petId, itemId} = req.body;
 	await db.read();
@@ -192,35 +140,34 @@ app.post('/api/inventory', async (req, res) => {
 	res.status(200).send({message: "Item updated", pet});
 });
 
-
 // ================================================
 // ===================== BUY ITEM ==================
 // ================================================
 app.post('/api/buy', async (req, res) => {
-	const { petId, itemId } = req.body;
+	const {petId, itemId} = req.body;
 	await db.read();
-  
+
 	const animal = db.data.animals.find((a) => a.id === petId);
 	if (!animal) {
-	  return res.status(404).send({ error: "Animal not found" });
+		return res.status(404).send({error: "Animal not found"});
 	}
 	const item = db.data.shop.find((i) => i.id === itemId);
 	if (!item) {
-	  return res.status(404).send({ error: "Item not found" });
+		return res.status(404).send({error: "Item not found"});
 	}
-  
+
 	const itemPrice = parseInt(item.price.replace('¥', ''));
 	if (animal.money < itemPrice) {
-	  return res.status(400).send({ error: "Not enough money" });
+		return res.status(400).send({error: "Not enough money"});
 	}
-  
+
 	animal.money -= itemPrice;
-  
+
 	const pet = db.data.pet.find((p) => p.id === petId);
 	if (!pet) {
-	  return res.status(404).send({ error: "Pet not found" });
+		return res.status(404).send({error: "Pet not found"});
 	}
-  
+
 	const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
 	if (itemId === 4) {
 		const inventoryItem = pet.inventory.find((inv) => inv.id === itemId);
@@ -229,17 +176,20 @@ app.post('/api/buy', async (req, res) => {
 		}
 	}
 	if (inventoryItem) {
-	  inventoryItem.count += 1;
+		inventoryItem.count += 1;
 	} else {
-	  pet.inventory.push({ id: item.id, count: 1 });
+		pet.inventory.push({id: item.id, count: 1});
 	}
 	await db.write();
+	// res.send(pet);
+
 	res.send({
-	  money: animal.money,
-	  inventory: pet.inventory,
+		money: animal.money,
+		inventory: pet.inventory,
 	});
-  });
-  
+
+});
+
 
 // ================================================
 // ===================== SHOP =====================
@@ -491,10 +441,7 @@ app.delete('/api/meetings/:id', async (req, res) => {
 );
 
 // ================================================
-// ===================== Petra ====================
-// ================================================
-// ================================================
-// ===================== Questions ==================
+// =================== Questions ==================
 // ================================================
 
 app.get('/api/questions', async (req, res) => {
@@ -578,7 +525,6 @@ app.delete('/api/questions/:id', async (req, res) => {
 // ================================================
 // ===================== GAMES ====================
 // ================================================
-//NOT SURE IF WORKING
 
 app.delete('/api/games/:id', async (req, res) => {
 	await db.read();
@@ -786,7 +732,7 @@ app.get('/api/images', async (req, res) => {
 		const fileNamesWithoutExtension = files.map(file => file.replace('.jpg', ''));
 		res.send(fileNamesWithoutExtension);
 	} catch (err) {
-		res.status(500).send({ error: 'Unable to scan directory' });
+		res.status(500).send({error: 'Unable to scan directory'});
 	}
 });
 

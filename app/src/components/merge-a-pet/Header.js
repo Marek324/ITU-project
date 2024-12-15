@@ -1,3 +1,8 @@
+/**
+ * Header.js
+ * Author: Marek Hric xhricma00
+ */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Return as return_icon } from "svg";

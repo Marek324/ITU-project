@@ -1,4 +1,7 @@
-// File: src/controllers/MeetingsController.js
+//Author: Tobiáš Adamčík (xadamc08)
+//File: MeetingsController.js
+//Description: Controller for displaying meetings and managing them
+
 import React, { useEffect, useState } from 'react';
 import {GetMeetings, RemoveMeeting} from "../services/MeetingsService";
 import Meetings from "../components/animals/Meetings";
@@ -8,25 +11,25 @@ function MeetingsController() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
+	const getMeetings = async () => {
+		try {
+			const data = await GetMeetings();
+			setMeetings(data);
+		} catch (error) {
+			setError(error.message);
+		} finally {
+			setLoading(false);
+		}
+	};
 	useEffect(() => {
-		const getMeetings = async () => {
-			try {
-				const data = await GetMeetings();
-				setMeetings(data);
-			} catch (error) {
-				setError(error.message);
-			} finally {
-				setLoading(false);
-			}
-		};
-
 		getMeetings();
 	}, []);
 
 	const deleteMeeting = async (id) => {
 		try {
 			await RemoveMeeting(id);
-			setMeetings((prevMeetings) => prevMeetings.filter((meeting) => meeting.id !== id));
+			// Refetch the meetings after deletion
+			await getMeetings();
 		} catch (error) {
 			setError(error.message);
 		}

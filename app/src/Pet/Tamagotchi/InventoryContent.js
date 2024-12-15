@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from 'react';
+/**
+ * InventoryContent.js
+ * Author: Petra Simonova xsimon30
+ */
 import { hatS, food_01, food_02, background, pallete, hat_02, ball, toy, food_03, moneyS } from '../../svg.js';
+import Notification from 'Pet/components/Notification.js';
+import useInventoryController from 'Pet/Tamagotchi/Controllers/InventoryController.js';
 
 const iconMap = {
   hatS,
@@ -13,99 +18,8 @@ const iconMap = {
   food_03,
 };
 
-const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
-  const [items, setItems] = useState([]);
-  const [money, setMoney] = useState(0);
-  const [inventory, setInventory] = useState([]);
-
-  useEffect(() => {
-    const fetchShopItems = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/shop');
-        const data = await response.json();
-        setItems(data);
-      } catch (error) {
-        console.error('Error fetching shop items:', error);
-      }
-    };
-    fetchShopItems();
-  }, []);
-
-  useEffect(() => {
-    const fetchShopMoney = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/animal/1/money');
-        const data = await response.json();
-        if (data && data.money !== undefined) {
-          setMoney(data.money); 
-        } else {
-          console.error('No money data found');
-        }
-      } catch (error) {
-        console.error('Error fetching money:', error);
-      }
-    };
-  
-    fetchShopMoney();
-  }, []);
-  
-  useEffect(() => {
-    const fetchPetData = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/pet');
-        const data = await response.json();
-        if (data.length > 0) {
-          setInventory(data[0].inventory);
-          setHasHat(data[0].hasHat || false); 
-        } else {
-          console.error('No data found');
-        }
-      } catch (error) {
-        console.error('Error fetching pet data:', error);
-      }
-    };
-    fetchPetData();
-  }, []);
-
-  const handleIconClick = async (item) => {
-    try {
-      const response = await fetch('http://localhost:5000/api/inventory', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ petId: 1, itemId: item.id }),
-      });
-  
-      if (!response.ok) {
-        const error = await response.json();
-        console.error('Error updating item:', error);
-        alert(error.error || 'Failed to update item');
-        return;
-      }
-  
-      const updatedPet = await response.json();
-      setInventory(updatedPet.pet.inventory);
-  
-      if (item.id !== 4) {
-        const randomHappiness = Math.floor(Math.random() * 11) + 5; 
-        await fetch('http://localhost:5000/api/pet/happiness', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ petId: 1, change: randomHappiness }),
-        });
-        setHappiness((prevHappiness) => Math.min(100, prevHappiness + randomHappiness));
-
-      } else {
-        setHasHat(!hasHat);
-      }
-    } catch (error) {
-      console.error('Error making API call:', error);
-    }
-  };
-  
+const InventoryContent = ({ setHappiness, hasHat, setHasHat }) => {
+  const { items, money, inventory, notification, closeNotification, handleIconClick } = useInventoryController(setHappiness, setHasHat);
 
   return (
     <div className="flex flex-1 justify-center items-start text-white">
@@ -169,6 +83,13 @@ const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
             );
           })}
         </div>
+        {notification && (
+    <Notification
+      message={notification.message}
+      type={notification.type}
+      onClose={closeNotification}
+    />
+  )}
       </div>
     </div>
   );

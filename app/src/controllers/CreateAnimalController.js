@@ -1,4 +1,8 @@
-﻿import { useEffect, useState } from "react";
+﻿//Author: Tobiáš Adamčík (xadamc08)
+//File: CreateAnimalController.js
+//Description: Controller for creating a new animal in the shelter
+
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreateAnimal } from "../services/AnimalsService";
 import AnimalEdit from "../components/animals/AnimalEdit";
@@ -9,6 +13,7 @@ function CreateAnimalController() {
 	const [images, setImages] = useState([]);
 	const navigate = useNavigate();
 
+	// Reset the animal object when the component is mounted
 	useEffect( () => {
 		setAnimal({
 			name: '',
@@ -18,16 +23,18 @@ function CreateAnimalController() {
 			money: 0,
 			neutered: false,
 			text: '',
-			image: ''
+			image: 'cat_1'
 		});
 		fetchImages();
 	}, []);
 
+	// Fetch the list of available images
 	const fetchImages = async () => {
 		const imagesData = await GetImageNames();
 		setImages(imagesData);
 	};
 
+	// Save the new animal to the database and navigate back to the previous page (MainPage)
 	const handleSave = async () => {
 		await CreateAnimal(animal);
 		navigate(-1); // Navigate back to the previous page
