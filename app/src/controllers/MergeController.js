@@ -1,3 +1,8 @@
+/**
+ * MergeController.js
+ * Author: Marek Hric xhricma00
+ */
+
 import React, { useState, useEffect, useCallback } from "react";
 import MergeModel from "MergeModel";
 import MergeView from "views/MergeView";
@@ -46,27 +51,24 @@ const MergeController = () => {
 	}, []);
 
 	const handleSwapTiles = useCallback(() => {
-		// Create the first context
 		const context1 = new ClickContext();
 		setClickContext(context1);
 
 		context1.getSelectedTile().then((tile1) => {
-			// Once tile1 is selected, create the second context
 			const context2 = new ClickContext();
 			setClickContext(context2);
 
 			context2.getSelectedTile().then((tile2) => {
-				// Once both tiles are selected, perform the swap
 				model.swapTiles(tile1, tile2);
-				setClickContext(null); // Clear the context after use
+				setClickContext(null);
 				updateState();
 			}).catch((err) => {
 				console.error("Error selecting second tile: ", err);
-				setClickContext(null); // Ensure cleanup on error
+				setClickContext(null);
 			});
 		}).catch((err) => {
 			console.error("Error selecting first tile: ", err);
-			setClickContext(null); // Ensure cleanup on error
+			setClickContext(null);
 		});
 	}, []);
 
@@ -76,11 +78,11 @@ const MergeController = () => {
 
 		context.getSelectedTile().then((tile) => {
 			model.deleteTile(tile);
-			setClickContext(null); // Clear the context after use
+			setClickContext(null);
 			updateState();
 		}).catch((err) => {
 			console.error("Error selecting tile: ", err);
-			setClickContext(null); // Ensure cleanup on error
+			setClickContext(null);
 		});
 	}, []);
 
@@ -90,11 +92,11 @@ const MergeController = () => {
 
 		context.getSelectedTile().then((tile) => {
 			model.deleteTilesByNumber(tile);
-			setClickContext(null); // Clear the context after use
+			setClickContext(null);
 			updateState();
 		}).catch((err) => {
 			console.error("Error selecting tile: ", err);
-			setClickContext(null); // Ensure cleanup on error
+			setClickContext(null);
 		});
 	}, []);
 

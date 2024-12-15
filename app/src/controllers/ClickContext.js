@@ -1,3 +1,8 @@
+/**
+ * ClickContext.js
+ * Author: Marek Hric xhricma00
+ */
+
 export default class ClickContext {
 	constructor() {
 		this.selected = null;
@@ -9,7 +14,7 @@ export default class ClickContext {
 
 	select(tile) {
         if (!this.tile1) {
-            this.tile1 = tile; 
+            this.tile1 = tile;
             this.resolve(tile);
             console.log(`Tile selected: ${tile}`);
         }

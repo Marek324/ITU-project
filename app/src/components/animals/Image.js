@@ -1,3 +1,8 @@
+/**
+ * Image.js
+ * Author: Marek Hric xhricma00
+ */
+
 import React from "react";
 
 const serverPort = 5000;

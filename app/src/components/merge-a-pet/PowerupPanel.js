@@ -1,3 +1,8 @@
+/**
+ * PowerupPanel.js
+ * Author: Marek Hric xhricma00
+ */
+
 import React from "react";
 import PowerupButton from "./PowerupButton";
 import { undo, deleteTile, swapTiles, deleteTilesByNumber } from "svg";

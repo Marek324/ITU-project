@@ -1,3 +1,8 @@
+/**
+ * MergeModel.js
+ * Author: Marek Hric xhricma00
+ */
+
 export default class MergeModel {
     constructor(size = 4) {
         this.size = size;
