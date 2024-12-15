@@ -2,9 +2,9 @@
  * MarketContent.js
  * Author: Petra Simonova xsimon30
  */
-import React, { useEffect, useState } from 'react';
 import { moneyS, hatS, food_01, food_02, background, pallete, hat_02, ball, toy, food_03 } from '../../svg.js';
 import Notification from 'Pet/components/Notification.js';
+import useMarketController from 'Pet/Tamagotchi/Controllers/MarketController.js';
 
 const iconMap = {
   hatS,
@@ -19,100 +19,16 @@ const iconMap = {
 };
 
 const MarketContent = () => {
-  const [items, setItems] = useState([]);
-  const [money, setMoney] = useState(0);
-  const [hasHat, setHasHat] = useState(false);
-  const [tempPrice, setTempPrice] = useState(null); 
-  const [showPriceAnimation, setShowPriceAnimation] = useState(false); 
-  const [notification, setNotification] = useState(null);
-
-  const closeNotification = () => {
-    setNotification(null);
-  };
-  
-  useEffect(() => {
-    const fetchShopItems = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/shop');
-        const data = await response.json();
-        setItems(data);
-      } catch (error) {
-        console.error('Error fetching shop items:', error);
-      }
-    };
-
-    fetchShopItems();
-  }, []);
-
-  useEffect(() => {
-    const fetchHat = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/pet');
-        const data = await response.json();
-        if (data.length > 0) {
-          setHasHat(data[0].hasHat || false); 
-        } else {
-          console.error('No data found');
-        }
-      } catch (error) {
-        console.error('Error fetching money:', error);
-      }
-    };
-  
-    fetchHat();
-  }, []);
-
-  useEffect(() => {
-    const fetchShopMoney = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/animal/1/money'); 
-        const data = await response.json();
-        if (data && data.money !== undefined) {
-          setMoney(data.money);
-        } else {
-          console.error('No money data found');
-        }
-      } catch (error) {
-        console.error('Error fetching money:', error);
-      }
-    };
-  
-    fetchShopMoney();
-  }, []);
-
-  const handleBuyItem = async (itemId, itemPrice) => {
-    try {
-      const response = await fetch('http://localhost:5000/api/buy', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          petId: 1,  
-          itemId,  
-        }),
-      });
-  
-      if (!response.ok) {
-        const error = await response.json();
-        setNotification({ message: error.error || 'Unknown error', type: 'error' });
-        return;
-      }
-  
-      const updatedData = await response.json();
-      setMoney(updatedData.money); 
-      setTempPrice(itemPrice);
-      setShowPriceAnimation(true);
-      setTimeout(() => {
-        setShowPriceAnimation(false);
-        setTempPrice(null);  
-      }, 500);
-    } catch (error) {
-      console.error('Error buying item:', error);
-      setNotification({ message: 'An error occurred while processing your request.', type: 'error' });
-    }
-  };
-  
+  const {
+    items,
+    money,
+    hasHat,
+    tempPrice,
+    showPriceAnimation,
+    notification,
+    handleBuyItem,
+    closeNotification,
+  } = useMarketController();
   
   return (
     <div className="flex flex-1 justify-center items-start text-white">
@@ -181,19 +97,18 @@ const MarketContent = () => {
       onClose={closeNotification}
     />
   )}
-      {showPriceAnimation && tempPrice && (
-        <div
-          className="absolute top-36 left-2 text-2xl text-outline text-[#B957CE] animate-jump"
-          style={{
-           fontFamily: 'Pixelify Sans',
-            fontSize: '2rem',
-            transition: 'transform 0.5s ease',
-            transform: showPriceAnimation ? 'translateY(0)' : 'translateY(-10px)',
-          }}
-        >
-          -{tempPrice}
-        </div>
-      )}
+     {showPriceAnimation && tempPrice && (
+  <div
+    className="absolute top-36 left-2 text-2xl text-outline text-[#B957CE] animate-jump"
+    style={{
+      fontFamily: 'Pixelify Sans',
+      fontSize: '2rem',
+    }}
+  >
+    -{tempPrice}
+  </div>
+)}
+
     </div>
   );
 };

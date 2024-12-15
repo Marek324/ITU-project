@@ -9,63 +9,17 @@ import GameHop from '../Hop/Game.js';
 import {Link} from 'react-router-dom';
 import {useParams} from "react-router-dom";
 import Notification from 'Pet/components/Notification.js';
+import useGameController from 'Pet/Tamagotchi/Controllers/GameController.js';
 
 
 const GameContent = ({ setShowGame, setHappiness }) => {
-  const [currentGame, setCurrentGame] = useState(null);
   const [notification, setNotification] = useState(null);
-
-  const closeNotification = () => {
-    setNotification(null);
-  };
-
-  const handleKozaHopClick = () => setCurrentGame('GameHop');
-
-  const handleQuizClick = async () => {
-	try {
-	  const response = await fetch('http://localhost:5000/api/pet/quiz', {
-		method: 'POST',
-		headers: {
-		  'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-		  petId: 1,
-		}),
-	  });
-  
-	  const data = await response.json();
-	  if (response.ok) {
-		setHappiness((prevHappiness) => Math.max(0, prevHappiness - data.happinessReduced));
-		setCurrentGame('Quiz');
-	  } else {
-		setNotification({ message: data.error || 'Unknown error', type: 'error' });
-	  }
-	} catch (error) {
-	  console.error('Error starting quiz:', error);
-	  setNotification({ message: error.error || 'Unknown error', type: 'error' });
-	}
-  };
-  
-
+  const { currentGame, handleKozaHopClick, handleQuizClick, handleCrossClick, closeNotification } = useGameController(setHappiness, setNotification);
   const { id } = useParams();
-
-	const handleCrossClick = () => {
-		if (currentGame) {
-			setCurrentGame(null);
-		} else {
-			setShowGame(false);
-		}
-	};
-
 	
 	return (
 		<div
 			className={`flex flex-1 justify-center items-center text-white ${currentGame === 'FlappyPet' ? 'absolute inset-0' : ''}`}>
-			{currentGame !== 'FlappyPet' && (
-				<div className="absolute top-20 left-2 flex items-center">
-				
-				</div>
-			)}
 
 			{currentGame === null ? (
 				<div
