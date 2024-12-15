@@ -1,4 +1,4 @@
-Lukáš Píšek (xpisek02):
+xpisek02:
 	Model: app/src/FPModel.js
 	View: app/src/views/FPView.js
 	Controller: app/src/controllers/FPController.js
