@@ -1,10 +1,14 @@
-﻿Adamčík:
-	Views: ”app/src/components/animals/” MainPage.js, AnimalDetail.js, AnimalEdit.js, Meetings.js
-    Controllers: ”app/src/controllers/” AnimalDetailsController.js, CreateAnimalController.js, MainPageController.js, MeetingsController.js
-    Ostatní komponenty: ”app/src/components/animals/*”
-
 Lukáš Píšek (xpisek02):
 	Model: app/src/FPModel.js
 	View: app/src/views/FPView.js
 	Controller: app/src/controllers/FPController.js
 	Ostatní komponenty: app/src/controllers/FPController.js
+xadamc08:
+	Views: app/src/components/animals/MainPage.js, app/src/components/animals/AnimalDetail.js, app/src/components/animals/AnimalEdit.js, app/src/components/animals/Meetings.js
+    Controllers: app/src/controllers/AnimalDetailsController.js, app/src/controllers/CreateAnimalController.js, app/src/controllers/MainPageController.js, app/src/controllers/MeetingsController.js
+    Components: app/src/components/animals/*
+xhricma00:
+	View: app/src/views/MergeView.js
+	Controller: app/src/controllers/MergeController.js
+	Models: app/src/controllers/ClickContext.js, app/src/MergeModel.js
+	Components: app/src/components/merge-a-pet/*
