@@ -705,35 +705,63 @@ app.get('/api/fp/:id/leaderboards', async (req, res) => {
 app.post('/api/hop', async (req, res) => {
 	await db.read();
 
-	const {maxHeight} = req.body;
+	const { maxHeight, difficulty } = req.body;
 
-	if (typeof maxHeight !== 'number') {
-		return res.status(400).send({error: 'Invalid maxHeight'});
+	if (typeof maxHeight !== 'number' || !difficulty) {
+		return res.status(400).send({ error: 'Invalid maxHeight or difficulty' });
 	}
 
 	const newGame = {
 		id: genId(),
 		height: maxHeight,
+		difficulty: difficulty,
 		date: new Date().toISOString(),
 	};
+
+	// Initialize hop array if it doesn't exist
+	if (!db.data.hop) {
+		db.data.hop = [];
+	}
 
 	db.data.hop.push(newGame);
 
 	await db.write();
-	res.status(200).send({message: 'Game saved successfully', id: newGame.id});
+	res.status(200).send({ message: 'Game saved successfully', id: newGame.id });
 });
 
-app.get('/api/hop/highest', async (req, res) => {
+app.get('/api/hop/highest/:difficulty', async (req, res) => {
 	await db.read();
-	const highestGame = db.data.hop.reduce((max, game) => game.height > max.height ? game : max, {height: 0});
+	const { difficulty } = req.params;
+
+	// Initialize hop array if it doesn't exist
+	if (!db.data.hop) {
+		db.data.hop = [];
+	}
+	
+	const highestGame = db.data.hop
+		.filter(game => game.difficulty === difficulty)
+		.reduce((max, game) => 
+			game.height > max.height ? game : max, 
+			{ height: 0, id: null, date: null, difficulty }
+		);
 	res.status(200).send(highestGame);
 });
 
-app.get('/api/hop/scores', async (req, res) => {
+app.get('/api/hop/scores/:difficulty', async (req, res) => {
 	await db.read();
-	const scores = db.data.hop.map(game => game.height);
+	const { difficulty } = req.params;
+
+	// Initialize hop array if it doesn't exist
+	if (!db.data.hop) {
+		db.data.hop = [];
+	}
+
+	const scores = db.data.hop
+		.filter(game => game.difficulty === difficulty)
+		.map(game => game.height);
 	res.status(200).send(scores);
 });
+
 
 app.put('/api/fp/:id', async (req, res) => {
 	await db.read();
@@ -760,4 +788,91 @@ app.get('/api/images', async (req, res) => {
 	} catch (err) {
 		res.status(500).send({ error: 'Unable to scan directory' });
 	}
+});
+
+// DoodleJump Inventory Endpoints
+app.get('/api/doodlejump/inventory/:petId', async (req, res) => {
+    await db.read();
+    const pet = db.data.pet.find(p => p.id === Number(req.params.petId));
+    
+    if (!pet) {
+        return res.status(404).send({ error: "Pet not found" });
+    }
+
+    // Initialize doodleJumpInventory if it doesn't exist
+    if (!pet.doodleJumpInventory) {
+        pet.doodleJumpInventory = {
+            characters: ['dog'],  // Default character
+            backgrounds: ['bg1'], // Default background
+            currentCharacter: 'dog',
+            currentBackground: 'bg1'
+        };
+        await db.write();
+    }
+
+    res.send(pet.doodleJumpInventory);
+});
+
+app.post('/api/doodlejump/buy', async (req, res) => {
+    const { petId, itemId, itemType } = req.body;
+    await db.read();
+
+    const pet = db.data.pet.find(p => p.id === Number(petId));
+    if (!pet) {
+        return res.status(404).send({ error: "Pet not found" });
+    }
+
+    const animal = db.data.animals.find(a => a.id === Number(petId));
+    if (!animal) {
+        return res.status(404).send({ error: "Animal not found" });
+    }
+
+    // Check if enough money
+    if (animal.money < 100) {
+        return res.status(400).send({ error: "Not enough money" });
+    }
+
+    // Initialize inventory if it doesn't exist
+    if (!pet.doodleJumpInventory) {
+        pet.doodleJumpInventory = {
+            characters: ['dog'],
+            backgrounds: ['bg1'],
+            currentCharacter: 'dog',
+            currentBackground: 'bg1'
+        };
+    }
+
+    // Add item to appropriate array if not already owned
+    const targetArray = itemType === 'character' ? 'characters' : 'backgrounds';
+    if (!pet.doodleJumpInventory[targetArray].includes(itemId)) {
+        pet.doodleJumpInventory[targetArray].push(itemId);
+        animal.money -= 100;
+        await db.write();
+    }
+
+    res.send({
+        inventory: pet.doodleJumpInventory,
+        money: animal.money
+    });
+});
+
+app.post('/api/doodlejump/select', async (req, res) => {
+    const { petId, itemId, itemType } = req.body;
+    await db.read();
+
+    const pet = db.data.pet.find(p => p.id === Number(petId));
+    if (!pet) {
+        return res.status(404).send({ error: "Pet not found" });
+    }
+
+    // Check if item is owned
+    const targetArray = itemType === 'character' ? 'characters' : 'backgrounds';
+    const targetCurrent = itemType === 'character' ? 'currentCharacter' : 'currentBackground';
+
+    if (pet.doodleJumpInventory[targetArray].includes(itemId)) {
+        pet.doodleJumpInventory[targetCurrent] = itemId;
+        await db.write();
+    }
+
+    res.send(pet.doodleJumpInventory);
 });
