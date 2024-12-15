@@ -176,14 +176,13 @@ app.post('/api/buy', async (req, res) => {
 	  pet.inventory.push({ id: item.id, count: 1 });
 	}
 	await db.write();
-	res.send(pet);
-	/**
-	 * res.send({
-	 * money: animal.money,
-	 * inventory: pet.inventory,
-	 * 	});
-  	 * });
-	 */
+	// res.send(pet);
+
+	res.send({
+	  	money: animal.money,
+	  	inventory: pet.inventory,
+	});
+
 });
 
 
