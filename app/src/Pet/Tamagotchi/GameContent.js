@@ -6,7 +6,6 @@ import React, {useState} from 'react';
 import Quiz from './quiz.js';
 import FPGame from '../../controllers/FPController.js';
 import GameHop from '../Hop/KozaHopController.js';
-import {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {useParams} from "react-router-dom";
 import Notification from 'Pet/components/Notification.js';
@@ -15,9 +14,12 @@ import useGameController from 'Pet/Tamagotchi/Controllers/GameController.js';
 
 const GameContent = ({ setShowGame, setHappiness }) => {
   const [notification, setNotification] = useState(null);
-  const { currentGame, handleKozaHopClick, handleQuizClick, handleCrossClick, closeNotification } = useGameController(setHappiness, setNotification);
+  const { currentGame, handleKozaHopClick, handleQuizClick,  closeNotification } = useGameController(setHappiness, setNotification);
   const { id } = useParams();
-	
+  
+  const handleCrossClick = () => {
+		setShowGame(false);
+};
 	return (
 		<div
 			className={`flex flex-1 justify-center items-center text-white ${currentGame === 'FlappyPet' ? 'absolute inset-0' : ''}`}>
@@ -74,7 +76,7 @@ const GameContent = ({ setShowGame, setHappiness }) => {
 					</div>
 				</div>
 			) : currentGame === 'Quiz' ? (
-				<Quiz setShowGame={setShowGame}/>
+				<Quiz setShowGame={setShowGame} />
 			) : currentGame === 'FlappyPet' ? (
 				<FPGame setShowGame={setShowGame}/>
 			) : currentGame === 'GameHop' ? (
