@@ -11,48 +11,33 @@ import {useParams} from "react-router-dom";
 
 const GameContent = ({ setShowGame, setHappiness }) => {
   const [currentGame, setCurrentGame] = useState(null);
-
   const handleKozaHopClick = () => setCurrentGame('GameHop');
+
   const handleQuizClick = async () => {
-    if (!happinessCheck()) return;
-
-    try {
-      const response = await fetch('http://localhost:5000/api/pet/quiz', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          petId: 1,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setHappiness((prevHappiness) => Math.max(0, prevHappiness - data.happinessReduced));
-        setCurrentGame('Quiz');
-      } else {
-        alert(data.error);
-      }
-    } catch (error) {
-      console.error('Error starting quiz:', error);
-      alert('An error occurred while trying to start the quiz');
-    }
+	try {
+	  const response = await fetch('http://localhost:5000/api/pet/quiz', {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+		  petId: 1,
+		}),
+	  });
+  
+	  const data = await response.json();
+	  if (response.ok) {
+		setHappiness((prevHappiness) => Math.max(0, prevHappiness - data.happinessReduced));
+		setCurrentGame('Quiz');
+	  } else {
+		alert(data.error);
+	  }
+	} catch (error) {
+	  console.error('Error starting quiz:', error);
+	  alert('An error occurred while trying to start the quiz');
+	}
   };
-
-  const happinessCheck = () => {
-    if (typeof setHappiness !== 'function') {
-      console.error("Missing 'setHappiness' prop.");
-      return false;
-    }
-
-    if (setHappiness.currentHappiness === 0) {
-      alert('Your happiness is too low to start this game!');
-      return false;
-    }
-    return true;
-  };
+  
 
   const { id } = useParams();
 
