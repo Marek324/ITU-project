@@ -98,7 +98,7 @@
 			"image": "cat_2",
 			"name": "Terka",
 			"text": "Animal 2",
-			"species": "Goat",
+			"species": "Cat",
 			"age": 7,
 			"sex": "F",
 			"neutered": false

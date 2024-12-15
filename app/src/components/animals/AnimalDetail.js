@@ -7,7 +7,7 @@ import AdoptHeader from "./AdoptHeader";
 import Image from "../Image";
 import { gamepad, donate } from "../../svg";
 
-function AnimalDetail({ animal, handleGameClicked, toggleAdminMode, isMeetOpen, onMeetClose, handleOpenMeetModal, isDonateOpen, onDonateClose, handleDonateOpen }) {
+function AnimalDetail({ animal, handleGameClicked, toggleAdminMode,  handleOpenMeetModal, handleDonateOpen }) {
 	return (
 		<div className="bg-white min-h-screen flex flex-col flex-grow">
 			<header>
@@ -47,27 +47,27 @@ function AnimalDetail({ animal, handleGameClicked, toggleAdminMode, isMeetOpen, 
 								</button>
 							</div>
 						</div>
-							<div className="text-box mt-2 text-black">
-								<p>{animal.text}</p>
-							</div>
+						<div className="text-box mt-2 text-black overflow-y-auto" style={{ maxHeight: '60vh' }}>
+							<p>{animal.text}</p>
+						</div>
 
-							<div className="flex justify-between mt-4">
-								<div className="flex justify-center w-full">
-									<button
-										className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller"
-										onClick={handleOpenMeetModal}>
-										Meet
-									</button>
-								</div>
-								<button onClick={handleDonateOpen} className="ml-4">
-									{donate()}
+						<div className="flex justify-between mt-4">
+							<div className="flex justify-center w-full">
+								<button
+									className="meet-button text-Main_BG font-bold text-2xl align-middle text-border-smaller"
+									onClick={handleOpenMeetModal}>
+									Meet
 								</button>
 							</div>
+							<button onClick={handleDonateOpen} className="ml-4">
+								{donate()}
+							</button>
 						</div>
 					</div>
 				</div>
 			</div>
-			);
-			}
+		</div>
+	);
+}
 
-			export default AnimalDetail;
+export default AnimalDetail;
