@@ -276,7 +276,7 @@ class GameHop extends React.Component {
         const moneyEarned = Math.ceil(score * moneyMultiplier);
 
         try {
-            // Save the score
+            // Save the score with proper format
             await saveScore(score, currentDifficulty);
 
             // Update money in the database
@@ -284,8 +284,21 @@ class GameHop extends React.Component {
             const newMoney = currentMoney + moneyEarned;
             await UpdatePetMoney(this.props.animalId || 1, newMoney);
 
-            // Update state with new money amount
-            this.setState({ money: newMoney });
+            // Update state with new money amount and fetch updated high scores
+            const [easyScore, mediumScore, hardScore] = await Promise.all([
+                getHighestScore('easy'),
+                getHighestScore('medium'),
+                getHighestScore('hard')
+            ]);
+
+            this.setState({
+                money: newMoney,
+                highestScores: {
+                    easy: easyScore?.height || 0,
+                    medium: mediumScore?.height || 0,
+                    hard: hardScore?.height || 0
+                }
+            });
         } catch (error) {
             console.error('Error updating score and money:', error);
         }
