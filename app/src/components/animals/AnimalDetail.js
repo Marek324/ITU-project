@@ -4,7 +4,7 @@
 
 import React from "react";
 import AdoptHeader from "./AdoptHeader";
-import Image from "./Image";
+import Image from "../Image";
 import { gamepad, donate } from "../../svg";
 
 function AnimalDetail({ animal, handleGameClicked, toggleAdminMode, isMeetOpen, onMeetClose, handleOpenMeetModal, isDonateOpen, onDonateClose, handleDonateOpen }) {

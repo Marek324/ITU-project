@@ -3,7 +3,7 @@
 //Description: View for displaying a single animal in the list of animals
 
 import { Link } from "react-router-dom";
-import Image from "./Image";
+import Image from "../Image";
 import { heartIcon } from "../../svg";
 
 function AnimalsListItem({ animal, adminMode, favorited, onChangeFavorite }) {
