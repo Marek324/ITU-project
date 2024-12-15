@@ -4,6 +4,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import { moneyS, hatS, food_01, food_02, background, pallete, hat_02, ball, toy, food_03 } from '../../svg.js';
+import Notification from 'Pet/components/Notification.js';
 
 const iconMap = {
   hatS,
@@ -23,7 +24,12 @@ const MarketContent = () => {
   const [hasHat, setHasHat] = useState(false);
   const [tempPrice, setTempPrice] = useState(null); 
   const [showPriceAnimation, setShowPriceAnimation] = useState(false); 
+  const [notification, setNotification] = useState(null);
 
+  const closeNotification = () => {
+    setNotification(null);
+  };
+  
   useEffect(() => {
     const fetchShopItems = async () => {
       try {
@@ -89,21 +95,24 @@ const MarketContent = () => {
   
       if (!response.ok) {
         const error = await response.json();
-        alert(error.error); 
-      } else {
-        const updatedData = await response.json();
-        setMoney(updatedData.money); 
-        setTempPrice(itemPrice);
-        setShowPriceAnimation(true);
-        setTimeout(() => {
-          setShowPriceAnimation(false);
-          setTempPrice(null);  
-        }, 500); 
+        setNotification({ message: error.error || 'Unknown error', type: 'error' });
+        return;
       }
+  
+      const updatedData = await response.json();
+      setMoney(updatedData.money); 
+      setTempPrice(itemPrice);
+      setShowPriceAnimation(true);
+      setTimeout(() => {
+        setShowPriceAnimation(false);
+        setTempPrice(null);  
+      }, 500);
     } catch (error) {
       console.error('Error buying item:', error);
+      setNotification({ message: 'An error occurred while processing your request.', type: 'error' });
     }
   };
+  
   
   return (
     <div className="flex flex-1 justify-center items-start text-white">
@@ -165,7 +174,13 @@ const MarketContent = () => {
           })}
         </div>
       </div>
-
+      {notification && (
+    <Notification
+      message={notification.message}
+      type={notification.type}
+      onClose={closeNotification}
+    />
+  )}
       {showPriceAnimation && tempPrice && (
         <div
           className="absolute top-36 left-2 text-2xl text-outline text-[#B957CE] animate-jump"

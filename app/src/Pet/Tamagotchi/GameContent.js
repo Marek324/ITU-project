@@ -8,9 +8,17 @@ import FPGame from '../../controllers/FPController.js';
 import GameHop from '../Hop/Game.js';
 import {Link} from 'react-router-dom';
 import {useParams} from "react-router-dom";
+import Notification from 'Pet/components/Notification.js';
+
 
 const GameContent = ({ setShowGame, setHappiness }) => {
   const [currentGame, setCurrentGame] = useState(null);
+  const [notification, setNotification] = useState(null);
+
+  const closeNotification = () => {
+    setNotification(null);
+  };
+
   const handleKozaHopClick = () => setCurrentGame('GameHop');
 
   const handleQuizClick = async () => {
@@ -30,11 +38,11 @@ const GameContent = ({ setShowGame, setHappiness }) => {
 		setHappiness((prevHappiness) => Math.max(0, prevHappiness - data.happinessReduced));
 		setCurrentGame('Quiz');
 	  } else {
-		alert(data.error);
+		setNotification({ message: data.error || 'Unknown error', type: 'error' });
 	  }
 	} catch (error) {
 	  console.error('Error starting quiz:', error);
-	  alert('An error occurred while trying to start the quiz');
+	  setNotification({ message: error.error || 'Unknown error', type: 'error' });
 	}
   };
   
@@ -118,6 +126,13 @@ const GameContent = ({ setShowGame, setHappiness }) => {
 				<GameHop setShowGame={setShowGame}/>
 			) : (
 				<div className="text-white">Game not implemented yet!</div>
+			)}
+			  {notification && (
+				<Notification
+				message={notification.message}
+				type={notification.type}
+				onClose={closeNotification}
+				/>
 			)}
 		</div>
 	);

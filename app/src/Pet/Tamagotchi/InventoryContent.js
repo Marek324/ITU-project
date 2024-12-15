@@ -4,6 +4,7 @@
  */
 import React, { useState, useEffect } from 'react';
 import { hatS, food_01, food_02, background, pallete, hat_02, ball, toy, food_03, moneyS } from '../../svg.js';
+import Notification from 'Pet/components/Notification.js';
 
 const iconMap = {
   hatS,
@@ -21,6 +22,11 @@ const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
   const [items, setItems] = useState([]);
   const [money, setMoney] = useState(0);
   const [inventory, setInventory] = useState([]);
+  const [notification, setNotification] = useState(null);
+
+  const closeNotification = () => {
+    setNotification(null);
+  };
 
   useEffect(() => {
     const fetchShopItems = async () => {
@@ -84,7 +90,7 @@ const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
       if (!response.ok) {
         const error = await response.json();
         console.error('Error updating item:', error);
-        alert(error.error || 'Failed to update item');
+        setNotification({ message: error.error || 'Unknown error', type: 'error' });
         return;
       }
   
@@ -173,6 +179,13 @@ const InventoryContent = ({  setHappiness, hasHat, setHasHat  }) => {
             );
           })}
         </div>
+        {notification && (
+    <Notification
+      message={notification.message}
+      type={notification.type}
+      onClose={closeNotification}
+    />
+  )}
       </div>
     </div>
   );
