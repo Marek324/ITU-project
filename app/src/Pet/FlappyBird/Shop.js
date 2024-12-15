@@ -1,3 +1,7 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: Shop.js
+//Description: Component for buying and selecting colors
+
 import React, {useState} from 'react';
 import ballImg from './Assets/ball.png';
 

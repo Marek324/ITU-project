@@ -1,3 +1,8 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: ScoreCounter.js
+//Description: Component for displaying a score during the game
+
+
 import React from 'react';
 
 //Component for displaying the score in the game

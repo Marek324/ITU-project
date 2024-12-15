@@ -1,3 +1,7 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: HighScores.js
+//Description: Component for displaying high scores
+
 import React from 'react';
 
 //Leaderboard component

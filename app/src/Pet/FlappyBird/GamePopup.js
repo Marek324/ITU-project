@@ -1,3 +1,7 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: GamePopup.js
+//Description: Popup that appears when the game starts or ends
+
 import React from 'react';
 
 //Popup that appears when the game starts or ends

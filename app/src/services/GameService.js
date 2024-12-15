@@ -1,3 +1,8 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: GameService.js
+//Description: Service for getting and updating money of a pet
+
+
 import axios from 'axios';
 
 const port = 5000;

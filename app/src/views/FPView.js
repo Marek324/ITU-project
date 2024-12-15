@@ -1,3 +1,8 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: FPView.js
+//Description: View of an MVC architecture for Flappy Bird game
+
+
 import React from 'react';
 import DownBar from '../Pet/components/DownBar.js';
 import TopBar from '../Pet/components/TopBar.js';

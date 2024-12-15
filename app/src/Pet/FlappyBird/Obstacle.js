@@ -1,3 +1,8 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: Obstacle.js
+//Description: Component for rendering obstacles in Flappy Bird game
+
+
 import React from "react";
 
 //Obstacle component

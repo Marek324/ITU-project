@@ -1,3 +1,7 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: FPModel.js
+//Description: Model of an MVC architecture for Flappy Pet game
+
 import {GetLeaderboards, GetFP, UpdateFP, UpdatePetColors} from "./services/FlappyPetService";
 import {GetMoney, UpdatePetMoney} from "./services/GameService";
 

@@ -1,3 +1,7 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: FlappyPetService.js
+//Description: Service for getting and updating flappy pet tables
+
 import axios from 'axios';
 
 const port = 5000;

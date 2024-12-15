@@ -1,3 +1,8 @@
+//Author: Lukáš Píšek (xpisek02)
+//File: FPController.js
+//Description: Controller file of an MVC architecture for Flappy Bird game
+
+
 import GameView from "../views/FPView";
 import React, {useEffect, useRef, useState} from 'react';
 import FPModel from "../FPModel.js";
