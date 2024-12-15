@@ -5,7 +5,8 @@
 import React, {useState} from 'react';
 import Quiz from './quiz.js';
 import FPGame from '../../controllers/FPController.js';
-import GameHop from '../Hop/Game.js';
+import GameHop from '../Hop/KozaHopController.js';
+import {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {useParams} from "react-router-dom";
 import Notification from 'Pet/components/Notification.js';
