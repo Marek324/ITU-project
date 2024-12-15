@@ -1,3 +1,7 @@
+//Author: Matouš Jašek (xjasek18)
+//File: KozaHopView.js
+//Description: View of an MVC architecture for Koza Hop game
+
 import React from 'react';
 import '../Pet/Hop/KozaHop.css';
 import dogImage from '../Pet/Hop/Assets/pes.png';

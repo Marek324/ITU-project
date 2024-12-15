@@ -1,3 +1,6 @@
+//Author: Matouš Jašek (xjasek18)
+//File: KozaHopController.js
+//Description: Controller of an MVC architecture for Koza Hop game
 import React from 'react';
 import KozaHopModel from '../KozaHopModel';
 import KozaHopView from '../views/KozaHopView';

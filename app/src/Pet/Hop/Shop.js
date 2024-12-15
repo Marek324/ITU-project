@@ -1,3 +1,6 @@
+//Author: Matouš Jašek (xjasek18)
+//File: Shop.js
+//Description: Shop for Koza Hop game
 import React, { useState } from 'react';
 import dogImage from './Assets/pes.png';
 import kozeImage from './Assets/koza.png';

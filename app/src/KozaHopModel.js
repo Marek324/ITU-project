@@ -1,3 +1,7 @@
+//Author: Matouš Jašek (xjasek18)
+//File: KozaHopModel.js
+//Description: Model of an MVC architecture for Koza Hop game
+
 class KozaHopModel {
     constructor() {
         this.platforms = [];
