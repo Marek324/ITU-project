@@ -1,3 +1,7 @@
+/**
+ * notification.js
+ * Author: Petra Simonova xsimon30
+ */
 import React, { useEffect } from 'react';
 
 const Notification = ({ message, onClose }) => {
